@@ -1,6 +1,5 @@
 {
   "globals": {
-    "Box": true,
     "Link": true,
     "NavLink": true,
     "Navigate": true,
