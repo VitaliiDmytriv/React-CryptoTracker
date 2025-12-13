@@ -18,6 +18,7 @@ instance.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
+      console.log(error);
       const status = error.response.status;
 
       // якщо 401 або 403 → редірект на логін

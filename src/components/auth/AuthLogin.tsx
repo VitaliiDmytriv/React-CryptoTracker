@@ -11,13 +11,14 @@ type LoginData = {
 
 export default function AuthLogin() {
   const { register, handleSubmit, formState } = useForm<LoginData>();
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   async function onSubmit(data: LoginData) {
-    console.log(data);
-
     try {
       const { data: ServerData } = await api.post("/auth/login", data);
-      console.log(ServerData);
+      login(ServerData.user);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

@@ -1,25 +1,31 @@
-import api from "@/api/axios";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
-  const [data, setData] = useState(null);
+  const { isAuthenticated, user, isLoading } = useAuth();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await api.get("/");
-        console.log(response.data.message);
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
 
-        setData(response.data.message);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    }
-    fetchData();
-  }, []);
   return (
     <div>
-      Home <br />
-      {data ?? <div>Waiting data</div>}
+      <h1 className="text-3xl">Home</h1>
+
+      <br />
+      <h2>Welcome to your Crypto trucker</h2>
+      {isAuthenticated ? (
+        <>
+          <p>Hello, {user?.email}!</p>
+          <Link to="/dashboard">Go to Dashboard</Link>
+        </>
+      ) : (
+        <>
+          <p>Start exploring</p>
+          <Button variant={"link"}>
+            <Link to="/auth">Login</Link>
+          </Button>
+        </>
+      )}
     </div>
   );
 }
