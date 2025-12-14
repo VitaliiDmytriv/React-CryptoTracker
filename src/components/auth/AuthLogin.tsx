@@ -42,18 +42,17 @@ export default function AuthLogin() {
       if (axios.isAxiosError(error)) {
         console.log(error);
         setLoginError(error.response?.data.error);
-        console.log(error.response?.data.error);
       }
     }
   }
 
   return (
     <>
-      <div className="min-w-60">
+      <div className="min-w-80">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldGroup className="gap-3 mb-5">
             <Field className="gap-1">
-              <FieldLabel className=" font-medium" htmlFor="email">
+              <FieldLabel className=" font-medium text-[#7d7a75] text-xs" htmlFor="email">
                 Email
               </FieldLabel>
               <Input
@@ -68,7 +67,7 @@ export default function AuthLogin() {
               />
             </Field>
             <Field className="gap-1">
-              <FieldLabel className=" font-medium" htmlFor="password">
+              <FieldLabel className=" font-medium text-[#7d7a75] text-xs" htmlFor="password">
                 Password
               </FieldLabel>
               <Input
