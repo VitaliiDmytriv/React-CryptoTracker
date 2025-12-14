@@ -11,7 +11,7 @@ export async function loginUser(req: Request, res: Response) {
     const { email, password } = req.body as LoginData;
     const result = await authService.login(email, password);
     if (!result) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ error: "Incorrect password" });
     }
     res.cookie("token", result.token, {
       httpOnly: true,
@@ -24,4 +24,8 @@ export async function loginUser(req: Request, res: Response) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
+}
+
+export async function getUser(req: Request, res: Response) {
+  res.json({ user: req.user });
 }

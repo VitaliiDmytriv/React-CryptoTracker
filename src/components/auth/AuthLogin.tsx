@@ -3,6 +3,7 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import api from "@/api/axios";
+import axios from "axios";
 
 type LoginData = {
   email: string;
@@ -10,9 +11,27 @@ type LoginData = {
 };
 
 export default function AuthLogin() {
-  const { register, handleSubmit, formState } = useForm<LoginData>();
+  const [loginError, setLoginError] = useState<null | string>(null);
+  const { register, handleSubmit, formState, clearErrors } = useForm<LoginData>({
+    mode: "onBlur",
+    reValidateMode: "onBlur",
+  });
+
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  function handleInputChange() {
+    if (formState.errors.email) {
+      clearErrors("email");
+    }
+
+    if (formState.errors.password) {
+      clearErrors("password");
+    }
+
+    if (!loginError) return;
+    setLoginError(null);
+  }
 
   async function onSubmit(data: LoginData) {
     try {
@@ -20,39 +39,60 @@ export default function AuthLogin() {
       login(ServerData.user);
       navigate("/");
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        setLoginError(error.response?.data.error);
+        console.log(error.response?.data.error);
+      }
     }
   }
+
   return (
     <>
       <div className="min-w-60">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FieldGroup className="gap-1 mb-2">
-            <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+          <FieldGroup className="gap-3 mb-5">
+            <Field className="gap-1">
+              <FieldLabel className=" font-medium" htmlFor="email">
+                Email
+              </FieldLabel>
               <Input
                 id="email"
                 type="email"
-                {...register("email", { required: "Email is required" })}
-              />
-              <FieldError>{formState.errors.email && formState.errors.email.message}</FieldError>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input
-                id="password"
-                type="password"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: { value: 6, message: "Min 6 characters" },
+                className="placeholder:font-light"
+                placeholder="Enter your email ... "
+                {...register("email", {
+                  required: "Email is required",
+                  onChange: handleInputChange,
                 })}
               />
-              <FieldError>
-                {formState.errors.password && formState.errors.password.message}
-              </FieldError>
+            </Field>
+            <Field className="gap-1">
+              <FieldLabel className=" font-medium" htmlFor="password">
+                Password
+              </FieldLabel>
+              <Input
+                className="placeholder:font-light"
+                id="password"
+                type="password"
+                placeholder="Enter your password ... "
+                {...register("password", {
+                  required: "Password is required",
+                  onChange: handleInputChange,
+                })}
+              />
             </Field>
           </FieldGroup>
-          <Button variant={"outline"}>Login</Button>
+          <Button
+            className="bg-[#2383e2] w-full text-white font-normal hover:bg-[#217bd5] hover:text-white"
+            disabled={formState.isSubmitting}
+            variant={"outline"}
+          >
+            Login
+          </Button>
+          <FieldError className="justify-self-center mt-3 font-light">
+            {formState.errors.email?.message ?? formState.errors.password?.message ?? loginError}
+          </FieldError>
         </form>
       </div>
     </>

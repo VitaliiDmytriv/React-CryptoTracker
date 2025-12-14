@@ -1,10 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
-// interface UserPayload {
-//   userId: string;
-// }
-
 export default function authenticateToken(req: Request, res: Response, next: NextFunction) {
   try {
     const token = req.cookies.token;
