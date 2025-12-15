@@ -14,34 +14,37 @@ export default function AuthProvider({ children }: Props) {
   const logoutRef = useRef(logout);
 
   const isAuthenticated = !!user;
-  useEffect(() => {
-    async function initializeAuth() {
-      try {
-        const response = await api.get("/auth/me");
-        console.log(response.data);
 
-        setUser(response.data.user);
-      } catch (err) {
-        console.log(err);
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
+  async function checkAuth() {
+    try {
+      const response = await api.get("/auth/me");
+      console.log(response.data);
+
+      setUser(response.data.user);
+    } catch (err) {
+      console.log(err);
+      setUser(null);
+    } finally {
+      setIsLoading(false);
     }
-    setupInterceptors(logoutRef.current);
-    initializeAuth();
-  }, []);
+  }
 
   function login(user: User) {
     setUser(user);
   }
   function logout() {
     setUser(null);
-    console.log("worked from Interseptor");
   }
 
+  useEffect(() => {
+    setupInterceptors(logoutRef.current);
+    checkAuth();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout }}>
+    <AuthContext.Provider
+      value={{ revalidateAuth: checkAuth, isAuthenticated, isLoading, user, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

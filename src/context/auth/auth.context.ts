@@ -7,6 +7,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (user: User) => void;
   logout: () => void;
+  revalidateAuth: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);

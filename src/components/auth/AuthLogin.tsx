@@ -37,7 +37,7 @@ export default function AuthLogin() {
     try {
       const { data: ServerData } = await api.post("/auth/login", data);
       login(ServerData.user);
-      navigate("/");
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
@@ -48,7 +48,7 @@ export default function AuthLogin() {
 
   return (
     <>
-      <div className="min-w-80">
+      <div className="h-64">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldGroup className="gap-3 mb-5">
             <Field className="gap-1">

@@ -1,15 +1,17 @@
 import AuthLogin from "@/components/auth/AuthLogin";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 
 export default function AuthPage() {
   return (
     <>
-      <h1 className="text-3xl">AuthPage</h1>
-      <Button variant={"link"}>
-        <Link to={"/"}>Home</Link>
-      </Button>
-      <div className="flex justify-center">
-        <AuthLogin />
+      <div className="flex justify-center items-center flex-1">
+        <section className="min-w-80">
+          <div className="mb-10">
+            <h1 className="text-xl font-semibold">Your crypto trading workspace.</h1>
+            <h2 className="text-xl font-semibold text-[#a19e99]">Log in to your account</h2>
+          </div>
+          <AuthLogin />
+        </section>
       </div>
     </>
   );

@@ -10,7 +10,6 @@ export default function Home() {
   return (
     <div>
       <h1 className="text-3xl">Home</h1>
-
       <br />
       <h2>Welcome to your Crypto trucker</h2>
       {isAuthenticated ? (

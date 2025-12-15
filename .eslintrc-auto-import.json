@@ -4,6 +4,7 @@
     "NavLink": true,
     "Navigate": true,
     "Outlet": true,
+    "PublicHeader": true,
     "Route": true,
     "Routes": true,
     "createRef": true,

@@ -11,6 +11,7 @@ declare global {
   const NavLink: typeof import('react-router-dom').NavLink
   const Navigate: typeof import('react-router-dom').Navigate
   const Outlet: typeof import('react-router-dom').Outlet
+  const PublicHeader: typeof import('./components/PublicHeader').default
   const Route: typeof import('react-router-dom').Route
   const Routes: typeof import('react-router-dom').Routes
   const createRef: typeof import('react').createRef
