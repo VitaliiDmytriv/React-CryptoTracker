@@ -21,7 +21,9 @@ export default function ProtectedLayout() {
 
   return (
     <>
-      <Outlet />
+      <div className="p-2">
+        <Outlet />
+      </div>
     </>
   );
 }
