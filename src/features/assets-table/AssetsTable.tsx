@@ -24,20 +24,22 @@ export default function AssetsTable({ data, onRowClick }: Props) {
   });
 
   return (
-    <Table className="table-fixed">
+    <Table className="table-fixed w-full min-w-max">
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
               <TableHead
                 className={cn(
-                  "align-middle px-3",
+                  " align-middle",
                   header.column.columnDef.meta?.align === "center" && "text-center",
                   header.column.columnDef.meta?.align === "left" && "text-left"
                 )}
                 key={header.id}
               >
-                {flexRender(header.column.columnDef.header, header.getContext())}
+                <div className="min-w-[70px]">
+                  {flexRender(header.column.columnDef.header, header.getContext())}
+                </div>
               </TableHead>
             ))}
           </TableRow>
@@ -50,13 +52,15 @@ export default function AssetsTable({ data, onRowClick }: Props) {
               <TableCell
                 key={cell.id}
                 className={cn(
-                  "align-middle p-3",
+                  " align-middle",
                   cell.column.columnDef.meta?.align === "center" && "text-center",
                   cell.column.columnDef.meta?.align === "left" && "text-left"
                 )}
                 onClick={() => onRowClick(row.original)}
               >
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                <div className="min-w-[70px]">
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </div>
               </TableCell>
             ))}
           </TableRow>

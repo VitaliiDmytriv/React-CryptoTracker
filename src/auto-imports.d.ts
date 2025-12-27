@@ -33,6 +33,7 @@ declare global {
   const useLayoutEffect: typeof import('react').useLayoutEffect
   const useLinkClickHandler: typeof import('react-router-dom').useLinkClickHandler
   const useLocation: typeof import('react-router-dom').useLocation
+  const useMediaQuery: typeof import('./hooks/useMediaQuery').useMediaQuery
   const useMemo: typeof import('react').useMemo
   const useNavigate: typeof import('react-router-dom').useNavigate
   const useNavigationType: typeof import('react-router-dom').useNavigationType
@@ -42,6 +43,7 @@ declare global {
   const useReducer: typeof import('react').useReducer
   const useRef: typeof import('react').useRef
   const useResolvedPath: typeof import('react-router-dom').useResolvedPath
+  const useResponsiveColumns: typeof import('./hooks/useResponsiveColumns').useResponsiveColumns
   const useRoutes: typeof import('react-router-dom').useRoutes
   const useSearchParams: typeof import('react-router-dom').useSearchParams
   const useState: typeof import('react').useState
