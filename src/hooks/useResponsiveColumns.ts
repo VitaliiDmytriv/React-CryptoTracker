@@ -16,7 +16,6 @@ export function useResponsiveColumns<T>(table: Table<T>, mobile: number) {
 
       visibility[column.id] = true;
     });
-    console.log(visibility);
 
     table.setColumnVisibility(visibility);
   }, [mobile, table, isMobile]);

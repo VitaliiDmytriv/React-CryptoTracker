@@ -7,15 +7,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "./columns";
+import { columns } from "@/features/transactions/ui/table/columns";
 import type { Transaction } from "@/types/global";
 import { computeInitialVisibility } from "@/lib/tableUtils";
 
 type Props = {
   data: Transaction[];
+  onRowClick: (tr: Transaction) => void;
 };
 
-export default function TransactionsTable({ data }: Props) {
+export function TransactionsTable({ data, onRowClick }: Props) {
   const initialVisibility = computeInitialVisibility(columns, 639);
 
   const table = useReactTable({
@@ -52,7 +53,7 @@ export default function TransactionsTable({ data }: Props) {
                 <TableCell
                   key={cell.id}
                   className="align-middle text-center "
-                  // onClick={() => onRowClick(row.original)}
+                  onClick={() => onRowClick(row.original)}
                 >
                   <div className="min-w-[70px]">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
