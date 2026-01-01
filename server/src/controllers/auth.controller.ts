@@ -1,9 +1,17 @@
 import { Request, Response } from "express";
 import { authService } from "../services/auth.service";
+import { userService } from "../services/user.service";
+import { userSelectMe } from "../services/selections";
 
 type LoginData = {
   email: string;
   password: string;
+};
+
+type DecodedUser = {
+  exp: number;
+  iat: number;
+  id: string;
 };
 
 export async function loginUser(req: Request, res: Response) {
@@ -11,7 +19,7 @@ export async function loginUser(req: Request, res: Response) {
     const { email, password } = req.body as LoginData;
     const result = await authService.login(email, password);
     if (!result) {
-      return res.status(401).json({ error: "Incorrect password" });
+      return res.status(401).json({ error: "Incorrect password or Email" });
     }
     res.cookie("token", result.token, {
       httpOnly: true,
@@ -19,13 +27,18 @@ export async function loginUser(req: Request, res: Response) {
       sameSite: "strict",
       maxAge: 1000 * 60 * 60, // час життя токена
     });
-    res.json({ user: result.user }); // { token, user }
+    res.json({ user: result.user }); // user:{ id,name,email }
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 }
 
-export async function getUser(req: Request, res: Response) {
-  res.json({ user: req.user });
+export async function getMe(req: Request, res: Response) {
+  const { id } = req.user as DecodedUser;
+  const user = await userService.getById(id, userSelectMe);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  res.json({ user }); // user:{ id,name,email }
 }

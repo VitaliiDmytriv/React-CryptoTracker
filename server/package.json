@@ -19,7 +19,8 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.3",
-    "nodemailer": "^7.0.11"
+    "nodemailer": "^7.0.11",
+    "zod": "^4.3.4"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
