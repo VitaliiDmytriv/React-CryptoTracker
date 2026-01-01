@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id         String      @id @default(uuid())
+  userName   String
+  email      String      @unique
+  password   String
+  createdAt  DateTime    @default(now())
+  portfolios Portfolio[]
+}
+
+model Portfolio {
+  id               String   @id @default(uuid())
+  portfolioName    String
+  userId           String
+  totalProfit      Decimal  @default(0)
+  activeInvestment Decimal  @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  currency         String   @default("USD")
+
+  coins Coin[]
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Coin {
+  id               String   @id @default(uuid())
+  portfolioId      String
+  name             String
+  symbol           String
+  image            String
+  activeInvestment Decimal
+  avgPrice         Decimal
+  holdings         Decimal
+  totalProfit      Decimal
+  createdAt        DateTime @default(now())
+
+  transactions Transaction[]
+  portfolio    Portfolio     @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+
+  @@unique([portfolioId, symbol])
+  @@index([portfolioId])
+}
+
+model Transaction {
+  id                 String   @id @default(uuid())
+  coinId             String
+  quantity           Decimal
+  pricePerCoinBought Decimal
+  fees               Decimal?
+  totalSpent         Decimal
+  pricePerCoinSold   Decimal?
+  profit             Decimal?
+  notes              String?
+  date               DateTime
+
+  coin Coin @relation(fields: [coinId], references: [id], onDelete: Cascade)
+
+  @@index([coinId])
+  @@index([date])
+}
