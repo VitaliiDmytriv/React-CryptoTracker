@@ -1,7 +1,19 @@
+export interface DataBase {
+  users: User[];
+}
+
 export interface User {
-  email: string;
   id: string;
   userName: string;
+  email: string;
+  password: string;
+  portfolio: Portfolio;
+}
+
+export interface Portfolio {
+  totalProfit: number;
+  activeInvestment: number;
+  coins: Record<string, Coin>;
 }
 
 export interface Transaction {
@@ -28,3 +40,9 @@ export interface Coin {
   avgPrice: number;
   transactions: Transaction[];
 }
+
+export type DecodedUser = {
+  exp: number;
+  iat: number;
+  id: string;
+};

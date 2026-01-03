@@ -16,6 +16,7 @@ export default function AuthProvider({ children }: Props) {
   const isAuthenticated = !!user;
 
   async function checkAuth() {
+    setIsLoading(true);
     try {
       const response = await api.get("/auth/me");
       console.log(response.data);
@@ -37,6 +38,8 @@ export default function AuthProvider({ children }: Props) {
   }
 
   useEffect(() => {
+    console.log("in auth provider");
+
     setupInterceptors(logoutRef.current);
     checkAuth();
   }, []);
