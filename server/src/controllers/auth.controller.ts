@@ -2,16 +2,11 @@ import { Request, Response } from "express";
 import { authService } from "../services/auth.service";
 import { userService } from "../services/user.service";
 import { userSelectMe } from "../services/selections";
+import { DecodedUser } from "../types/global";
 
 type LoginData = {
   email: string;
   password: string;
-};
-
-type DecodedUser = {
-  exp: number;
-  iat: number;
-  id: string;
 };
 
 export async function loginUser(req: Request, res: Response) {

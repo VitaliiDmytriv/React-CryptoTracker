@@ -19,3 +19,23 @@ export const userSelectMe = {
   id: true,
   userName: true,
 } satisfies Prisma.UserSelect;
+
+export const portfolioWithCoinsSelect = {
+  id: true,
+  portfolioName: true,
+  totalProfit: true,
+  activeInvestment: true,
+  currency: true,
+  coins: {
+    select: {
+      id: true,
+      name: true,
+      symbol: true,
+      image: true,
+      activeInvestment: true,
+      avgPrice: true,
+      holdings: true,
+      totalProfit: true,
+    },
+  },
+} as const satisfies Prisma.PortfolioSelect;

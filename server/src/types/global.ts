@@ -40,3 +40,9 @@ export interface Coin {
   avgPrice: number;
   transactions: Transaction[];
 }
+
+export type DecodedUser = {
+  exp: number;
+  iat: number;
+  id: string;
+};
