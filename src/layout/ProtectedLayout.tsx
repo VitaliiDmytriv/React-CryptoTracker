@@ -1,13 +1,9 @@
 import SessionExpiredDialog from "@/components/dialogs/SessionExpiredDialog";
 
 export default function ProtectedLayout() {
-  const { isAuthenticated, isLoading, revalidateAuth } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
   const dialogOpen = !isAuthenticated;
-
-  useEffect(() => {
-    revalidateAuth();
-  }, []);
 
   function closeDialog() {
     navigate("/auth", { replace: true });

@@ -5,7 +5,7 @@ import path from "path";
  * 🔧 КОНФІГ
  * ЄДИНЕ МІСЦЕ, ДЕ ТИ ЩОСЬ МІНЯЄШ
  */
-const TARGET_DIR_NAME = "src/features";
+const TARGET_DIR_NAME = "src";
 
 /* =============================== */
 
@@ -14,13 +14,20 @@ const TARGET_DIR = path.join(PROJECT_ROOT, TARGET_DIR_NAME);
 
 const OUTPUT_FILE = path.join(PROJECT_ROOT, `${TARGET_DIR_NAME.replace(/\//g, "_")}.txt`);
 
+// ❌ розширення, які ігноруємо
 const IGNORE_EXTENSIONS = new Set([".css", ".scss", ".sass", ".less"]);
+
+// ❌ конкретні файли та директорії
+const IGNORE_NAMES = new Set(["node_modules", ".env", "package-lock.json"]);
 
 function walk(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
+
+    // ❌ ігноруємо певні папки та файли
+    if (IGNORE_NAMES.has(entry.name)) continue;
 
     if (entry.isDirectory()) {
       walk(fullPath);

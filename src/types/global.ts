@@ -1,6 +1,7 @@
 export interface User {
   email: string;
   id: string;
+  userName: string;
 }
 
 export interface Transaction {
