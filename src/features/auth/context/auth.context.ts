@@ -3,11 +3,10 @@ import { createContext } from "react";
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  user: User | null;
+  user: User | null | undefined;
   isLoading: boolean;
   login: (user: User) => void;
   logout: () => void;
-  revalidateAuth: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);

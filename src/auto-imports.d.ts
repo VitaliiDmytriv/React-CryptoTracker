@@ -6,12 +6,10 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-  const Box: typeof import('./components/Box').default
   const Link: typeof import('react-router-dom').Link
   const NavLink: typeof import('react-router-dom').NavLink
   const Navigate: typeof import('react-router-dom').Navigate
   const Outlet: typeof import('react-router-dom').Outlet
-  const PublicHeader: typeof import('./components/PublicHeader').default
   const Route: typeof import('react-router-dom').Route
   const Routes: typeof import('react-router-dom').Routes
   const createRef: typeof import('react').createRef
@@ -19,7 +17,6 @@ declare global {
   const lazy: typeof import('react').lazy
   const memo: typeof import('react').memo
   const startTransition: typeof import('react').startTransition
-  const useAuth: typeof import('./hooks/useAuth').useAuth
   const useCallback: typeof import('react').useCallback
   const useContext: typeof import('react').useContext
   const useDebugValue: typeof import('react').useDebugValue
@@ -33,7 +30,8 @@ declare global {
   const useLayoutEffect: typeof import('react').useLayoutEffect
   const useLinkClickHandler: typeof import('react-router-dom').useLinkClickHandler
   const useLocation: typeof import('react-router-dom').useLocation
-  const useMediaQuery: typeof import('./hooks/useMediaQuery').useMediaQuery
+  const useMatch: typeof import('react-router-dom').useMatch
+  const useMediaQuery: typeof import("./hooks/useMediaQuery").useMediaQuery
   const useMemo: typeof import('react').useMemo
   const useNavigate: typeof import('react-router-dom').useNavigate
   const useNavigationType: typeof import('react-router-dom').useNavigationType
@@ -43,7 +41,7 @@ declare global {
   const useReducer: typeof import('react').useReducer
   const useRef: typeof import('react').useRef
   const useResolvedPath: typeof import('react-router-dom').useResolvedPath
-  const useResponsiveColumns: typeof import('./hooks/useResponsiveColumns').useResponsiveColumns
+  const useResponsiveColumns: typeof import("./hooks/useResponsiveColumns").useResponsiveColumns
   const useRoutes: typeof import('react-router-dom').useRoutes
   const useSearchParams: typeof import('react-router-dom').useSearchParams
   const useState: typeof import('react').useState

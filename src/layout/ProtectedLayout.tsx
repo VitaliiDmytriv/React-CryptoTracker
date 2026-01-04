@@ -1,4 +1,5 @@
 import SessionExpiredDialog from "@/components/dialogs/SessionExpiredDialog";
+import { useAuth } from "@/features/auth";
 
 export default function ProtectedLayout() {
   const { isAuthenticated, isLoading } = useAuth();

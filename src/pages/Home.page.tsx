@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/features/auth";
 
 export default function Home() {
   const { isAuthenticated, user, isLoading } = useAuth();

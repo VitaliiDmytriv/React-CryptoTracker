@@ -2,54 +2,27 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import api from "@/api/axios";
-import axios from "axios";
+import { useLogin } from "../hooks/useLogin";
+import type { LoginData } from "../types/auth.type";
 
-type LoginData = {
-  email: string;
-  password: string;
-};
+export function AuthLogin() {
+  const { loginUser, error, clearError } = useLogin();
 
-export default function AuthLogin() {
-  const [loginError, setLoginError] = useState<null | string>(null);
   const { register, handleSubmit, formState, clearErrors } = useForm<LoginData>({
     mode: "onBlur",
     reValidateMode: "onBlur",
   });
 
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
   function handleInputChange() {
-    if (formState.errors.email) {
-      clearErrors("email");
-    }
-
-    if (formState.errors.password) {
-      clearErrors("password");
-    }
-
-    if (!loginError) return;
-    setLoginError(null);
-  }
-
-  async function onSubmit(data: LoginData) {
-    try {
-      const { data: ServerData } = await api.post("/auth/login", data);
-      login(ServerData.user);
-      navigate("/dashboard", { replace: true });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error);
-        setLoginError(error.response?.data.error);
-      }
-    }
+    clearError();
+    if (formState.errors.email) clearErrors("email");
+    if (formState.errors.password) clearErrors("password");
   }
 
   return (
     <>
       <div className="h-64">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(loginUser)}>
           <FieldGroup className="gap-3 mb-5">
             <Field className="gap-1">
               <FieldLabel className=" font-medium text-[#7d7a75] text-xs" htmlFor="email">
@@ -90,7 +63,7 @@ export default function AuthLogin() {
             Login
           </Button>
           <FieldError className="justify-self-center mt-3 font-light">
-            {formState.errors.email?.message ?? formState.errors.password?.message ?? loginError}
+            {formState.errors.email?.message ?? formState.errors.password?.message ?? error}
           </FieldError>
         </form>
       </div>

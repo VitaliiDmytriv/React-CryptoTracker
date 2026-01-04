@@ -1,5 +1,4 @@
-import AuthLogin from "@/features/auth/AuthLogin";
-// import { Button } from "@/components/ui/button";
+import { AuthLogin } from "@/features/auth";
 
 export default function AuthPage() {
   return (

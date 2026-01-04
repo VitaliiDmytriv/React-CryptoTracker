@@ -9,7 +9,6 @@ export default defineConfig({
     react(),
     AutoImport({
       imports: ["react", "react-router-dom"],
-      dirs: ["src/hooks", "src/utils", "src/components", "src/context"],
       dts: "src/auto-imports.d.ts",
       eslintrc: {
         enabled: true,
