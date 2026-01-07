@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { getDashboardStats } from "../controllers/dashboard.controller";
 import authenticateToken from "../middlewares/auth.middleware";
+import { getMe } from "../controllers/users.controller";
 
 const router = Router();
 
-router.get("/", authenticateToken, getDashboardStats);
+router.get("/me", authenticateToken, getMe);
 
 export default router;

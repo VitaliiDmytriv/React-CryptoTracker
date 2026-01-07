@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useLogin } from "../hooks/useLogin";
 import type { LoginData } from "../types/auth.type";
 
-export function AuthLogin() {
+export function LoginForm() {
   const { loginUser, error, clearError } = useLogin();
 
   const { register, handleSubmit, formState, clearErrors } = useForm<LoginData>({

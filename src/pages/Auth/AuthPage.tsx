@@ -1,4 +1,4 @@
-import { AuthLogin } from "@/features/auth";
+import { LoginForm } from "@/features/auth";
 
 export default function AuthPage() {
   return (
@@ -9,7 +9,7 @@ export default function AuthPage() {
             <h1 className="text-xl font-semibold">Your crypto trading workspace.</h1>
             <h2 className="text-xl font-semibold text-[#a19e99]">Log in to your account</h2>
           </div>
-          <AuthLogin />
+          <LoginForm />
         </section>
       </div>
     </>
