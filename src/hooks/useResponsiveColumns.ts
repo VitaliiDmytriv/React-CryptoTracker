@@ -1,4 +1,5 @@
 import type { Table } from "@tanstack/react-table";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export function useResponsiveColumns<T>(table: Table<T>, mobile: number) {
   const isMobile = useMediaQuery(`(max-width: ${mobile}px)`);

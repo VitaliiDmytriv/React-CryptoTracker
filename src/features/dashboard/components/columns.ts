@@ -1,10 +1,10 @@
-import type { Coin } from "@/types/global";
 import type { ColumnDef } from "@tanstack/react-table";
 import NameCell from "./cells/NameCell";
 import HoldingsCell from "./cells/HoldingsCell";
 import { formatMoney } from "@/lib/format";
+import type { CoinShort } from "../types/dashboard.types";
 
-export const columns: ColumnDef<Coin>[] = [
+export const columns: ColumnDef<CoinShort>[] = [
   {
     accessorKey: "name", // ключ із об'єкта даних
     header: "Name",

@@ -6,14 +6,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { Coin } from "@/types/global";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "./columns";
 import { cn } from "@/lib/utils";
+import type { CoinShort } from "../types/dashboard.types";
 
 type Props = {
-  data: Coin[];
-  onRowClick: (coin: Coin) => void;
+  data: CoinShort[];
+  onRowClick: (coin: CoinShort) => void;
 };
 
 export default function AssetsTable({ data, onRowClick }: Props) {

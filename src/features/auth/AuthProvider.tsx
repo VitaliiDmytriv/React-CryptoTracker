@@ -14,22 +14,26 @@ export function AuthProvider({ children }: Props) {
   const queryClient = useQueryClient();
   const logoutRef = useRef(logout);
 
-  const { data: user, isLoading } = useQuery<User | null, AxiosError>({
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useQuery<User | null, AxiosError>({
     queryKey: ["auth", "me"],
     queryFn: fetchCurrentUser,
     retry: false,
-    refetchOnWindowFocus: true,
-    staleTime: 5 * 60 * 1000,
+    refetchOnMount: true,
   });
 
-  const isAuthenticated = !!user;
+  // const isAuthenticated = !!user;
+  const isAuthenticated = user !== null && user !== undefined;
 
   function login(user: User) {
     queryClient.setQueryData(["auth", "me"], user);
   }
 
   function logout() {
-    queryClient.removeQueries({ queryKey: ["auth", "me"] });
+    queryClient.setQueryData(["auth", "me"], null);
   }
 
   useEffect(() => {
@@ -37,7 +41,7 @@ export function AuthProvider({ children }: Props) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout, error }}>
       {children}
     </AuthContext.Provider>
   );

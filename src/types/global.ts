@@ -28,3 +28,12 @@ export interface Coin {
   avgPrice: number;
   transactions: Transaction[];
 }
+
+export interface Portfolio<T> {
+  id: string;
+  portfolioName: string;
+  totalProfit: number;
+  activeInvestment: number;
+  currency: string;
+  coins: T[];
+}

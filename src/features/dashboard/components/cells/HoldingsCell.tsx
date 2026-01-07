@@ -1,8 +1,8 @@
 import { formatQuantity } from "@/lib/format";
-import type { Coin } from "@/types/global";
 import type { CellContext } from "@tanstack/react-table";
+import type { CoinShort } from "../../types/dashboard.types";
 
-export default function HoldingsCell({ row }: CellContext<Coin, number>) {
+export default function HoldingsCell({ row }: CellContext<CoinShort, number>) {
   return (
     <div>
       {formatQuantity(row.original.holdings)}

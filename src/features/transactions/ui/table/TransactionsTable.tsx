@@ -10,6 +10,7 @@ import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-tabl
 import { columns } from "@/features/transactions/ui/table/columns";
 import type { Transaction } from "@/types/global";
 import { computeInitialVisibility } from "@/lib/tableUtils";
+import { useResponsiveColumns } from "@/hooks/useResponsiveColumns";
 
 type Props = {
   data: Transaction[];

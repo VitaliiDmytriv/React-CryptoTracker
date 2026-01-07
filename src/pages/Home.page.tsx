@@ -15,7 +15,7 @@ export default function Home() {
       <h2>Welcome to your Crypto trucker</h2>
       {isAuthenticated ? (
         <>
-          <p>Hello, {user?.email}!</p>
+          <p>Hello, {user?.userName}!</p>
           <Link to="/dashboard">Go to Dashboard</Link>
         </>
       ) : (
