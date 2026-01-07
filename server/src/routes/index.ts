@@ -1,12 +1,14 @@
 import { Router } from "express";
-import homeRoutes from "./home.routes";
 import authRoutes from "./auth.routes";
-import dashboardRoutes from "./dashboard.routes";
+import portfolioRoutes from "./portfolios.routes";
+import userRoutes from "./users.routes";
 
 const router = Router();
 
-router.use("/", homeRoutes);
 router.use("/auth", authRoutes);
-router.use("/dashboard", dashboardRoutes);
+
+router.use("/users", userRoutes);
+
+router.use("/users/me/portfolios", portfolioRoutes);
 
 export default router;

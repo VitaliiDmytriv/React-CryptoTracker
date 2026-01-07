@@ -9,7 +9,7 @@ import {
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "./columns";
 import { cn } from "@/lib/utils";
-import type { CoinShort } from "../types/dashboard.types";
+import type { CoinShort } from "@/types/global";
 
 type Props = {
   data: CoinShort[];

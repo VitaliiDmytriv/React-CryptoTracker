@@ -5,6 +5,7 @@ import { setupInterceptors } from "@/api/setupInterceptors";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { fetchCurrentUser } from "@/features/auth/api/auth";
+import { authKeys } from "@/lib/queryKeys";
 
 type Props = {
   children: ReactNode;
@@ -19,7 +20,7 @@ export function AuthProvider({ children }: Props) {
     isLoading,
     error,
   } = useQuery<User | null, AxiosError>({
-    queryKey: ["auth", "me"],
+    queryKey: authKeys.me(),
     queryFn: fetchCurrentUser,
     retry: false,
     refetchOnMount: true,
@@ -29,11 +30,11 @@ export function AuthProvider({ children }: Props) {
   const isAuthenticated = user !== null && user !== undefined;
 
   function login(user: User) {
-    queryClient.setQueryData(["auth", "me"], user);
+    queryClient.setQueryData(authKeys.me(), user);
   }
 
   function logout() {
-    queryClient.setQueryData(["auth", "me"], null);
+    queryClient.setQueryData(authKeys.me(), null);
   }
 
   useEffect(() => {

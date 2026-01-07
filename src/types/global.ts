@@ -37,3 +37,9 @@ export interface Portfolio<T> {
   currency: string;
   coins: T[];
 }
+
+export interface PortfolioResponse {
+  portfolio: Portfolio<CoinShort>;
+}
+
+export type CoinShort = Omit<Coin, "transactions">;

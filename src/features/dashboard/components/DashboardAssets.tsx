@@ -1,13 +1,13 @@
+import { usePortfolio } from "@/hooks/usePortfolio";
 import AssetsTable from "./AssetsTable";
-import { useDashboardAssets } from "../hooks/useDashboardAssets";
-import type { CoinShort } from "../types/dashboard.types";
+import type { CoinShort } from "@/types/global";
 
 type Props = {
   onRowClick: (coin: CoinShort) => void;
 };
 
 export function DashboardAssets({ onRowClick }: Props) {
-  const { data, isLoading } = useDashboardAssets();
+  const { data, isLoading } = usePortfolio();
 
   // spinner таблиці
   if (isLoading) {
