@@ -5,20 +5,19 @@ export interface User {
 }
 
 export interface Transaction {
-  symbol: string;
-  name: string;
   id: string;
-  image: string;
   quantity: number | null;
   pricePerCoinBought: number | null;
   fees: number | null;
+  coinId: string;
+  notes: string | null;
   totalSpent: number | null;
   pricePerCoinSold: null | number;
   profit: null | number;
   date: string;
 }
 
-export interface Coin {
+export interface Coin<T> {
   name: string;
   symbol: string;
   image: string;
@@ -26,7 +25,7 @@ export interface Coin {
   activeInvestment: number;
   holdings: number;
   avgPrice: number;
-  transactions: Transaction[];
+  transactions: T[];
 }
 
 export interface Portfolio<T> {
@@ -42,4 +41,17 @@ export interface PortfolioResponse {
   portfolio: Portfolio<CoinShort>;
 }
 
-export type CoinShort = Omit<Coin, "transactions">;
+export type CoinShort = Omit<Coin<Transaction>, "transactions">;
+
+export type RouteParams = {
+  symbol: string;
+  portfolioName: string;
+};
+
+export interface TransactionWithCoin extends Transaction {
+  coin: {
+    name: string;
+    symbol: string;
+    image: string;
+  };
+}

@@ -17,7 +17,7 @@ export function useLogin() {
     try {
       const user = await login(formData);
       AuthContext.login(user);
-      navigate("/dashboard", { replace: true });
+      navigate("/dashboard/main", { replace: true });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);

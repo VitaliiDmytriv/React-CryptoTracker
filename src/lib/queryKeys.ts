@@ -5,7 +5,9 @@ export const authKeys = {
 
 export const portfolioKeys = {
   all: ["portfolio"] as const,
-  current: () => [...portfolioKeys.all, "current"] as const,
+  byName: (name: string) => [...portfolioKeys.all, name] as const,
+  coin: (portfolioName: string, symbol: string) =>
+    [...portfolioKeys.byName(portfolioName), symbol] as const,
 };
 
 // export const portfolioKeys = {

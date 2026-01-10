@@ -7,21 +7,21 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "@/features/transactions/ui/table/columns";
-import type { Transaction } from "@/types/global";
+import { columns } from "./columns";
+import type { TransactionWithCoin } from "@/types/global";
 import { computeInitialVisibility } from "@/lib/tableUtils";
 import { useResponsiveColumns } from "@/hooks/useResponsiveColumns";
 
 type Props = {
-  data: Transaction[];
-  onRowClick: (tr: Transaction) => void;
+  transactions: TransactionWithCoin[];
+  onRowClick: (tr: TransactionWithCoin) => void;
 };
 
-export function TransactionsTable({ data, onRowClick }: Props) {
+export function TransactionsTable({ transactions, onRowClick }: Props) {
   const initialVisibility = computeInitialVisibility(columns, 639);
 
   const table = useReactTable({
-    data,
+    data: transactions,
     columns,
     getCoreRowModel: getCoreRowModel(),
     initialState: {

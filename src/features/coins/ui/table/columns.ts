@@ -1,10 +1,10 @@
-import type { Transaction } from "@/types/global";
+import type { TransactionWithCoin } from "@/types/global";
 import type { ColumnDef } from "@tanstack/react-table";
 import { formatMoney, formatPrice } from "@/lib/format";
 import QuantityCell from "./cells/QuantityCell";
 import NameCell from "./cells/NameCell";
 
-export const columns: ColumnDef<Transaction>[] = [
+export const columns: ColumnDef<TransactionWithCoin>[] = [
   {
     id: "name",
     accessorKey: "name", // ключ із об'єкта даних

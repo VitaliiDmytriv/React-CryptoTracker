@@ -1,8 +1,8 @@
 import api from "@/api/axios";
 import type { PortfolioResponse } from "@/types/global";
-import { portfolioEND } from "@/lib/endpoints";
+import { portfolioEndpoints } from "@/lib/endpoints";
 
-export async function fetchCurrentPortfolio() {
-  const response = await api.get<PortfolioResponse>(portfolioEND.current);
+export async function fetchPortfolioByName(portfolioName: string) {
+  const response = await api.get<PortfolioResponse>(portfolioEndpoints.byName(portfolioName));
   return response.data.portfolio;
 }

@@ -26,7 +26,7 @@ async function main() {
   // Створення портфоліо
   const portfolio = await prisma.portfolio.create({
     data: {
-      portfolioName: "Main Portfolio",
+      portfolioName: "main",
       userId: user.id,
       totalProfit: 29.1,
       activeInvestment: 3238.8076940000005,

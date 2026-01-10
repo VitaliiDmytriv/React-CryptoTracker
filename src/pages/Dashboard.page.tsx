@@ -1,13 +1,14 @@
 import { DashboardAssets } from "@/features/dashboard";
-import type { Coin } from "@/types/global";
+import type { Coin, Transaction } from "@/types/global";
 import { useAuth } from "@/features/auth";
 
 export default function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { portfolioName } = useParams<{ portfolioName: string }>();
 
-  function onRowClick(coin: Omit<Coin, "transactions">) {
-    navigate(`/transactions/${coin.symbol}`);
+  function onRowClick(coin: Omit<Coin<Transaction>, "transactions">) {
+    navigate(`/dashboard/${portfolioName}/coins/${coin.symbol}`);
   }
 
   return (

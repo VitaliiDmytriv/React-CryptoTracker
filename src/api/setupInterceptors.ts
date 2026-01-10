@@ -1,7 +1,6 @@
 import api from "@/api/axios";
 
 export function setupInterceptors(logout: () => void) {
-  console.log("worked interceptors");
   api.interceptors.response.use(
     (response) => response,
     (error) => {

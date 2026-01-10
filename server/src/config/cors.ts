@@ -1,10 +1,13 @@
 import { CorsOptions } from "cors";
 
-const allowedOrigins = ["http://localhost:5173"];
+const localIP = "192.168.0.102";
+const devIP = "http://localhost:5173";
+const prodIP = `http://${localIP}:5173`;
+
+const allowedOrigins = [devIP, prodIP];
 
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {

@@ -18,9 +18,7 @@ export default function ProtectedLayout() {
 
   return (
     <>
-      <main className="p-2">
-        <Outlet />
-      </main>
+      <Outlet />
     </>
   );
 }

@@ -3,10 +3,15 @@ import { DecodedUser } from "../types/global";
 import { portfolioService } from "../services/portfolio.service";
 import { portfolioWithCoinsSelect } from "../services/selections";
 
-export async function getCurrentPortfolio(req: Request, res: Response) {
+export async function getPortfolio(req: Request, res: Response) {
   try {
     const { id } = req.user as DecodedUser;
-    const portfolio = await portfolioService.getByUserId(id, portfolioWithCoinsSelect);
+    const { portfolioName } = req.params;
+    const portfolio = await portfolioService.getByUserId(
+      id,
+      portfolioName,
+      portfolioWithCoinsSelect
+    );
     if (!portfolio) {
       return res.status(404).json({ message: "Portfolio not found" });
     }
