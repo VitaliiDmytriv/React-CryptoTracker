@@ -11,15 +11,18 @@ import { columns } from "./columns";
 import type { TransactionWithCoin } from "@/types/global";
 import { computeInitialVisibility } from "@/lib/tableUtils";
 import { useResponsiveColumns } from "@/hooks/useResponsiveColumns";
+import { TableRowsSkeleton } from "@/components/TableRowsSkeleton";
 
 type Props = {
   transactions: TransactionWithCoin[];
   onRowClick: (tr: TransactionWithCoin) => void;
+  isLoading: boolean;
 };
 
-export function TransactionsTable({ transactions, onRowClick }: Props) {
+export function TransactionsTable({ transactions, onRowClick, isLoading }: Props) {
   const initialVisibility = computeInitialVisibility(columns, 639);
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: transactions,
     columns,
@@ -48,21 +51,30 @@ export function TransactionsTable({ transactions, onRowClick }: Props) {
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell
-                  key={cell.id}
-                  className="align-middle text-center "
-                  onClick={() => onRowClick(row.original)}
-                >
-                  <div className="min-w-[70px]">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
+          {isLoading ? (
+            <TableRowsSkeleton
+              columns={table
+                .getAllColumns()
+                .filter((col) => table.getState().columnVisibility[col.id])}
+              rows={5}
+            />
+          ) : (
+            table.getRowModel().rows.map((row) => (
+              <TableRow key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    className="align-middle text-center "
+                    onClick={() => onRowClick(row.original)}
+                  >
+                    <div className="min-w-[70px]">
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </div>
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </>

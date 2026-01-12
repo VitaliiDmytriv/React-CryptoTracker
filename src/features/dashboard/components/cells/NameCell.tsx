@@ -1,5 +1,5 @@
 import type { CellContext } from "@tanstack/react-table";
-import type { CoinShort } from "../../types/dashboard.types";
+import type { CoinShort } from "@/types/global";
 
 export default function NameCell({ row }: CellContext<CoinShort, string>) {
   const { image, symbol, name } = row.original;

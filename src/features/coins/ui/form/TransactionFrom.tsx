@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 type Props = {
   initialData: Transaction;
@@ -27,6 +28,10 @@ export function TransactionForm({ initialData, onClose }: Props) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Transaction</DialogTitle>
+            <DialogDescription className="sr-only">
+              «Edit the details of a transaction including quantity, price, date, fee, and sell
+              price.»
+            </DialogDescription>
           </DialogHeader>
           <form className="" action="">
             <div className="grid gap-1 xs:grid-cols-2 sm:gap-2">

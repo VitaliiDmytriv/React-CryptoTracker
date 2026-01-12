@@ -10,13 +10,15 @@ import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-tabl
 import { columns } from "./columns";
 import { cn } from "@/lib/utils";
 import type { CoinShort } from "@/types/global";
+import { TableRowsSkeleton } from "@/components/TableRowsSkeleton";
 
 type Props = {
   data: CoinShort[];
   onRowClick: (coin: CoinShort) => void;
+  isLoading: boolean;
 };
 
-export default function AssetsTable({ data, onRowClick }: Props) {
+export default function AssetsTable({ data, onRowClick, isLoading }: Props) {
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
@@ -47,25 +49,29 @@ export default function AssetsTable({ data, onRowClick }: Props) {
         ))}
       </TableHeader>
       <TableBody>
-        {table.getRowModel().rows.map((row) => (
-          <TableRow key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <TableCell
-                key={cell.id}
-                className={cn(
-                  " align-middle",
-                  cell.column.columnDef.meta?.align === "center" && "text-center",
-                  cell.column.columnDef.meta?.align === "left" && "text-left"
-                )}
-                onClick={() => onRowClick(row.original)}
-              >
-                <div className="min-w-[70px]">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </div>
-              </TableCell>
-            ))}
-          </TableRow>
-        ))}
+        {isLoading ? (
+          <TableRowsSkeleton columns={columns} rows={6} />
+        ) : (
+          table.getRowModel().rows.map((row) => (
+            <TableRow key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <TableCell
+                  key={cell.id}
+                  className={cn(
+                    " align-middle",
+                    cell.column.columnDef.meta?.align === "center" && "text-center",
+                    cell.column.columnDef.meta?.align === "left" && "text-left"
+                  )}
+                  onClick={() => onRowClick(row.original)}
+                >
+                  <div className="min-w-[70px]">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </div>
+                </TableCell>
+              ))}
+            </TableRow>
+          ))
+        )}
       </TableBody>
     </Table>
   );

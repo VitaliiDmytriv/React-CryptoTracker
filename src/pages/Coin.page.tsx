@@ -22,11 +22,11 @@ export default function Coin() {
       <div>{symbol}</div>
       <div>{transaction && <TransactionForm onClose={onClose} initialData={transaction} />}</div>
       <div className="border rounded-md min-h-[80vh]">
-        {isLoading ? (
-          <p>Table is loading</p>
-        ) : (
-          coin && <TransactionsTable transactions={coin.transactions} onRowClick={onRowClick} />
-        )}
+        <TransactionsTable
+          transactions={coin?.transactions ?? []}
+          onRowClick={onRowClick}
+          isLoading={isLoading}
+        />
       </div>
     </div>
   );

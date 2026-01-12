@@ -9,10 +9,10 @@ type Props = {
 export function DashboardAssets({ onRowClick }: Props) {
   const { data, isLoading } = usePortfolio();
 
-  // spinner таблиці
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  return <>{data?.coins && <AssetsTable data={data.coins} onRowClick={onRowClick} />}</>;
+  return (
+    <>
+      <AssetsTable isLoading={isLoading} data={data?.coins ?? []} onRowClick={onRowClick} />
+      {/* <AssetsTable isLoading={true} data={[]} onRowClick={onRowClick} /> */}
+    </>
+  );
 }

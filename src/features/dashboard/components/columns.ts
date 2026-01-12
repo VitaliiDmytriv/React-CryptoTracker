@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import NameCell from "./cells/NameCell";
 import HoldingsCell from "./cells/HoldingsCell";
 import { formatMoney } from "@/lib/format";
-import type { CoinShort } from "../types/dashboard.types";
+import type { CoinShort } from "@/types/global";
 
 export const columns: ColumnDef<CoinShort>[] = [
   {
