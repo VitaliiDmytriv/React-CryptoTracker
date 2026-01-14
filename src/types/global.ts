@@ -6,8 +6,8 @@ export interface User {
 
 export interface Transaction {
   id: string;
-  quantity: number | null;
-  pricePerCoinBought: number | null;
+  quantity: number;
+  pricePerCoinBought: number;
   fees: number | null;
   coinId: string;
   notes: string | null;

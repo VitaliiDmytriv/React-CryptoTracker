@@ -80,3 +80,8 @@
   } 
 }
 
+
+.fieldError{
+  @apply text-[10px] absolute bottom-[0.35rem] translate-y-full
+
+}

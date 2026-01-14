@@ -1,11 +1,19 @@
 import type { Transaction } from "@/types/global";
 import { useForm } from "react-hook-form";
+import { transactionToForm, txForm, type TxInputFormValues } from "../utils/transaction.adapter";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function useTransactionForm(initialData: Transaction) {
-  const form = useForm<Transaction>({ defaultValues: initialData });
+  const form = useForm<TxInputFormValues>({
+    defaultValues: transactionToForm(initialData),
+    resolver: zodResolver(txForm),
+    mode: "onBlur",
+  });
 
-  const onSubmit = (data: Transaction) => {
-    console.log(data);
+  const onSubmit = (data: TxInputFormValues) => {
+    const parsed = txForm.parse(data);
+    console.log(parsed);
   };
 
   return {
