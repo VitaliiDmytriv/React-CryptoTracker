@@ -1,13 +1,13 @@
 import type { TransactionWithCoin } from "@/types/global";
 import { DefaultForm } from "./DefaultForm";
-import { useUpdateTxFrom } from "../../hooks/useUpdateTxFrom";
+import { useUpdateTxForm } from "../../hooks/useUpdateTxForm";
 
 type Props = {
   initialData: TransactionWithCoin;
 };
 
 export function EditTransactionForm({ initialData }: Props) {
-  const { form, onSubmit } = useUpdateTxFrom({ initialData });
+  const { form, onSubmit } = useUpdateTxForm({ initialData });
 
-  return <DefaultForm form={form} onSubmit={onSubmit} />;
+  return <DefaultForm form={form} onSubmit={onSubmit} mode="edit" />;
 }

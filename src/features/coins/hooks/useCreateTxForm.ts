@@ -7,7 +7,7 @@ type Props = {
   initialData: createTxInputForm;
 };
 
-export function useCreateTxFrom({ initialData }: Props) {
+export function useCreateTxForm({ initialData }: Props) {
   const form = useForm<createTxInputForm>({
     defaultValues: initialData,
     resolver: zodResolver(createTxSchema),
@@ -32,4 +32,4 @@ export function useCreateTxFrom({ initialData }: Props) {
   };
 }
 
-export type useCreateTxFromType = typeof useCreateTxFrom;
+export type useCreateTxFromType = typeof useCreateTxForm;

@@ -5,13 +5,22 @@ import { formatMoney } from "@/lib/format";
 import { preventNonNumericInput } from "../../utils/helpFunctions";
 import type { UseFormReturn } from "react-hook-form";
 import type { createTxInputForm, updTxInputForm } from "../../utils/transaction.schema";
+import type { Modes } from "../../types/coin.types";
 
 type Props = {
   form: UseFormReturn<updTxInputForm | createTxInputForm>;
   onSubmit: () => void;
+  mode: Modes;
 };
 
-export function DefaultForm({ form, onSubmit }: Props) {
+const buttonsText: Record<Modes, string> = {
+  add: "Add ",
+  edit: "Edit",
+  merge: "Merge",
+};
+
+export function DefaultForm({ form, onSubmit, mode }: Props) {
+  const btnTxt = buttonsText[mode];
   const {
     register,
     formState: { errors, isSubmitting, isDirty },
@@ -106,9 +115,9 @@ export function DefaultForm({ form, onSubmit }: Props) {
         </FieldGroup>
         <Field className="gap-1 sm:gap-2 col-span-full flex-row [&>*]:w-auto">
           <Button type="submit" className="flex-1" disabled={!isDirty || isSubmitting}>
-            Edit
+            {btnTxt}
           </Button>
-          <Button className="">Delete</Button>
+          {mode === "edit" && <Button className="">Delete</Button>}
         </Field>
       </div>
     </form>

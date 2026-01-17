@@ -9,7 +9,7 @@ type Props = {
   initialData: TransactionWithCoin;
 };
 
-export function useUpdateTxFrom({ initialData }: Props) {
+export function useUpdateTxForm({ initialData }: Props) {
   const form = useForm<updTxInputForm>({
     defaultValues: transactionApiToForm(initialData, "edit"),
     resolver: zodResolver(updTxSchema),
@@ -32,4 +32,4 @@ export function useUpdateTxFrom({ initialData }: Props) {
   };
 }
 
-export type useUpdateTxFromType = typeof useUpdateTxFrom;
+export type useUpdateTxFromType = typeof useUpdateTxForm;
