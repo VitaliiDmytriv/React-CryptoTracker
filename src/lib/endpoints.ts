@@ -10,4 +10,6 @@ export const portfolioEndpoints = {
   byName: (name: string) => `/users/me/portfolios/${name}` as const,
   coin: (portfolioName: string, symbol: string) =>
     `/users/me/portfolios/${portfolioName}/coins/${symbol}` as const,
+  txUpd: (portfolioName: string, symbol: string, txId: string) =>
+    `/users/me/portfolios/${portfolioName}/coins/${symbol}/transaction/${txId}` as const,
 };

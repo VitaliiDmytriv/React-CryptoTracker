@@ -1,10 +1,10 @@
 import { TransactionsTable, TransactionForm } from "@/features/coins";
 import { useCoin } from "@/features/coins/hooks/useCoin";
-import type { Coin, RouteParams, Transaction, TransactionWithCoin } from "@/types/global";
+import type { Coin, RouteParams, TransactionWithCoin } from "@/types/global";
 
 export default function Coin() {
   const { symbol } = useParams<RouteParams>();
-  const [transaction, setTransaction] = useState<null | Transaction>(null);
+  const [transaction, setTransaction] = useState<null | TransactionWithCoin>(null);
 
   const { data: coin, isLoading } = useCoin();
 
@@ -20,7 +20,9 @@ export default function Coin() {
     <div>
       Transactions
       <div>{symbol}</div>
-      <div>{transaction && <TransactionForm onClose={onClose} initialData={transaction} />}</div>
+      <div>
+        {transaction && <TransactionForm onClose={onClose} initialData={transaction} mode="edit" />}
+      </div>
       <div className="border rounded-md min-h-[80vh]">
         <TransactionsTable
           transactions={coin?.transactions ?? []}
