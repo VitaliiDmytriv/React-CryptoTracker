@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updTxSchema, type updTxInputForm } from "../utils/transaction.schema";
 import { useTransactions } from "./useTransactions";
-import { transactionApiToForm, transactionUpdFormToApi } from "../utils/transaction.adapter";
+import { transactionApiToForm, transactionFormToApi } from "../utils/transaction.adapter";
 
 type Props = {
   initialData: TransactionWithCoin;
@@ -21,7 +21,7 @@ export function useUpdateTxForm({ initialData }: Props) {
 
   const onSubmit = async (data: updTxInputForm) => {
     const parsed = updTxSchema.parse(data);
-    const txApi = transactionUpdFormToApi(parsed);
+    const txApi = transactionFormToApi(parsed);
     await updateMutation.mutateAsync({ txId: initialData.id, payload: txApi });
   };
 

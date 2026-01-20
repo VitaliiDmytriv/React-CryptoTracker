@@ -17,17 +17,15 @@ export interface Portfolio {
 }
 
 export interface Transaction {
-  symbol: string;
-  name: string;
   id: string;
-  image: string;
-  quantity: number | null;
-  pricePerCoinBought: number | null;
+  coinId: string;
+  date: string;
   fees: number | null;
-  totalSpent: number | null;
+  notes: string | null;
+  pricePerCoinBought: number | null;
+  quantity: number | null;
   pricePerCoinSold: null | number;
   profit: null | number;
-  date: string;
 }
 
 export interface Coin {
@@ -45,4 +43,23 @@ export type DecodedUser = {
   exp: number;
   iat: number;
   id: string;
+};
+export type PortfolioBase = {
+  id: string;
+  portfolioName: string;
+  userId: string;
+};
+export type coinSelectBase = {
+  id: string;
+  portfolioId: string;
+  symbol: string;
+  name: string;
+};
+
+export type TxUpdatePayload = {
+  quantity: number;
+  pricePerCoinBought: number;
+  pricePerCoinSold: number | null;
+  fees: number | null;
+  date: string;
 };

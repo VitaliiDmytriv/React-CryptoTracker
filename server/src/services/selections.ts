@@ -20,6 +20,12 @@ export const userSelectMe = {
   userName: true,
 } satisfies Prisma.UserSelect;
 
+export const portfolioSelectBase = {
+  id: true,
+  portfolioName: true,
+  userId: true,
+} satisfies Prisma.PortfolioSelect;
+
 export const portfolioWithCoinsSelect = {
   id: true,
   portfolioName: true,
@@ -61,3 +67,23 @@ export const coinFull = {
   symbol: true,
   totalProfit: true,
 } satisfies Prisma.CoinSelect;
+
+export const coinSelectBase = {
+  id: true,
+  portfolioId: true,
+  symbol: true,
+  name: true,
+} satisfies Prisma.CoinSelect;
+
+export const transactionFull = {
+  id: true,
+  coinId: true,
+  date: true,
+  fees: true,
+  notes: true,
+  pricePerCoinBought: true,
+  totalSpent: true,
+  quantity: true,
+  pricePerCoinSold: true,
+  profit: true,
+} satisfies Prisma.TransactionSelect;

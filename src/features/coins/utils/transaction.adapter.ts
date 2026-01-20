@@ -2,7 +2,7 @@ import type { TransactionWithCoin } from "@/types/global";
 import type { updTxOutputForm } from "./transaction.schema";
 import type { Modes, updTx } from "../types/coin.types";
 
-export function transactionUpdFormToApi(tx: updTxOutputForm): updTx {
+export function transactionFormToApi(tx: updTxOutputForm): updTx {
   return {
     quantity: tx.quantity,
     pricePerCoinBought: tx.pricePerCoinBought,
