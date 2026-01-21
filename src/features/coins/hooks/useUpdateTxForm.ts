@@ -1,16 +1,16 @@
 import type { TransactionWithCoin } from "@/types/global";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updTxSchema, type updTxInputForm } from "../utils/transaction.schema";
+import { updTxSchema, type updTxForm } from "../utils/transaction.schema";
 import { useTransactions } from "./useTransactions";
-import { transactionApiToForm, transactionFormToApi } from "../utils/transaction.adapter";
+import { transactionApiToForm } from "../utils/transaction.adapter";
 
 type Props = {
   initialData: TransactionWithCoin;
 };
 
 export function useUpdateTxForm({ initialData }: Props) {
-  const form = useForm<updTxInputForm>({
+  const form = useForm<updTxForm>({
     defaultValues: transactionApiToForm(initialData, "edit"),
     resolver: zodResolver(updTxSchema),
     mode: "onSubmit",
@@ -19,10 +19,8 @@ export function useUpdateTxForm({ initialData }: Props) {
 
   const { updateMutation } = useTransactions();
 
-  const onSubmit = async (data: updTxInputForm) => {
-    const parsed = updTxSchema.parse(data);
-    const txApi = transactionFormToApi(parsed);
-    await updateMutation.mutateAsync({ txId: initialData.id, payload: txApi });
+  const onSubmit = async (data: updTxForm) => {
+    await updateMutation.mutateAsync({ txId: initialData.id, payload: data });
   };
 
   return {

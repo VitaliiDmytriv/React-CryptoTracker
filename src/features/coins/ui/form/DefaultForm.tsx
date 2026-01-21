@@ -4,11 +4,11 @@ import { Input } from "@/components/ui/input";
 import { formatMoney } from "@/lib/format";
 import { preventNonNumericInput } from "../../utils/helpFunctions";
 import type { UseFormReturn } from "react-hook-form";
-import type { createTxInputForm, updTxInputForm } from "../../utils/transaction.schema";
+import type { createTxForm, updTxForm } from "../../utils/transaction.schema";
 import type { Modes } from "../../types/coin.types";
 
 type Props = {
-  form: UseFormReturn<updTxInputForm | createTxInputForm>;
+  form: UseFormReturn<updTxForm | createTxForm>;
   onSubmit: () => void;
   mode: Modes;
 };

@@ -1,39 +1,54 @@
 import { z } from "zod";
+import Decimal from "decimal.js";
 
-function zRequiredNumber() {
+function zRequiredDecimalString() {
   return z
-    .unknown()
-    .refine((val) => val !== "" && val !== undefined && val !== null, {
-      error: "This field is required",
-    })
-    .pipe(z.coerce.number().positive("Must be a positive number"));
+    .string()
+    .trim()
+    .min(1, "This field is required")
+    .refine((val) => {
+      try {
+        const dcValue = new Decimal(val);
+        return dcValue.gt(0);
+      } catch {
+        return false;
+      }
+    }, "Must be a positive number");
 }
 
-function zOptionalNumber() {
-  return z.union([z.literal(""), z.coerce.number().positive("Must be a positive number")]);
+function zOptionalDecimalString() {
+  return (
+    z
+      .union([z.literal(""), z.string()])
+      // .transform((val) => (val === "" ? "" : val))
+      .refine((val) => {
+        if (val === "") return true;
+        try {
+          return new Decimal(val).gt(0);
+        } catch {
+          return false;
+        }
+      }, "Must be a positive number")
+  );
 }
 
 export const updTxSchema = z.object({
-  quantity: zRequiredNumber(),
-  pricePerCoinBought: zRequiredNumber(),
-  pricePerCoinSold: zOptionalNumber(),
-  fees: zOptionalNumber(),
+  quantity: zRequiredDecimalString(),
+  pricePerCoinBought: zRequiredDecimalString(),
+  pricePerCoinSold: zOptionalDecimalString(),
+  fees: zOptionalDecimalString(),
   date: z.string().date(),
 });
 
-export type updTxInputForm = z.input<typeof updTxSchema>;
-export type updTxOutputForm = z.output<typeof updTxSchema>;
+export type updTxForm = z.input<typeof updTxSchema>;
 
 export const createTxSchema = z.object({
-  quantity: zRequiredNumber(),
-  pricePerCoinBought: zRequiredNumber(),
-  pricePerCoinSold: zOptionalNumber(),
-  fees: zOptionalNumber(),
+  quantity: zRequiredDecimalString(),
+  pricePerCoinBought: zRequiredDecimalString(),
+  pricePerCoinSold: zOptionalDecimalString(),
+  fees: zOptionalDecimalString(),
   date: z.string().date(),
   name: z.string(),
-  // symbol: z.string(),
-  // image: z.string(),
 });
 
-export type createTxInputForm = z.input<typeof createTxSchema>;
-export type createTxOutputForm = z.output<typeof createTxSchema>;
+export type createTxForm = z.input<typeof createTxSchema>;

@@ -57,9 +57,9 @@ export type coinSelectBase = {
 };
 
 export type TxUpdatePayload = {
-  quantity: number;
-  pricePerCoinBought: number;
-  pricePerCoinSold: number | null;
-  fees: number | null;
+  quantity: string;
+  pricePerCoinBought: string;
+  pricePerCoinSold: string;
+  fees: string;
   date: string;
 };

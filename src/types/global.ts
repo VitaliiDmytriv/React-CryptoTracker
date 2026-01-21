@@ -6,14 +6,14 @@ export interface User {
 
 export interface Transaction {
   id: string;
-  quantity: number;
-  pricePerCoinBought: number;
-  fees: number | null;
+  quantity: string;
+  pricePerCoinBought: string;
+  totalSpent: string;
+  pricePerCoinSold: null | string;
+  fees: string | null;
+  profit: null | string;
   coinId: string;
   notes: string | null;
-  totalSpent: number | null;
-  pricePerCoinSold: null | number;
-  profit: null | number;
   date: string;
 }
 
@@ -21,18 +21,18 @@ export interface Coin<T> {
   name: string;
   symbol: string;
   image: string;
-  totalProfit: number;
-  activeInvestment: number;
-  holdings: number;
-  avgPrice: number;
+  totalProfit: string;
+  activeInvestment: string;
+  holdings: string;
+  avgPrice: string;
   transactions: T[];
 }
 
 export interface Portfolio<T> {
   id: string;
   portfolioName: string;
-  totalProfit: number;
-  activeInvestment: number;
+  totalProfit: string;
+  activeInvestment: string;
   currency: string;
   coins: T[];
 }

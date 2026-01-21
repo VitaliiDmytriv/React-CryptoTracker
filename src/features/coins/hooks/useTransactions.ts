@@ -1,12 +1,12 @@
 import type { RouteParams } from "@/types/global";
 import * as txServise from "../api/transactions.api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { updTx } from "../types/coin.types";
 import { portfolioKeys } from "@/lib/queryKeys";
+import type { updTxForm } from "../utils/transaction.schema";
 
 type UpdateTxProps = {
   txId: string;
-  payload: updTx;
+  payload: updTxForm;
 };
 
 export function useTransactions() {
