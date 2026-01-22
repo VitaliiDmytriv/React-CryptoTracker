@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { PortfolioBase } from "../types/global";
-import { coinSelectBase } from "../services/selections";
+import { coinSelectBase } from "../types/selections";
 import { coinService } from "../services/coin.service";
 
 export async function checkCoinExists(req: Request, res: Response, next: NextFunction) {

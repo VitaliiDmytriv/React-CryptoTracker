@@ -5,7 +5,7 @@ import path from "path";
  * 🔧 КОНФІГ
  * ЄДИНЕ МІСЦЕ, ДЕ ТИ ЩОСЬ МІНЯЄШ
  */
-const TARGET_DIR_NAME = "src";
+const TARGET_DIR_NAME = "server";
 
 /* =============================== */
 
@@ -15,10 +15,10 @@ const TARGET_DIR = path.join(PROJECT_ROOT, TARGET_DIR_NAME);
 const OUTPUT_FILE = path.join(PROJECT_ROOT, `${TARGET_DIR_NAME.replace(/\//g, "_")}.txt`);
 
 // ❌ розширення, які ігноруємо
-const IGNORE_EXTENSIONS = new Set([".css", ".scss", ".sass", ".less"]);
+const IGNORE_EXTENSIONS = new Set([".css", ".scss", ".sass", ".less", ".db"]);
 
 // ❌ конкретні файли та директорії
-const IGNORE_NAMES = new Set(["node_modules", ".env", "package-lock.json"]);
+const IGNORE_NAMES = new Set(["node_modules", ".env", "package-lock.json", "prisma"]);
 
 function walk(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -51,7 +51,7 @@ function appendFile(filePath) {
   fs.appendFileSync(
     OUTPUT_FILE,
     `\n\n// ===== FILE: ${relativePath} =====\n\n${content}\n`,
-    "utf8"
+    "utf8",
   );
 }
 

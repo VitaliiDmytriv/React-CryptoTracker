@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../prisma";
+import { calcCoinStats } from "../domain/coins";
 
 export const coinService = {
   getBySymbol: async <TSelect extends Prisma.CoinSelect>(
@@ -20,6 +21,20 @@ export const coinService = {
     return prisma.coin.findUnique({
       where: { id: coinId },
       select,
+    });
+  },
+
+  recalculateStats: async (coinId: string, tx: Prisma.TransactionClient) => {
+    const transactions = await tx.transaction.findMany({
+      where: { coinId },
+    });
+    const stats = calcCoinStats(transactions);
+
+    await tx.coin.update({
+      where: { id: coinId },
+      data: {
+        ...stats,
+      },
     });
   },
 };

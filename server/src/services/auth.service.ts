@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { userService } from "./user.service";
-import { userSelectCredentials } from "./selections";
+import { userSelectCredentials } from "../types/selections";
 
 // const userFromBase = {
 //   id: "20dbe14c-641b-42fc-af7c-ac11be1b7c33",

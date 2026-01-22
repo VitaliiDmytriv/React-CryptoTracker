@@ -37,3 +37,5 @@ export const updTxSchema = z.object({
   fees: zOptionalDecimalString(),
   date: z.string().date(),
 });
+
+export type updTxApi = z.input<typeof updTxSchema>;

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { transactionFull } from "../services/selections";
+import { transactionFull } from "../types/selections";
 import { transactionService } from "../services/transaction.service";
 
 export async function checkTransactionExist(req: Request, res: Response, next: NextFunction) {

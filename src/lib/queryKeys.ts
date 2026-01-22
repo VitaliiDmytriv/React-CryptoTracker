@@ -10,6 +10,10 @@ export const portfolioKeys = {
     [...portfolioKeys.byName(portfolioName), symbol] as const,
 };
 
+// ["portfolio"]
+// ["portfolio", portfolioName]
+// ["portfolio", portfolioName, symbol]
+
 // export const portfolioKeys = {
 //   all: ['portfolio'] as const,
 //   current: () => [...portfolioKeys.all, 'current'] as const,

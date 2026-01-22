@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { DecodedUser } from "../types/global";
 import { portfolioService } from "../services/portfolio.service";
-import { portfolioSelectBase } from "../services/selections";
+import { portfolioSelectBase } from "../types/selections";
 
 export async function checkPortfolioExist(req: Request, res: Response, next: NextFunction) {
   try {

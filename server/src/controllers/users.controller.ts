@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { userService } from "../services/user.service";
-import { userSelectMe } from "../services/selections";
+import { userSelectMe } from "../types/selections";
 import { DecodedUser } from "../types/global";
 
 export async function getMe(req: Request, res: Response) {

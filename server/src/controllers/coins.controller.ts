@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { coinSelectBase } from "../types/global";
 import { coinService } from "../services/coin.service";
-import { coinFull } from "../services/selections";
+import { coinFull } from "../types/selections";
 
 export async function getCoin(req: Request, res: Response) {
   try {

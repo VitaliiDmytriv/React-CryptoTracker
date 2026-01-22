@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export interface DataBase {
   users: User[];
 }
@@ -19,24 +21,27 @@ export interface Portfolio {
 export interface Transaction {
   id: string;
   coinId: string;
-  date: string;
-  fees: number | null;
+  quantity: Prisma.Decimal;
+  pricePerCoinBought: Prisma.Decimal;
+  fees: Prisma.Decimal | null;
+  totalSpent: Prisma.Decimal;
+  pricePerCoinSold: Prisma.Decimal | null;
+  profit: Prisma.Decimal | null;
   notes: string | null;
-  pricePerCoinBought: number | null;
-  quantity: number | null;
-  pricePerCoinSold: null | number;
-  profit: null | number;
+  date: Date;
 }
 
 export interface Coin {
+  id: string;
+  portfolioId: string;
   name: string;
   symbol: string;
   image: string;
-  totalProfit: number;
-  activeInvestment: number;
-  holdings: number;
-  avgPrice: number;
-  transactions: Transaction[];
+  activeInvestment: Prisma.Decimal;
+  avgPrice: Prisma.Decimal;
+  holdings: Prisma.Decimal;
+  totalProfit: Prisma.Decimal;
+  createdAt: Date;
 }
 
 export type DecodedUser = {

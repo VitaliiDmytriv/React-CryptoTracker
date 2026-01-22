@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { portfolioService } from "../services/portfolio.service";
-import { portfolioWithCoinsSelect } from "../services/selections";
+import { portfolioWithCoinsSelect } from "../types/selections";
 import { DecodedUser, PortfolioBase } from "../types/global";
 
 export async function getPortfolio(req: Request, res: Response) {

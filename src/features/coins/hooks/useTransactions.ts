@@ -21,7 +21,7 @@ export function useTransactions() {
     onSuccess: (dataFromServer: unknown) => {
       console.log(dataFromServer);
 
-      queryClient.invalidateQueries({ queryKey: portfolioKeys.coin(portfolioName!, symbol!) });
+      queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
     },
   });
 
