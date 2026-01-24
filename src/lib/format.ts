@@ -1,9 +1,12 @@
-export const formatMoney = (value: number) => {
+import Decimal from "decimal.js";
+
+export const formatMoney = (value: string | null) => {
   if (!value) return "-";
+  const number = new Decimal(value).toNumber();
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-  }).format(value);
+  }).format(number);
 };
 
 export const formatQuantity = (value: number) => {

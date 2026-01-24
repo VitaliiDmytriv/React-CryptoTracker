@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { formatMoney } from "@/lib/format";
 import { preventNonNumericInput } from "../../utils/helpFunctions";
-import type { UseFormReturn } from "react-hook-form";
+import { type UseFormReturn } from "react-hook-form";
 import type { createTxForm, updTxForm } from "../../utils/transaction.schema";
 import type { Modes } from "../../types/coin.types";
+import { SummaryField } from "../SummaryField";
 
 type Props = {
   form: UseFormReturn<updTxForm | createTxForm>;
@@ -24,6 +24,7 @@ export function DefaultForm({ form, onSubmit, mode }: Props) {
   const {
     register,
     formState: { errors, isSubmitting, isDirty },
+    control,
   } = form;
 
   return (
@@ -104,14 +105,8 @@ export function DefaultForm({ form, onSubmit, mode }: Props) {
           />
         </Field>
         <FieldGroup className="col-span-full flex flex-row gap-1 sm:gap-2">
-          <Field className="gap-1 sm:gap-2">
-            <FieldLabel>Total spent</FieldLabel>
-            <Input value={formatMoney(200)} className="focus-visible:ring-0 cursor-auto" readOnly />
-          </Field>
-          <Field className="gap-1 sm:gap-2">
-            <FieldLabel>Profit</FieldLabel>
-            <Input className="focus-visible:ring-0 cursor-auto" value={formatMoney(200)} readOnly />
-          </Field>
+          <SummaryField control={control} mode="spent" />
+          <SummaryField control={control} mode="profit" />
         </FieldGroup>
         <Field className="gap-1 sm:gap-2 col-span-full flex-row [&>*]:w-auto">
           <Button type="submit" className="flex-1" disabled={!isDirty || isSubmitting}>
