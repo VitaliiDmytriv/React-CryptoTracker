@@ -1,4 +1,4 @@
-import type { TransactionWithCoin } from "@/types/global";
+import type { OnSuccesFc, TransactionWithCoin } from "@/types/global";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updTxSchema, type updTxForm } from "../utils/transaction.schema";
@@ -7,9 +7,10 @@ import { transactionApiToForm } from "../utils/transaction.adapter";
 
 type Props = {
   initialData: TransactionWithCoin;
+  onSuccess: OnSuccesFc;
 };
 
-export function useUpdateTxForm({ initialData }: Props) {
+export function useUpdateTxForm({ initialData, onSuccess }: Props) {
   const form = useForm<updTxForm>({
     defaultValues: transactionApiToForm(initialData, "edit"),
     resolver: zodResolver(updTxSchema),
@@ -17,7 +18,7 @@ export function useUpdateTxForm({ initialData }: Props) {
     reValidateMode: "onChange",
   });
 
-  const { updateMutation } = useTransactions();
+  const { updateMutation } = useTransactions({ onSuccess });
 
   const onSubmit = async (data: updTxForm) => {
     await updateMutation.mutateAsync({ txId: initialData.id, payload: data });

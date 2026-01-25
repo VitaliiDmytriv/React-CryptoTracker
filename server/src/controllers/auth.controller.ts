@@ -17,7 +17,7 @@ export async function loginUser(req: Request, res: Response) {
       httpOnly: true,
       secure: false, // false on dev
       sameSite: "strict",
-      maxAge: 1000 * 60 * 60, // час життя токена
+      maxAge: 1000 * 60 * 60 * 5, // час життя токена
     });
     res.json({ user: result.user }); // user:{ id,name,email }
   } catch (err) {

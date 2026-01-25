@@ -21,7 +21,7 @@ export const authService = {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...userWithoutPassword } = user;
-    const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: "60m" });
+    const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: "5h" });
     return { token, user: { ...userWithoutPassword } };
   },
 };

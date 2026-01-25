@@ -1,15 +1,21 @@
-import type { RouteParams } from "@/types/global";
+import type { AnimateFc, OnErrorFc, OnSuccesFc, RouteParams } from "@/types/global";
 import * as txServise from "../api/transactions.api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { portfolioKeys } from "@/lib/queryKeys";
 import type { updTxForm } from "../utils/transaction.schema";
+
+type useTxProps = {
+  onSuccess?: OnSuccesFc;
+  onAnimate?: AnimateFc;
+  onError?: OnErrorFc;
+};
 
 type UpdateTxProps = {
   txId: string;
   payload: updTxForm;
 };
 
-export function useTransactions() {
+export function useTransactions(actions: useTxProps) {
   const { portfolioName, symbol } = useParams<RouteParams>();
   const queryClient = useQueryClient();
 
@@ -18,8 +24,10 @@ export function useTransactions() {
       if (!portfolioName || !symbol) throw new Error("Missing params");
       return txServise.updateTransaction(portfolioName, symbol, txId, payload);
     },
-    onSuccess: (dataFromServer: unknown) => {
-      console.log(dataFromServer);
+    onSuccess: () => {
+      setTimeout(() => {
+        actions?.onSuccess?.();
+      }, 1150);
 
       queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
     },

@@ -55,3 +55,7 @@ export interface TransactionWithCoin extends Transaction {
     image: string;
   };
 }
+
+export type OnSuccesFc = () => void;
+export type AnimateFc = () => void;
+export type OnErrorFc = (error: unknown) => void;

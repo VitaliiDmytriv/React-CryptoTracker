@@ -31,7 +31,9 @@ export function TransactionForm({ initialData, onClose, mode }: Props) {
               price.»
             </DialogDescription>
           </DialogHeader>
-          {mode === "edit" ? <EditTransactionForm initialData={initialData} /> : null}
+          {mode === "edit" ? (
+            <EditTransactionForm onSuccess={onClose} initialData={initialData} />
+          ) : null}
         </DialogContent>
       </Dialog>
     </>
