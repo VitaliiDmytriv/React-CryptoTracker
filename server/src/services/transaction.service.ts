@@ -28,4 +28,11 @@ export const transactionService = {
 
     return updateTx;
   },
+  deleteTx: async (id: string, tx: Prisma.TransactionClient) => {
+    const deletedTx = await tx.transaction.delete({
+      where: { id },
+    });
+
+    return deletedTx;
+  },
 };

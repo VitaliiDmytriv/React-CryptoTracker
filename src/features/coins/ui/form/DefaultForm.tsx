@@ -7,10 +7,12 @@ import type { createTxForm, updTxForm } from "../../utils/transaction.schema";
 import type { Modes } from "../../types/coin.types";
 import { SummaryField } from "../SummaryField";
 import { FormActionOverlay } from "../FormActionOverlay";
+import { ConfirmDialog } from "../ConfirmDialog";
 
 type Props = {
   form: UseFormReturn<updTxForm | createTxForm>;
   onSubmit: () => void;
+  onDelete?: () => void;
   mode: Modes;
   isLoading: boolean;
   isSuccess: boolean;
@@ -22,7 +24,7 @@ const buttonsText: Record<Modes, string> = {
   merge: "Merge",
 };
 
-export function DefaultForm({ form, onSubmit, mode, isLoading, isSuccess }: Props) {
+export function DefaultForm({ form, onSubmit, mode, isLoading, isSuccess, onDelete }: Props) {
   const btnTxt = buttonsText[mode];
   const {
     register,
@@ -125,11 +127,7 @@ export function DefaultForm({ form, onSubmit, mode, isLoading, isSuccess }: Prop
             >
               {btnTxt}
             </Button>
-            {mode === "edit" && (
-              <Button type="button" className="">
-                Delete
-              </Button>
-            )}
+            {mode === "edit" && <ConfirmDialog actionFn={onDelete ? onDelete : () => {}} />}
           </Field>
         </div>
       </form>

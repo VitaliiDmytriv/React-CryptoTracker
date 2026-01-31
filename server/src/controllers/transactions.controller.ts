@@ -27,3 +27,24 @@ export async function updateTransaction(req: Request, res: Response) {
     res.status(500).json({ error: "Server error" });
   }
 }
+
+export async function deleteTransaction(req: Request, res: Response) {
+  try {
+    const { id: txId } = req.transaction as Transaction;
+    const { id: coinId } = req.coin as Coin;
+    const { id: portfolioId } = req.portfolio as Portfolio;
+
+    let deletedTransaction = null;
+    await prisma.$transaction(async (tx) => {
+      deletedTransaction = await transactionService.deleteTx(txId, tx);
+      await coinService.recalculateStats(coinId, tx);
+      await portfolioService.recalculateStats(portfolioId, tx);
+    });
+
+    res.json({ deletedTransaction });
+    // res.json({ updateTx });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+}

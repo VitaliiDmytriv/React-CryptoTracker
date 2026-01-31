@@ -5,7 +5,7 @@ import path from "path";
  * 🔧 КОНФІГ
  * ЄДИНЕ МІСЦЕ, ДЕ ТИ ЩОСЬ МІНЯЄШ
  */
-const TARGET_DIR_NAME = "server";
+const TARGET_DIR_NAME = "src/features/coins";
 
 /* =============================== */
 

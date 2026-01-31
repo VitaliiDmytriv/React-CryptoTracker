@@ -33,7 +33,24 @@ export function useTransactions(actions: useTxProps) {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: (txId: string) => {
+      if (!portfolioName || !symbol) throw new Error("Missing params");
+      return txServise.deleteTransaction(portfolioName, symbol, txId);
+    },
+    onSuccess: (response) => {
+      console.log(response.data);
+
+      setTimeout(() => {
+        actions?.onSuccess?.();
+      }, 1150);
+
+      queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
+    },
+  });
+
   return {
     updateMutation,
+    deleteMutation,
   };
 }

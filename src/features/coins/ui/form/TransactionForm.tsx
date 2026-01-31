@@ -23,7 +23,7 @@ export function TransactionForm({ initialData, onClose, mode }: Props) {
   return (
     <>
       <Dialog open={true} onOpenChange={(val) => !val && onClose()}>
-        <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
+        <DialogContent className="overflow-scroll" onOpenAutoFocus={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogDescription className="sr-only">

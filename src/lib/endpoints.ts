@@ -11,5 +11,7 @@ export const portfolioEndpoints = {
   coin: (portfolioName: string, symbol: string) =>
     `/users/me/portfolios/${portfolioName}/coins/${symbol}` as const,
   txUpd: (portfolioName: string, symbol: string, txId: string) =>
-    `/users/me/portfolios/${portfolioName}/coins/${symbol}/transactions/${txId}` as const,
+    `/users/me/portfolios/${portfolioName}/coins/${symbol}/transactions/${txId}/update` as const,
+  txDelete: (portfolioName: string, symbol: string, txId: string) =>
+    `/users/me/portfolios/${portfolioName}/coins/${symbol}/transactions/${txId}/delete` as const,
 };

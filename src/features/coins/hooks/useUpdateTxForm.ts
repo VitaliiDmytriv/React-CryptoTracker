@@ -18,16 +18,22 @@ export function useUpdateTxForm({ initialData, onSuccess }: Props) {
     reValidateMode: "onChange",
   });
 
-  const { updateMutation } = useTransactions({ onSuccess });
+  const { updateMutation, deleteMutation } = useTransactions({ onSuccess });
 
   const onSubmit = async (data: updTxForm) => {
     await updateMutation.mutateAsync({ txId: initialData.id, payload: data });
+  };
+
+  const onDelete = async () => {
+    await deleteMutation.mutateAsync(initialData.id);
   };
 
   return {
     form,
     onSubmit: form.handleSubmit(onSubmit),
     actionMutation: updateMutation,
+    deleteMutation,
+    onDelete,
   };
 }
 
