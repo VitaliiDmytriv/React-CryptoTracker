@@ -1,41 +1,131 @@
-import type { TransactionWithCoin } from "@/types/global";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DialogDescription } from "@radix-ui/react-dialog";
+import { Button } from "@/components/ui/button";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { preventNonNumericInput } from "../../utils/helpFunctions";
+import { type UseFormReturn } from "react-hook-form";
+import type { createTxForm, updTxForm } from "../../utils/transaction.schema";
 import type { Modes } from "../../types/coin.types";
-import { EditTransactionForm } from "./EditTransactionForm";
+import { SummaryField } from "../SummaryField";
+import { FormActionOverlay } from "./FormActionOverlay";
+import { ConfirmDialog } from "../ConfirmDialog";
+import { MODE_CONFIG } from "../../utils/formConfig";
 
-const title: Record<Modes, string> = {
-  edit: "Edit Transaction",
-  add: "Add Transaction",
-  merge: "Merge Transaction",
-};
-
-// завжди передаємо тип в initialData як TransactionWithCoin
 type Props = {
-  initialData: TransactionWithCoin;
-  onClose: () => void;
+  form: UseFormReturn<updTxForm | createTxForm>;
+  onSubmit: () => void;
+  onDelete?: () => void;
   mode: Modes;
+  isLoading: boolean;
+  isSuccess: boolean;
 };
 
-export function TransactionForm({ initialData, onClose, mode }: Props) {
-  const dialogTitle = title[mode];
+export function TransactionForm({ form, onSubmit, mode, isLoading, isSuccess, onDelete }: Props) {
+  const config = MODE_CONFIG[mode];
+  const {
+    register,
+    formState: { errors, isDirty },
+    control,
+  } = form;
 
   return (
-    <>
-      <Dialog open={true} onOpenChange={(val) => !val && onClose()}>
-        <DialogContent className="overflow-scroll" onOpenAutoFocus={(e) => e.preventDefault()}>
-          <DialogHeader>
-            <DialogTitle>{dialogTitle}</DialogTitle>
-            <DialogDescription className="sr-only">
-              «Edit the details of a transaction including quantity, price, date, fee, and sell
-              price.»
-            </DialogDescription>
-          </DialogHeader>
-          {mode === "edit" ? (
-            <EditTransactionForm onSuccess={onClose} initialData={initialData} />
-          ) : null}
-        </DialogContent>
-      </Dialog>
-    </>
+    <div className="relative">
+      <FormActionOverlay isLoading={isLoading} isSuccess={isSuccess} />
+
+      <form className="" onSubmit={onSubmit}>
+        <div
+          className={`grid gap-1 xs:grid-cols-2 sm:gap-2 ${isLoading || isSuccess ? " opacity-55 pointer-events-none" : ""}`}
+        >
+          {config.showCoinSelect && (
+            <Field>
+              <FieldLabel className="relative" htmlFor="quantity">
+                <span>Select coin</span>
+              </FieldLabel>
+              Selec option
+            </Field>
+          )}
+          <Field className="">
+            <FieldLabel className="relative" htmlFor="quantity">
+              <span>Quantity</span>
+              <FieldError className="justify-self-center font-light fieldError">
+                {errors.quantity?.message ?? ""}
+              </FieldError>
+            </FieldLabel>
+            <Input
+              id="quantity"
+              {...register("quantity")}
+              type="number"
+              step="any"
+              inputMode="decimal"
+              onKeyDown={preventNonNumericInput}
+            />
+          </Field>
+          <Field>
+            <FieldLabel className="relative">
+              <span>Price Per Coin</span>
+              <FieldError className="justify-self-center font-light fieldError">
+                {errors.pricePerCoinBought?.message ?? ""}
+              </FieldError>
+            </FieldLabel>
+            <Input
+              {...register("pricePerCoinBought")}
+              type="number"
+              step="any"
+              inputMode="decimal"
+              onKeyDown={preventNonNumericInput}
+            />
+          </Field>
+          <Field>
+            <FieldLabel>Date</FieldLabel>
+            <Input {...register("date")} className="block" type="date" inputMode="decimal" />
+          </Field>
+          <Field>
+            <FieldLabel className="relative">
+              <span>Fee</span>
+              <FieldError className="justify-self-center font-light fieldError">
+                {errors.fees?.message ?? ""}
+              </FieldError>
+            </FieldLabel>
+            <Input
+              {...register("fees")}
+              type="number"
+              step="any"
+              inputMode="decimal"
+              onKeyDown={preventNonNumericInput}
+            />
+          </Field>
+          <Field>
+            <FieldLabel className="relative">
+              Sell Price
+              <FieldError className="justify-self-center font-light fieldError">
+                {errors.pricePerCoinSold?.message ?? ""}
+              </FieldError>
+            </FieldLabel>
+
+            <Input
+              className="submit-actions"
+              {...register("pricePerCoinSold")}
+              type="number"
+              step="any"
+              inputMode="decimal"
+              onKeyDown={preventNonNumericInput}
+            />
+          </Field>
+          <FieldGroup className="col-span-full flex flex-row gap-1 sm:gap-2">
+            <SummaryField control={control} mode="spent" />
+            <SummaryField control={control} mode="profit" />
+          </FieldGroup>
+          <Field className="gap-1 sm:gap-2 col-span-full flex-row [&>*]:w-auto">
+            <Button
+              type="submit"
+              className={`flex-1 submit-actions ${!isDirty ? "opacity-55" : "disabled:opacity-100"} `}
+              disabled={!isDirty || isLoading}
+            >
+              {config.submitText}
+            </Button>
+            {config.showDelete && onDelete && <ConfirmDialog actionFn={onDelete} />}
+          </Field>
+        </div>
+      </form>
+    </div>
   );
 }
