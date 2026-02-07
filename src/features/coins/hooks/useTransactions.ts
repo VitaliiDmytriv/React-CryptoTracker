@@ -2,7 +2,8 @@ import type { AnimateFc, OnErrorFc, OnSuccesFc, RouteParams } from "@/types/glob
 import * as txServise from "../api/transactions.api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { portfolioKeys } from "@/lib/queryKeys";
-import type { updTxForm } from "../utils/transaction.schema";
+import type { TxForm } from "../utils/transaction.schema";
+import type { CreateTxApi } from "../utils/transaction.adapter";
 
 type useTxProps = {
   onSuccess?: OnSuccesFc;
@@ -12,7 +13,7 @@ type useTxProps = {
 
 type UpdateTxProps = {
   txId: string;
-  payload: updTxForm;
+  payload: TxForm;
 };
 
 export function useTransactions(actions: useTxProps) {
@@ -49,8 +50,21 @@ export function useTransactions(actions: useTxProps) {
     },
   });
 
+  const createMutation = useMutation({
+    mutationFn: (payload: CreateTxApi) => {
+      if (!portfolioName) throw new Error("Missing params");
+      return txServise.createTransaction(portfolioName, payload);
+    },
+    onSuccess: () => {
+      setTimeout(() => {
+        actions?.onSuccess?.();
+      }, 1150);
+    },
+  });
+
   return {
     updateMutation,
     deleteMutation,
+    createMutation,
   };
 }

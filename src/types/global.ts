@@ -49,13 +49,44 @@ export type RouteParams = {
 };
 
 export interface TransactionWithCoin extends Transaction {
-  coin: {
-    name: string;
-    symbol: string;
-    image: string;
-  };
+  coin: CoinInfoForTx;
+}
+
+export interface CoinInfoForTx {
+  name: string;
+  symbol: string;
+  image: string;
 }
 
 export type OnSuccesFc = () => void;
 export type AnimateFc = () => void;
 export type OnErrorFc = (error: unknown) => void;
+
+export interface CoinGecko {
+  ath: number;
+  ath_change_percentage: number;
+  ath_date: string;
+  atl: number;
+  atl_change_percentage: number;
+  atl_date: string;
+  circulating_supply: number;
+  current_price: number;
+  fully_diluted_valuation: number;
+  high_24h: number | null;
+  id: string;
+  image: string;
+  last_updated: string;
+  low_24h: number | null;
+  market_cap: number;
+  market_cap_change_24h: number | null;
+  market_cap_change_percentage_24h: number | null;
+  market_cap_rank: number;
+  max_supply: null | number;
+  name: string;
+  price_change_24h: number | null;
+  price_change_percentage_24h: number | null;
+  roi: null | { times: number; currency: string; percentage: number };
+  symbol: string;
+  total_supply: number;
+  total_volume: number;
+}

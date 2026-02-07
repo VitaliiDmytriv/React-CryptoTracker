@@ -3,23 +3,34 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field
 import { Input } from "@/components/ui/input";
 import { preventNonNumericInput } from "../../utils/helpFunctions";
 import { type UseFormReturn } from "react-hook-form";
-import type { createTxForm, updTxForm } from "../../utils/transaction.schema";
+import type { TxForm } from "../../utils/transaction.schema";
 import type { Modes } from "../../types/coin.types";
 import { SummaryField } from "../SummaryField";
 import { FormActionOverlay } from "./FormActionOverlay";
 import { ConfirmDialog } from "../ConfirmDialog";
 import { MODE_CONFIG } from "../../utils/formConfig";
+import { CoinSelect } from "../CoinSelect";
+import type { CoinGecko } from "@/types/global";
 
 type Props = {
-  form: UseFormReturn<updTxForm | createTxForm>;
+  form: UseFormReturn<TxForm>;
   onSubmit: () => void;
   onDelete?: () => void;
+  onSelectCoin?: (coin: CoinGecko) => void;
   mode: Modes;
   isLoading: boolean;
   isSuccess: boolean;
 };
 
-export function TransactionForm({ form, onSubmit, mode, isLoading, isSuccess, onDelete }: Props) {
+export function TransactionForm({
+  form,
+  onSubmit,
+  mode,
+  isLoading,
+  isSuccess,
+  onDelete,
+  onSelectCoin,
+}: Props) {
   const config = MODE_CONFIG[mode];
   const {
     register,
@@ -35,12 +46,16 @@ export function TransactionForm({ form, onSubmit, mode, isLoading, isSuccess, on
         <div
           className={`grid gap-1 xs:grid-cols-2 sm:gap-2 ${isLoading || isSuccess ? " opacity-55 pointer-events-none" : ""}`}
         >
-          {config.showCoinSelect && (
-            <Field>
-              <FieldLabel className="relative" htmlFor="quantity">
-                <span>Select coin</span>
+          {config.showCoinSelect && onSelectCoin && (
+            <Field className="col-span-full min-w-0">
+              <FieldLabel className="relative" htmlFor="name">
+                Select coin
+                <FieldError className="justify-self-center font-light fieldError">
+                  {errors.name?.message ?? ""}
+                </FieldError>
               </FieldLabel>
-              Selec option
+              <Input id="name" {...register("name")} className="hidden" />
+              <CoinSelect onSelectFn={onSelectCoin} />
             </Field>
           )}
           <Field className="">

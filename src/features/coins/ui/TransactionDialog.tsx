@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { DialogDescription } from "@radix-ui/react-dialog";
 import type { Modes } from "../types/coin.types";
 import { EditTxContainer } from "./EditTxContainer";
+import { AddTxContainer } from "./AddTxContainer";
 
 const title: Record<Modes, string> = {
   edit: "Edit Transaction",
@@ -23,7 +24,7 @@ export function TransactionDialog({ initialData, onClose, mode }: Props) {
   return (
     <>
       <Dialog open={true} onOpenChange={(val) => !val && onClose()}>
-        <DialogContent className="overflow-scroll" onOpenAutoFocus={(e) => e.preventDefault()}>
+        <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogDescription className="sr-only">
@@ -33,7 +34,9 @@ export function TransactionDialog({ initialData, onClose, mode }: Props) {
           </DialogHeader>
           {mode === "edit" ? (
             <EditTxContainer onSuccess={onClose} initialData={initialData} />
-          ) : null}
+          ) : (
+            <AddTxContainer onSuccess={onClose} initialData={initialData} />
+          )}
         </DialogContent>
       </Dialog>
     </>

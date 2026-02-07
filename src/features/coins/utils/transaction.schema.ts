@@ -32,23 +32,13 @@ function zOptionalDecimalString() {
   );
 }
 
-export const updTxSchema = z.object({
+export const txSchema = z.object({
   quantity: zRequiredDecimalString(),
   pricePerCoinBought: zRequiredDecimalString(),
   pricePerCoinSold: zOptionalDecimalString(),
   fees: zOptionalDecimalString(),
   date: z.string().date(),
+  name: z.string().min(1, { message: "Please select a coin" }),
 });
 
-export type updTxForm = z.input<typeof updTxSchema>;
-
-export const createTxSchema = z.object({
-  quantity: zRequiredDecimalString(),
-  pricePerCoinBought: zRequiredDecimalString(),
-  pricePerCoinSold: zOptionalDecimalString(),
-  fees: zOptionalDecimalString(),
-  date: z.string().date(),
-  name: z.string(),
-});
-
-export type createTxForm = z.input<typeof createTxSchema>;
+export type TxForm = z.input<typeof txSchema>;

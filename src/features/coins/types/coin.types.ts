@@ -8,8 +8,6 @@ export type updTx = {
 
 export type createTx = {
   name: string;
-  // symbol: string;
-  // image: string;
   quantity: number;
   pricePerCoinBought: number;
   fees: number | null;
