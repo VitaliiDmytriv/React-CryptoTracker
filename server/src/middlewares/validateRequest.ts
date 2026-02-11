@@ -1,8 +1,32 @@
-import { ZodType } from "zod";
 import { Request, Response, NextFunction } from "express";
+import { createTxSchema, updTxSchema } from "../schemas/transactions.schema";
 
-export const validateRequest =
-  (schema: ZodType) => (req: Request, res: Response, next: NextFunction) => {
+export function validateTxPayload(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { action } = req.body;
+
+    if (!action) {
+      return res.status(400).json({ message: "Action is required" });
+    }
+
+    let schema;
+    switch (action) {
+      case "edit":
+        schema = updTxSchema;
+        break;
+      case "add":
+        schema = createTxSchema;
+        break;
+      // case "split":
+      //   splitTxSchema.parse(req.body);
+      //   break;
+      // case "merge":
+      //   mergeTxSchema.parse(req.body);
+      //   break;
+      default:
+        throw new Error("Unknown action");
+    }
+
     const result = schema.safeParse(req.body);
 
     if (!result.success) {
@@ -11,6 +35,9 @@ export const validateRequest =
       });
     }
 
-    req.body = result.data; // 👈 validated & normalized
+    req.body = result.data;
     next();
-  };
+  } catch {
+    return res.status(400).json({ message: "" });
+  }
+}

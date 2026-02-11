@@ -33,7 +33,7 @@ export function useAddTxForm({ initialData, onSuccess }: Props) {
 
   async function onSubmit(data: TxForm) {
     const payload = mapTxToCreate(data, coinDetails);
-    console.log(payload);
+    await createMutation.mutateAsync(payload);
   }
 
   return {

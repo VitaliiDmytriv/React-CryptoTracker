@@ -1,7 +1,7 @@
-import { updTxApi } from "../../schemas/transactions.schema";
+import { TxUpdatePayload } from "../../types/global";
 import { CalcTxStatsType } from "./calcTxStats";
 
-export function buildTxUpd(calcTx: CalcTxStatsType, payload: updTxApi) {
+export function buildTx(calcTx: CalcTxStatsType, payload: TxUpdatePayload) {
   return {
     quantity: calcTx.quantity.toString(),
     pricePerCoinBought: calcTx.pxBought.toString(),

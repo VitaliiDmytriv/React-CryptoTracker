@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../prisma";
-import { buildTxUpd, calcTxStats, parseTxDecimals } from "../domain/transactions";
-import { updTxApi } from "../schemas/transactions.schema";
+import { buildTx, calcTxStats, parseTxDecimals } from "../domain/transactions";
+import { NewTx, TxUpdatePayload } from "../types/global";
 
 export const transactionService = {
   getById: async <TSelect extends Prisma.TransactionSelect>(
@@ -14,10 +14,26 @@ export const transactionService = {
     });
   },
 
-  updateTx: async (id: string, payload: updTxApi, tx: Prisma.TransactionClient) => {
+  getByIdWithinPortfolio: async <TSelect extends Prisma.TransactionSelect>(
+    txId: string,
+    portfolioId: string,
+    select: TSelect,
+  ): Promise<Prisma.TransactionGetPayload<{ select: TSelect }> | null> => {
+    return prisma.transaction.findFirst({
+      where: {
+        id: txId,
+        coin: {
+          portfolioId,
+        },
+      },
+      select,
+    });
+  },
+
+  updateTx: async (id: string, payload: TxUpdatePayload, tx: Prisma.TransactionClient) => {
     const desimals = parseTxDecimals(payload);
     const calculated = calcTxStats(desimals);
-    const data = buildTxUpd(calculated, payload);
+    const data = buildTx(calculated, payload);
 
     const updateTx = await tx.transaction.update({
       where: { id },
@@ -34,5 +50,11 @@ export const transactionService = {
     });
 
     return deletedTx;
+  },
+
+  addTx: async (transaction: NewTx, tx: Prisma.TransactionClient) => {
+    return await tx.transaction.create({
+      data: transaction,
+    });
   },
 };

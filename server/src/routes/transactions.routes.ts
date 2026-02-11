@@ -1,15 +1,19 @@
 import { Router } from "express";
 import { checkTransactionExist } from "../middlewares/checkTransactionExist";
-import { deleteTransaction, updateTransaction } from "../controllers/transactions.controller";
-import { validateRequest } from "../middlewares/validateRequest";
-import { updTxSchema } from "../schemas/transactions.schema";
+import {
+  createTransaction,
+  deleteTransaction,
+  handleTransactionAction,
+} from "../controllers/transactions.controller";
+import { validateTxPayload } from "../middlewares/validateRequest";
 
 const router = Router({ mergeParams: true });
 
+router.post("/", validateTxPayload, createTransaction);
+
 router.use("/:txId", checkTransactionExist);
-// закінчення на /edit
-router.patch("/:txId/update", validateRequest(updTxSchema), updateTransaction);
-// закінчення на /delete
-router.delete("/:txId/delete", deleteTransaction);
+
+router.patch("/:txId", validateTxPayload, handleTransactionAction);
+router.delete("/:txId", deleteTransaction);
 
 export default router;

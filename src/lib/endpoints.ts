@@ -10,10 +10,10 @@ export const portfolioEndpoints = {
   byName: (name: string) => `/users/me/portfolios/${name}` as const,
   coin: (portfolioName: string, symbol: string) =>
     `/users/me/portfolios/${portfolioName}/coins/${symbol}` as const,
-  txUpd: (portfolioName: string, symbol: string, txId: string) =>
-    `/users/me/portfolios/${portfolioName}/coins/${symbol}/transactions/${txId}/update` as const,
-  txDelete: (portfolioName: string, symbol: string, txId: string) =>
-    `/users/me/portfolios/${portfolioName}/coins/${symbol}/transactions/${txId}/delete` as const,
-  txCreate: (portfolioName: string, symbol: string) =>
-    `/users/me/portfolios/${portfolioName}/coins/${symbol}/transactions/create` as const,
+  txUpd: (portfolioName: string, txId: string) =>
+    `/users/me/portfolios/${portfolioName}/transactions/${txId}` as const,
+  txDelete: (portfolioName: string, txId: string) =>
+    `/users/me/portfolios/${portfolioName}/transactions/${txId}` as const,
+  txCreate: (portfolioName: string) =>
+    `/users/me/portfolios/${portfolioName}/transactions` as const,
 };

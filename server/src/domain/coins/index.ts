@@ -1,1 +1,2 @@
-export * from "./CalcCoinStats";
+export * from "./calcCoinStats";
+export * from "./createBaseCoin";

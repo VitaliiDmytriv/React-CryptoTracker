@@ -46,7 +46,7 @@ export const portfolioWithCoinsSelect = {
   },
 } as const satisfies Prisma.PortfolioSelect;
 
-export const coinFull = {
+export const coinWithTransactions = {
   id: true,
   transactions: {
     include: {
@@ -66,6 +66,19 @@ export const coinFull = {
   name: true,
   symbol: true,
   totalProfit: true,
+} satisfies Prisma.CoinSelect;
+
+export const coinFull = {
+  id: true,
+  activeInvestment: true,
+  avgPrice: true,
+  holdings: true,
+  portfolioId: true,
+  image: true,
+  name: true,
+  symbol: true,
+  totalProfit: true,
+  createdAt: true,
 } satisfies Prisma.CoinSelect;
 
 export const coinSelectBase = {

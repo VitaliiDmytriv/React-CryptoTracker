@@ -1,18 +1,71 @@
 import { Request, Response } from "express";
-import { Coin, Transaction } from "../types/global";
+import { Transaction } from "../types/global";
 import { prisma } from "../../prisma";
-import { updTxApi } from "../schemas/transactions.schema";
+import { createTxApi, updTxApi } from "../schemas/transactions.schema";
 import { transactionService } from "../services/transaction.service";
 import { coinService } from "../services/coin.service";
 import { portfolioService } from "../services/portfolio.service";
 import { Portfolio } from "@prisma/client";
+import { coinFull } from "../types/selections";
+import { createBaseCoin } from "../domain/coins";
+import { prepareNewTx } from "../domain/transactions/prepareNewTx";
+
+export async function handleTransactionAction(req: Request, res: Response) {
+  const { action } = req.body;
+  try {
+    switch (action) {
+      case "edit":
+        await updateTransaction(req, res);
+        break;
+      // case "merge":
+      //   await mergeTransaction(req, res);
+      //   break;
+      // case "split":
+      //   await splitTransaction(req, res);
+      //   break;
+      default:
+        return res.status(400).json({ message: "Unknown action" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+}
+
+export async function createTransaction(req: Request, res: Response) {
+  try {
+    const { id: portfolioId } = req.portfolio as Portfolio;
+    const { payload } = req.body as createTxApi;
+    const coinInfo = payload.coin;
+
+    let coin = await coinService.getBySymbol(portfolioId, coinInfo.symbol.toUpperCase(), coinFull);
+
+    if (!coin) {
+      coin = createBaseCoin(portfolioId, coinInfo);
+      await coinService.addCoin(coin, prisma);
+    }
+
+    const transaction = prepareNewTx(payload, coin.id);
+
+    await prisma.$transaction(async (tx) => {
+      await transactionService.addTx(transaction, tx);
+      await coinService.recalculateStats(coin.id, tx);
+      await portfolioService.recalculateStats(portfolioId, tx);
+    });
+
+    res.json({ transaction, coin });
+    // res.json({ updateTx });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+}
 
 export async function updateTransaction(req: Request, res: Response) {
   try {
-    const { id: txId } = req.transaction as Transaction;
-    const { id: coinId } = req.coin as Coin;
+    const { id: txId, coinId } = req.transaction as Transaction;
     const { id: portfolioId } = req.portfolio as Portfolio;
-    const payload = req.body as updTxApi;
+    const { payload } = req.body as updTxApi;
 
     await prisma.$transaction(async (tx) => {
       await transactionService.updateTx(txId, payload, tx);
@@ -30,8 +83,7 @@ export async function updateTransaction(req: Request, res: Response) {
 
 export async function deleteTransaction(req: Request, res: Response) {
   try {
-    const { id: txId } = req.transaction as Transaction;
-    const { id: coinId } = req.coin as Coin;
+    const { id: txId, coinId } = req.transaction as Transaction;
     const { id: portfolioId } = req.portfolio as Portfolio;
 
     let deletedTransaction = null;

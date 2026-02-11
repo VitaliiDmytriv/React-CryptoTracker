@@ -67,4 +67,37 @@ export type TxUpdatePayload = {
   pricePerCoinSold: string;
   fees: string;
   date: string;
+  name?: string;
+};
+
+export type TxAddPayload = {
+  quantity: string;
+  pricePerCoinBought: string;
+  pricePerCoinSold: string;
+  fees: string;
+  date: string;
+  coin: {
+    name: string;
+    image: string;
+    symbol: string;
+  };
+};
+
+export type TxDecimalFields = {
+  quantity: string;
+  pricePerCoinBought: string;
+  pricePerCoinSold: string;
+  fees: string;
+};
+
+export type NewTx = {
+  id: string;
+  coinId: string;
+  quantity: string;
+  pricePerCoinBought: string;
+  pricePerCoinSold: string | null;
+  fees: string | null;
+  totalSpent: string;
+  profit: string | null;
+  date: Date;
 };

@@ -31,11 +31,32 @@ function zOptionalDecimalString() {
 }
 
 export const updTxSchema = z.object({
-  quantity: zRequiredDecimalString(),
-  pricePerCoinBought: zRequiredDecimalString(),
-  pricePerCoinSold: zOptionalDecimalString(),
-  fees: zOptionalDecimalString(),
-  date: z.string().date(),
+  action: z.literal("edit"),
+  payload: z.object({
+    name: z.string().min(1),
+    quantity: zRequiredDecimalString(),
+    pricePerCoinBought: zRequiredDecimalString(),
+    pricePerCoinSold: zOptionalDecimalString(),
+    fees: zOptionalDecimalString(),
+    date: z.string().date(),
+  }),
+});
+
+export const createTxSchema = z.object({
+  action: z.literal("add"),
+  payload: z.object({
+    quantity: zRequiredDecimalString(),
+    pricePerCoinBought: zRequiredDecimalString(),
+    pricePerCoinSold: zOptionalDecimalString(),
+    fees: zOptionalDecimalString(),
+    date: z.string().date(),
+    coin: z.object({
+      name: z.string().min(1),
+      image: z.string().min(1),
+      symbol: z.string().min(1),
+    }),
+  }),
 });
 
 export type updTxApi = z.input<typeof updTxSchema>;
+export type createTxApi = z.input<typeof createTxSchema>;

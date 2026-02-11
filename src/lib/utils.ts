@@ -24,3 +24,8 @@ export function createDefaultTx() {
     },
   };
 }
+
+export const ACTIONS = {
+  add: "add" as const,
+  edit: "edit" as const,
+};

@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Coin, Prisma } from "@prisma/client";
 import { prisma } from "../../prisma";
 import { calcCoinStats } from "../domain/coins";
 
@@ -21,6 +21,12 @@ export const coinService = {
     return prisma.coin.findUnique({
       where: { id: coinId },
       select,
+    });
+  },
+
+  addCoin: async (coin: Coin, tx: Prisma.TransactionClient) => {
+    return await tx.coin.create({
+      data: coin,
     });
   },
 

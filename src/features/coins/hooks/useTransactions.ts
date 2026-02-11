@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { portfolioKeys } from "@/lib/queryKeys";
 import type { TxForm } from "../utils/transaction.schema";
 import type { CreateTxApi } from "../utils/transaction.adapter";
+import { useNavigate } from "react-router-dom";
 
 type useTxProps = {
   onSuccess?: OnSuccesFc;
@@ -17,13 +18,14 @@ type UpdateTxProps = {
 };
 
 export function useTransactions(actions: useTxProps) {
-  const { portfolioName, symbol } = useParams<RouteParams>();
+  const { portfolioName } = useParams<RouteParams>();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const updateMutation = useMutation({
     mutationFn: ({ txId, payload }: UpdateTxProps) => {
-      if (!portfolioName || !symbol) throw new Error("Missing params");
-      return txServise.updateTransaction(portfolioName, symbol, txId, payload);
+      if (!portfolioName) throw new Error("Missing params");
+      return txServise.updateTransaction(portfolioName, txId, payload);
     },
     onSuccess: () => {
       setTimeout(() => {
@@ -36,8 +38,8 @@ export function useTransactions(actions: useTxProps) {
 
   const deleteMutation = useMutation({
     mutationFn: (txId: string) => {
-      if (!portfolioName || !symbol) throw new Error("Missing params");
-      return txServise.deleteTransaction(portfolioName, symbol, txId);
+      if (!portfolioName) throw new Error("Missing params");
+      return txServise.deleteTransaction(portfolioName, txId);
     },
     onSuccess: (response) => {
       console.log(response.data);
@@ -55,9 +57,11 @@ export function useTransactions(actions: useTxProps) {
       if (!portfolioName) throw new Error("Missing params");
       return txServise.createTransaction(portfolioName, payload);
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
       setTimeout(() => {
         actions?.onSuccess?.();
+        navigate(`/dashboard/${portfolioName}/coins/${variables.coin.symbol.toUpperCase()}`);
       }, 1150);
     },
   });

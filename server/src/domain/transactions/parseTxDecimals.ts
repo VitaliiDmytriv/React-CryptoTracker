@@ -1,7 +1,7 @@
 import Decimal from "decimal.js";
-import { updTxApi } from "../../schemas/transactions.schema";
+import { TxDecimalFields } from "../../types/global";
 
-export function parseTxDecimals(payload: updTxApi) {
+export function parseTxDecimals<T extends TxDecimalFields>(payload: T) {
   return {
     quantity: new Decimal(payload.quantity),
     pxBought: new Decimal(payload.pricePerCoinBought),
