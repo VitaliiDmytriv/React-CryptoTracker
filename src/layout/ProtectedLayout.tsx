@@ -1,4 +1,5 @@
 import SessionExpiredDialog from "@/components/dialogs/SessionExpiredDialog";
+import { TransactionDialog } from "@/components/TransactionDialog";
 import { useAuth } from "@/features/auth";
 
 export default function ProtectedLayout() {
@@ -19,6 +20,7 @@ export default function ProtectedLayout() {
   return (
     <>
       <Outlet />
+      <TransactionDialog />
     </>
   );
 }

@@ -3,12 +3,12 @@ import { Input } from "@/components/ui/input";
 import { formatMoney } from "@/lib/format";
 import Decimal from "decimal.js";
 import { useWatch, type Control } from "react-hook-form";
-import type { createTxForm, updTxForm } from "../utils/transaction.schema";
+import type { TxForm } from "../utils/transaction.schema";
 
 type Mode = "spent" | "profit";
 
 type Props = {
-  control: Control<updTxForm | createTxForm>;
+  control: Control<TxForm>;
   mode: Mode;
 };
 

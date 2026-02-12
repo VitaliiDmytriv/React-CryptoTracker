@@ -1,24 +1,26 @@
-import type { AnimateFc, OnErrorFc, OnSuccesFc, RouteParams } from "@/types/global";
+import type { RouteParams } from "@/types/global";
 import * as txServise from "../api/transactions.api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { portfolioKeys } from "@/lib/queryKeys";
 import type { TxForm } from "../utils/transaction.schema";
 import type { CreateTxApi } from "../utils/transaction.adapter";
 import { useNavigate } from "react-router-dom";
+import { useTxDialogStore } from "@/store/useTxDialogStore";
 
-type useTxProps = {
-  onSuccess?: OnSuccesFc;
-  onAnimate?: AnimateFc;
-  onError?: OnErrorFc;
-};
+// type useTxProps = {
+//   onSuccess?: OnSuccesFc;
+//   onAnimate?: AnimateFc;
+//   onError?: OnErrorFc;
+// };
 
 type UpdateTxProps = {
   txId: string;
   payload: TxForm;
 };
 
-export function useTransactions(actions: useTxProps) {
+export function useTransactions() {
   const { portfolioName } = useParams<RouteParams>();
+  const { close } = useTxDialogStore();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -29,7 +31,7 @@ export function useTransactions(actions: useTxProps) {
     },
     onSuccess: () => {
       setTimeout(() => {
-        actions?.onSuccess?.();
+        close();
       }, 1150);
 
       queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
@@ -45,7 +47,7 @@ export function useTransactions(actions: useTxProps) {
       console.log(response.data);
 
       setTimeout(() => {
-        actions?.onSuccess?.();
+        close();
       }, 1150);
 
       queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
@@ -54,13 +56,15 @@ export function useTransactions(actions: useTxProps) {
 
   const createMutation = useMutation({
     mutationFn: (payload: CreateTxApi) => {
+      console.log(portfolioName);
+
       if (!portfolioName) throw new Error("Missing params");
       return txServise.createTransaction(portfolioName, payload);
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
       setTimeout(() => {
-        actions?.onSuccess?.();
+        close();
         navigate(`/dashboard/${portfolioName}/coins/${variables.coin.symbol.toUpperCase()}`);
       }, 1150);
     },

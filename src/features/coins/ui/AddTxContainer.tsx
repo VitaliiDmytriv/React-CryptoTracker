@@ -1,16 +1,14 @@
-import type { OnSuccesFc, TransactionWithCoin } from "@/types/global";
+import type { TransactionWithCoin } from "@/types/global";
 import { TransactionForm } from "./form/TransactionForm";
 import { useAddTxForm } from "../hooks/useAddTxForm";
 
 type Props = {
   initialData: TransactionWithCoin;
-  onSuccess: OnSuccesFc;
 };
 
-export function AddTxContainer({ initialData, onSuccess }: Props) {
+export function AddTxContainer({ initialData }: Props) {
   const { form, onSubmit, actionMutation, onSelectCoin } = useAddTxForm({
     initialData,
-    onSuccess,
   });
 
   return (

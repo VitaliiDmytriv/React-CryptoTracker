@@ -1,4 +1,5 @@
-import type { CoinGecko, OnSuccesFc, TransactionWithCoin } from "@/types/global";
+import { useState } from "react";
+import type { CoinGecko, TransactionWithCoin } from "@/types/global";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { txSchema, type TxForm } from "../utils/transaction.schema";
@@ -7,10 +8,9 @@ import { mapTxToCreate, transactionApiToForm } from "../utils/transaction.adapte
 
 type Props = {
   initialData: TransactionWithCoin;
-  onSuccess: OnSuccesFc;
 };
 
-export function useAddTxForm({ initialData, onSuccess }: Props) {
+export function useAddTxForm({ initialData }: Props) {
   const form = useForm<TxForm>({
     defaultValues: transactionApiToForm(initialData),
     resolver: zodResolver(txSchema),
@@ -18,7 +18,7 @@ export function useAddTxForm({ initialData, onSuccess }: Props) {
     reValidateMode: "onChange",
   });
 
-  const { createMutation } = useTransactions({ onSuccess });
+  const { createMutation } = useTransactions();
   const [coinDetails, setCoinDetails] = useState({ name: "", symbol: "", image: "" });
 
   const onSelectCoin = (coin: CoinGecko) => {
