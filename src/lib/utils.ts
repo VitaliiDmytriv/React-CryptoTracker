@@ -11,7 +11,7 @@ export function createDefaultTx() {
     coinId: "",
     quantity: "",
     pricePerCoinBought: "",
-    fees: null,
+    fees: "",
     totalSpent: "",
     pricePerCoinSold: "",
     profit: "",
@@ -28,4 +28,5 @@ export function createDefaultTx() {
 export const ACTIONS = {
   add: "add" as const,
   edit: "edit" as const,
+  merge: "merge" as const,
 };

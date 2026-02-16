@@ -8,7 +8,7 @@ export default function QuantityCell({ row }: CellContext<TransactionWithCoin, u
       <div className="hidden xs:block md:hidden w-3 xs:w-4 sm:w-5 shrink-0">
         <img src={row.original.coin.image} alt="" />
       </div>
-      <p className="m-auto">{formatQuantity(row.original.quantity as number)}</p>
+      <p className="m-auto">{formatQuantity(row.original.quantity)}</p>
     </div>
   );
 }

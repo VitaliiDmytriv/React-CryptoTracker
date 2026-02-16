@@ -38,6 +38,13 @@ export function TransactionForm({
     control,
   } = form;
 
+  const isSubmitBtnDissabled =
+    mode === "merge"
+      ? isLoading // для merge тільки перевіряємо isLoading
+      : !isDirty || isLoading;
+
+  const isLowOpacity = mode !== "merge" && !isDirty;
+
   return (
     <div className="relative">
       <FormActionOverlay isLoading={isLoading} isSuccess={isSuccess} />
@@ -132,8 +139,8 @@ export function TransactionForm({
           <Field className="gap-1 sm:gap-2 col-span-full flex-row [&>*]:w-auto">
             <Button
               type="submit"
-              className={`flex-1 submit-actions ${!isDirty ? "opacity-55" : "disabled:opacity-100"} `}
-              disabled={!isDirty || isLoading}
+              className={`flex-1 submit-actions ${isLowOpacity ? "opacity-55" : "disabled:opacity-100"} `}
+              disabled={isSubmitBtnDissabled}
             >
               {config.submitText}
             </Button>

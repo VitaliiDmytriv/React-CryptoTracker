@@ -2,6 +2,7 @@ import { useTxDialogStore } from "@/store/useTxDialogStore";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
 import { EditTxContainer } from "@/features/coins/ui/EditTxContainer";
 import { AddTxContainer } from "@/features/coins/ui/AddTxContainer";
+import { MergeTxContainer } from "@/features/coins/ui/MergeTxContainer";
 
 const MODAL_CONTENT = {
   edit: {
@@ -32,8 +33,7 @@ export function TransactionDialog() {
           </DialogHeader>
           {modal.type === "edit" && <EditTxContainer {...modal.props} />}
           {modal.type === "add" && <AddTxContainer {...modal.props} />}
-
-          {/* {modal.type === "merge" && <AddTxContainer {...modal.props} />} */}
+          {modal.type === "merge" && <MergeTxContainer {...modal.props} />}
         </DialogContent>
       </Dialog>
     </>

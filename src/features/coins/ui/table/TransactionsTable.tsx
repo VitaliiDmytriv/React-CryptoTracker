@@ -12,15 +12,20 @@ import type { TransactionWithCoin } from "@/types/global";
 import { computeInitialVisibility } from "@/lib/tableUtils";
 import { useResponsiveColumns } from "@/hooks/useResponsiveColumns";
 import { TableRowsSkeleton } from "@/components/TableRowsSkeleton";
+import { useMergeTxStore } from "@/store/useMergeTxStore";
+import type { Row } from "@tanstack/react-table";
 
 type Props = {
   transactions: TransactionWithCoin[];
-  onRowClick: (tr: TransactionWithCoin) => void;
+  onRowClick: (row: Row<TransactionWithCoin>) => void;
   isLoading: boolean;
 };
 
 export function TransactionsTable({ transactions, onRowClick, isLoading }: Props) {
   const initialVisibility = computeInitialVisibility(columns, 639);
+
+  const rowSelection = useMergeTxStore((s) => s.rowSelection);
+  const setRowSelection = useMergeTxStore((s) => s.setRowSelection);
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
@@ -30,6 +35,11 @@ export function TransactionsTable({ transactions, onRowClick, isLoading }: Props
     initialState: {
       columnVisibility: initialVisibility,
     },
+    state: {
+      rowSelection,
+    },
+    onRowSelectionChange: setRowSelection,
+    getRowId: (row) => row.id,
   });
 
   useResponsiveColumns(table, 639);
@@ -60,13 +70,13 @@ export function TransactionsTable({ transactions, onRowClick, isLoading }: Props
             />
           ) : (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow
+                key={row.id}
+                onClick={() => onRowClick(row)}
+                className={row.getIsSelected() ? "bg-muted/50" : ""}
+              >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className="align-middle text-center "
-                    onClick={() => onRowClick(row.original)}
-                  >
+                  <TableCell key={cell.id} className="align-middle text-center ">
                     <div className="min-w-[70px]">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </div>

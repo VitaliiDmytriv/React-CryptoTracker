@@ -4,7 +4,7 @@ import { create } from "zustand";
 export type ModalState =
   | { type: "edit"; props: { initialData: TransactionWithCoin } }
   | { type: "add"; props: { initialData: TransactionWithCoin } }
-  | { type: "merge"; props: { somethingElse: string } }
+  | { type: "merge"; props: { initialData: TransactionWithCoin } }
   | { type: null };
 
 type UseTxDialogStore = {

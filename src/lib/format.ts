@@ -9,18 +9,30 @@ export const formatMoney = (value: string | null) => {
   }).format(number);
 };
 
-export const formatQuantity = (value: number) => {
+export const formatQuantity = (value: string | null) => {
+  if (!value) return "-";
+  const number = new Decimal(value).toNumber();
   return new Intl.NumberFormat("en-US", {
     maximumFractionDigits: 8,
-  }).format(value);
+  }).format(number);
 };
 
-export const formatPrice = (value: number) => {
+export const formatPrice = (value: string | null) => {
   if (!value) return "-";
+  const number = new Decimal(value).toNumber();
+
+  let maxFractionDigits = 2;
+
+  if (number < 1 && number > 0) {
+    maxFractionDigits = 8; // дрібні токени
+  } else if (number < 10) {
+    maxFractionDigits = 4; // середні
+  } // else залишаємо 2
+
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 2,
-    maximumFractionDigits: 8,
-  }).format(value);
+    maximumFractionDigits: maxFractionDigits,
+  }).format(number);
 };

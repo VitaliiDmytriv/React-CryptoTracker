@@ -7,14 +7,13 @@ import type { CreateTxApi } from "../utils/transaction.adapter";
 import { useNavigate } from "react-router-dom";
 import { useTxDialogStore } from "@/store/useTxDialogStore";
 
-// type useTxProps = {
-//   onSuccess?: OnSuccesFc;
-//   onAnimate?: AnimateFc;
-//   onError?: OnErrorFc;
-// };
-
 type UpdateTxProps = {
   txId: string;
+  payload: TxForm;
+};
+
+export type MergeTxProps = {
+  ids: string[];
   payload: TxForm;
 };
 
@@ -70,9 +69,23 @@ export function useTransactions() {
     },
   });
 
+  const mergeMutation = useMutation({
+    mutationFn: (payload: MergeTxProps) => {
+      if (!portfolioName) throw new Error("Missing params");
+      return txServise.mergeTransaction(portfolioName, payload);
+    },
+    onSuccess: () => {
+      // queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
+      // setTimeout(() => {
+      //   close();
+      // }, 1150);
+    },
+  });
+
   return {
     updateMutation,
     deleteMutation,
     createMutation,
+    mergeMutation,
   };
 }
