@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { checkTransactionExist } from "../middlewares/checkTransactionExist";
 import {
-  createTransaction,
+  // createTransaction,
   deleteTransaction,
   handleTransactionAction,
 } from "../controllers/transactions.controller";
@@ -9,7 +9,7 @@ import { validateTxPayload } from "../middlewares/validateRequest";
 
 const router = Router({ mergeParams: true });
 
-router.post("/", validateTxPayload, createTransaction);
+router.post("/", validateTxPayload, handleTransactionAction);
 
 router.use("/:txId", checkTransactionExist);
 

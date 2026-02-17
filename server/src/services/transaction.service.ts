@@ -52,6 +52,12 @@ export const transactionService = {
     return deletedTx;
   },
 
+  deleteManyTx: async (ids: string[], tx: Prisma.TransactionClient) => {
+    return await tx.transaction.deleteMany({
+      where: { id: { in: ids } },
+    });
+  },
+
   addTx: async (transaction: NewTx, tx: Prisma.TransactionClient) => {
     return await tx.transaction.create({
       data: transaction,

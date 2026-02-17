@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { TransactionsTable } from "@/features/coins";
 import { useCoin } from "@/features/coins/hooks/useCoin";
-import { CointItem } from "@/features/coins/ui/CoinItem";
-import { MergedStats } from "@/features/coins/ui/MergedStats";
+import { MergeActionBar } from "@/features/coins/ui/MergeActionBar";
 import { createDefaultTx } from "@/lib/utils";
 import { useMergeTxStore } from "@/store/useMergeTxStore";
 import { useTxDialogStore } from "@/store/useTxDialogStore";
@@ -13,7 +12,7 @@ import { Merge } from "lucide-react";
 export default function Coin() {
   const { symbol } = useParams<RouteParams>();
   const openDialog = useTxDialogStore((s) => s.open);
-  const { isOpenMerge, openMerge, closeMerge, txMergeInfo, rowSelection } = useMergeTxStore();
+  const { isOpenMerge, openMerge, closeMerge, txMergeInfo } = useMergeTxStore();
   const { data: coin, isLoading } = useCoin();
 
   const isMergeDissable = !(coin && coin.transactions.length > 1);
@@ -48,35 +47,8 @@ export default function Coin() {
           Add transaction
         </Button>
       </div>
-      {isOpenMerge && txMergeInfo && (
-        <div className="absolute bottom-0 bg-slate-400">
-          Now i can merge
-          <div>
-            <CointItem
-              image={txMergeInfo.image}
-              name={txMergeInfo.name}
-              symbol={txMergeInfo.symbol}
-            />
-            <MergedStats transactions={coin?.transactions ?? []} />
-            <Button
-              disabled={Object.keys(rowSelection).length < 2}
-              onClick={() => {
-                openDialog({
-                  type: "merge",
-                  props: {
-                    initialData: {
-                      ...createDefaultTx(),
-                    },
-                  },
-                });
-              }}
-            >
-              Merge
-            </Button>
-          </div>
-        </div>
-      )}
-      <div className="border rounded-md min-h-[80vh]">
+      {isOpenMerge && txMergeInfo && <MergeActionBar transactions={coin?.transactions || []} />}
+      <div className="border rounded-md min-h-[80vh] shadow-around pb-20">
         <TransactionsTable
           transactions={coin?.transactions ?? []}
           onRowClick={onRowClick}

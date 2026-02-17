@@ -23,7 +23,10 @@ export function useMergeTxForm({ initialData }: Props) {
 
   const onSubmit = async (data: TxForm) => {
     const ids = Object.keys(rowSelection);
-    await mergeMutation.mutateAsync({ ids, payload: data });
+    await mergeMutation.mutateAsync({
+      ids,
+      mergedTx: { ...data, symbol: initialData.coin.symbol },
+    });
   };
 
   return {

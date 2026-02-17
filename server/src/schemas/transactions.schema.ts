@@ -58,5 +58,22 @@ export const createTxSchema = z.object({
   }),
 });
 
+export const mergeTxSchema = z.object({
+  action: z.literal("merge"),
+  payload: z.object({
+    ids: z.array(z.string()).min(2, "It should be at least two tx"),
+    mergedTx: z.object({
+      name: z.string().min(1),
+      quantity: zRequiredDecimalString(),
+      pricePerCoinBought: zRequiredDecimalString(),
+      pricePerCoinSold: zOptionalDecimalString(),
+      fees: zOptionalDecimalString(),
+      date: z.string().date(),
+      symbol: z.string(),
+    }),
+  }),
+});
+
 export type updTxApi = z.input<typeof updTxSchema>;
 export type createTxApi = z.input<typeof createTxSchema>;
+export type mergeTxApi = z.input<typeof mergeTxSchema>;

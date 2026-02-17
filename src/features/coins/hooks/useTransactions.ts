@@ -6,6 +6,7 @@ import type { TxForm } from "../utils/transaction.schema";
 import type { CreateTxApi } from "../utils/transaction.adapter";
 import { useNavigate } from "react-router-dom";
 import { useTxDialogStore } from "@/store/useTxDialogStore";
+import { useMergeTxStore } from "@/store/useMergeTxStore";
 
 type UpdateTxProps = {
   txId: string;
@@ -14,12 +15,13 @@ type UpdateTxProps = {
 
 export type MergeTxProps = {
   ids: string[];
-  payload: TxForm;
+  mergedTx: TxForm & { symbol: string };
 };
 
 export function useTransactions() {
   const { portfolioName } = useParams<RouteParams>();
-  const { close } = useTxDialogStore();
+  const closeDialog = useTxDialogStore((s) => s.close);
+  const closeMerge = useMergeTxStore((s) => s.closeMerge);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -30,7 +32,7 @@ export function useTransactions() {
     },
     onSuccess: () => {
       setTimeout(() => {
-        close();
+        closeDialog();
       }, 1150);
 
       queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
@@ -46,7 +48,7 @@ export function useTransactions() {
       console.log(response.data);
 
       setTimeout(() => {
-        close();
+        closeDialog();
       }, 1150);
 
       queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
@@ -63,7 +65,7 @@ export function useTransactions() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
       setTimeout(() => {
-        close();
+        closeDialog();
         navigate(`/dashboard/${portfolioName}/coins/${variables.coin.symbol.toUpperCase()}`);
       }, 1150);
     },
@@ -75,10 +77,11 @@ export function useTransactions() {
       return txServise.mergeTransaction(portfolioName, payload);
     },
     onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
-      // setTimeout(() => {
-      //   close();
-      // }, 1150);
+      closeMerge();
+      queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
+      setTimeout(() => {
+        closeDialog();
+      }, 1150);
     },
   });
 

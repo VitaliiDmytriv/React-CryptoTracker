@@ -5,6 +5,7 @@ import { useMergedTx } from "./useMergedTx";
 export function useMergedInitialData(defaultData: TransactionWithCoin) {
   const { data: coin } = useCoin();
   const txName = coin?.transactions[0].coin.name;
+  const symbol = coin?.transactions[0].coin.symbol;
 
   const mergedTx = useMergedTx(coin?.transactions || []);
 
@@ -14,6 +15,7 @@ export function useMergedInitialData(defaultData: TransactionWithCoin) {
     coin: {
       ...defaultData.coin,
       name: txName || "merging",
+      symbol: symbol || "",
     },
   };
 

@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { Transaction } from "../types/global";
 import { prisma } from "../../prisma";
-import { createTxApi, updTxApi } from "../schemas/transactions.schema";
+import { createTxApi, mergeTxApi, updTxApi } from "../schemas/transactions.schema";
 import { transactionService } from "../services/transaction.service";
 import { coinService } from "../services/coin.service";
 import { portfolioService } from "../services/portfolio.service";
 import { Portfolio } from "@prisma/client";
-import { coinFull } from "../types/selections";
+import { coinFull, coinSelectBase } from "../types/selections";
 import { createBaseCoin } from "../domain/coins";
 import { prepareNewTx } from "../domain/transactions/prepareNewTx";
 
@@ -17,9 +17,12 @@ export async function handleTransactionAction(req: Request, res: Response) {
       case "edit":
         await updateTransaction(req, res);
         break;
-      // case "merge":
-      //   await mergeTransaction(req, res);
-      //   break;
+      case "add":
+        await createTransaction(req, res);
+        break;
+      case "merge":
+        await mergeTransaction(req, res);
+        break;
       // case "split":
       //   await splitTransaction(req, res);
       //   break;
@@ -95,6 +98,39 @@ export async function deleteTransaction(req: Request, res: Response) {
 
     res.json({ deletedTransaction });
     // res.json({ updateTx });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+}
+
+export async function mergeTransaction(req: Request, res: Response) {
+  try {
+    const { payload } = req.body as mergeTxApi;
+    const { id: portfolioId } = req.portfolio as Portfolio;
+    const { mergedTx, ids } = payload;
+
+    const coin = await coinService.getBySymbol(
+      portfolioId,
+      mergedTx.symbol.toUpperCase(),
+      coinSelectBase,
+    );
+
+    if (!coin) {
+      return res.status(404).json({ error: "No such coin, please try again" });
+    }
+
+    const transaction = prepareNewTx(mergedTx, coin.id);
+
+    await prisma.$transaction(async (tx) => {
+      await transactionService.deleteManyTx(ids, tx);
+      await transactionService.addTx(transaction, tx);
+
+      await coinService.recalculateStats(coin.id, tx);
+      await portfolioService.recalculateStats(portfolioId, tx);
+    });
+
+    res.json({ ok: true });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });

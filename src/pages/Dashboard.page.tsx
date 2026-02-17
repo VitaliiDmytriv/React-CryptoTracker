@@ -15,7 +15,7 @@ export default function Dashboard() {
     <>
       <h1>Dashboard Page</h1>
       <div>{user?.userName}</div>
-      <div className="border rounded-md min-h-[80vh]">
+      <div className="border rounded-md min-h-[80vh] shadow-around">
         <DashboardAssets onRowClick={onRowClick} />
       </div>
     </>

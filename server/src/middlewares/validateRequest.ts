@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createTxSchema, updTxSchema } from "../schemas/transactions.schema";
+import { createTxSchema, updTxSchema, mergeTxSchema } from "../schemas/transactions.schema";
 
 export function validateTxPayload(req: Request, res: Response, next: NextFunction) {
   try {
@@ -20,9 +20,9 @@ export function validateTxPayload(req: Request, res: Response, next: NextFunctio
       // case "split":
       //   splitTxSchema.parse(req.body);
       //   break;
-      // case "merge":
-      //   mergeTxSchema.parse(req.body);
-      //   break;
+      case "merge":
+        schema = mergeTxSchema;
+        break;
       default:
         throw new Error("Unknown action");
     }
