@@ -45,13 +45,13 @@ export function useTransactions() {
       return txServise.deleteTransaction(portfolioName, txId);
     },
     onSuccess: (response) => {
-      console.log(response.data);
-
+      if (response.isCoinDeleted) {
+        navigate(`/dashboard/${portfolioName}`);
+      }
       setTimeout(() => {
         closeDialog();
+        queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
       }, 1150);
-
-      queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
     },
   });
 

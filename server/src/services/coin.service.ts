@@ -30,6 +30,12 @@ export const coinService = {
     });
   },
 
+  deleteCoin: async (id: string, tx: Prisma.TransactionClient) => {
+    return await tx.coin.delete({
+      where: { id },
+    });
+  },
+
   recalculateStats: async (coinId: string, tx: Prisma.TransactionClient) => {
     const transactions = await tx.transaction.findMany({
       where: { coinId },

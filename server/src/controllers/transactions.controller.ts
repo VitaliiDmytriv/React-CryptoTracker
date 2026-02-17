@@ -89,14 +89,19 @@ export async function deleteTransaction(req: Request, res: Response) {
     const { id: txId, coinId } = req.transaction as Transaction;
     const { id: portfolioId } = req.portfolio as Portfolio;
 
-    let deletedTransaction = null;
+    let remainingCount = null;
     await prisma.$transaction(async (tx) => {
-      deletedTransaction = await transactionService.deleteTx(txId, tx);
-      await coinService.recalculateStats(coinId, tx);
+      await transactionService.deleteTx(txId, tx);
+      remainingCount = await transactionService.getCountByCoinId(coinId, tx);
+      if (remainingCount === 0) {
+        await coinService.deleteCoin(coinId, tx);
+      } else {
+        await coinService.recalculateStats(coinId, tx);
+      }
       await portfolioService.recalculateStats(portfolioId, tx);
     });
 
-    res.json({ deletedTransaction });
+    res.json({ isCoinDeleted: remainingCount === 0 });
     // res.json({ updateTx });
   } catch (err) {
     console.error(err);

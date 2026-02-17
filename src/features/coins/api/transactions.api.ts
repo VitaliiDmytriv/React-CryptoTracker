@@ -13,7 +13,10 @@ export async function updateTransaction(portfolioName: string, txId: string, pay
 }
 
 export async function deleteTransaction(portfolioName: string, txId: string) {
-  return api.delete(portfolioEndpoints.txDelete(portfolioName, txId));
+  const response = await api.delete<{ isCoinDeleted: boolean }>(
+    portfolioEndpoints.txDelete(portfolioName, txId),
+  );
+  return response.data; // <--- Повертаємо лише дані
 }
 
 export async function createTransaction(portfolioName: string, payload: CreateTxApi) {

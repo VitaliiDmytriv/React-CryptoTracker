@@ -63,4 +63,10 @@ export const transactionService = {
       data: transaction,
     });
   },
+
+  getCountByCoinId: async (coinId: string, tx: Prisma.TransactionClient) => {
+    return await tx.transaction.count({
+      where: { coinId },
+    });
+  },
 };
