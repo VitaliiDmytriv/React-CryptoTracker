@@ -2,6 +2,7 @@ import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "@/routes/AppRoutes";
 import { AuthProvider } from "./features/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const queryClient = new QueryClient();
 
@@ -11,7 +12,9 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <BrowserRouter>
-            <AppRoutes />
+            <TooltipProvider>
+              <AppRoutes />
+            </TooltipProvider>
           </BrowserRouter>
         </AuthProvider>
       </QueryClientProvider>

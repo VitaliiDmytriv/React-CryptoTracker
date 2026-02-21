@@ -24,11 +24,11 @@ type Props = {
 
 export function TransactionForm({
   form,
-  onSubmit,
   mode,
   isLoading,
   isSuccess,
   onDelete,
+  onSubmit,
   onSelectCoin,
 }: Props) {
   const config = MODE_CONFIG[mode];
