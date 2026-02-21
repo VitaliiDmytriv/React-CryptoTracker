@@ -2,7 +2,7 @@ import type { RouteParams } from "@/types/global";
 import * as txServise from "../api/transactions.api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { portfolioKeys } from "@/lib/queryKeys";
-import type { TxForm } from "../utils/transaction.schema";
+import type { TxForm, txSplited } from "../utils/transaction.schema";
 import type { CreateTxApi } from "../utils/transaction.adapter";
 import { useNavigate } from "react-router-dom";
 import { useTxDialogStore } from "@/store/useTxDialogStore";
@@ -16,6 +16,12 @@ type UpdateTxProps = {
 export type MergeTxProps = {
   ids: string[];
   mergedTx: TxForm & { symbol: string };
+};
+
+export type SplitTxProps = {
+  txId: string;
+  originalAmount: string;
+  splited: txSplited;
 };
 
 export function useTransactions() {
@@ -85,10 +91,25 @@ export function useTransactions() {
     },
   });
 
+  const splitMutation = useMutation({
+    mutationFn: (payload: SplitTxProps) => {
+      if (!portfolioName) throw new Error("Missing params");
+      return txServise.splitTransaction(portfolioName, payload);
+    },
+    onSuccess: () => {
+      closeMerge();
+      queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
+      setTimeout(() => {
+        closeDialog();
+      }, 1150);
+    },
+  });
+
   return {
     updateMutation,
     deleteMutation,
     createMutation,
     mergeMutation,
+    splitMutation,
   };
 }

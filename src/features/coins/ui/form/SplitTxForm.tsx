@@ -1,20 +1,23 @@
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-
 import { formatMoney } from "@/lib/format";
 import type { TransactionWithCoin } from "@/types/global";
 import Decimal from "decimal.js";
-import { preventNonNumericInput } from "../../utils/helpFunctions";
+import { preventNonNumericInput, safeValidateSplitTxs } from "../../utils/helpFunctions";
 import { cn } from "@/lib/utils";
 import { Root, Track, Range, Thumb } from "@radix-ui/react-slider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { useTransactions } from "../../hooks/useTransactions";
+import { FormActionOverlay } from "./FormActionOverlay";
 
 type Props = {
   transaction: TransactionWithCoin;
 };
 
 export function SplitTxForm({ transaction }: Props) {
+  const { splitMutation } = useTransactions();
   const total = new Decimal(transaction.quantity);
 
   const [splitAmount, setSplitAmount] = useState(() => total.div(2));
@@ -55,8 +58,29 @@ export function SplitTxForm({ transaction }: Props) {
     return splitAmount.mul(sellPrice).minus(totalSpentSplit).toString();
   }
 
+  async function handleSubmit() {
+    const splited = {
+      quantity: splitAmount.toString(),
+      pricePerCoinSold: sellPrice.toString(),
+    };
+
+    const result = safeValidateSplitTxs(originalAmount.toString(), splited, transaction.quantity);
+
+    if (!result.success) {
+      toast.error(result.message);
+      return;
+    }
+
+    await splitMutation.mutateAsync({
+      originalAmount: originalAmount.toString(),
+      splited,
+      txId: transaction.id,
+    });
+  }
+
   return (
-    <div className="w-full flex flex-col h-full">
+    <div className="w-full flex flex-col h-full relative">
+      <FormActionOverlay isLoading={splitMutation.isPending} isSuccess={splitMutation.isSuccess} />
       <div className="flex-1">
         <div className="grid grid-cols-2 gap-1 gap-y-2 items-center">
           <div className="col-span-full py-4 relative">
@@ -148,7 +172,9 @@ export function SplitTxForm({ transaction }: Props) {
         </div>
       </div>
       <div>
-        <Button className="w-full">Split</Button>
+        <Button onClick={handleSubmit} className="w-full">
+          Split
+        </Button>
       </div>
     </div>
   );

@@ -29,4 +29,5 @@ export const ACTIONS = {
   add: "add" as const,
   edit: "edit" as const,
   merge: "merge" as const,
+  split: "split" as const,
 };

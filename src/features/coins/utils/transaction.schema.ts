@@ -1,7 +1,7 @@
 import { z } from "zod";
 import Decimal from "decimal.js";
 
-function zRequiredDecimalString() {
+export function zRequiredDecimalString() {
   return z
     .string()
     .trim()
@@ -41,4 +41,10 @@ export const txSchema = z.object({
   name: z.string().min(1, { message: "Please select a coin" }),
 });
 
+export const txSplitedSchema = z.object({
+  quantity: zRequiredDecimalString(),
+  pricePerCoinSold: zOptionalDecimalString(),
+});
+
 export type TxForm = z.input<typeof txSchema>;
+export type txSplited = z.input<typeof txSplitedSchema>;
