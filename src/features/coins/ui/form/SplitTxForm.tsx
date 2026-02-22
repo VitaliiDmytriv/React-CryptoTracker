@@ -81,7 +81,14 @@ export function SplitTxForm({ transaction }: Props) {
   return (
     <div className="w-full flex flex-col h-full relative">
       <FormActionOverlay isLoading={splitMutation.isPending} isSuccess={splitMutation.isSuccess} />
-      <div className="flex-1">
+      <div
+        className={cn(
+          "flex-1",
+          splitMutation.isPending || splitMutation.isSuccess
+            ? " opacity-55 pointer-events-none"
+            : "",
+        )}
+      >
         <div className="grid grid-cols-2 gap-1 gap-y-2 items-center">
           <div className="col-span-full py-4 relative">
             <div className="absolute flex justify-between w-full top-1/2 -translate-y-1/2 left-0">

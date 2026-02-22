@@ -7,6 +7,8 @@ import type { CreateTxApi } from "../utils/transaction.adapter";
 import { useNavigate } from "react-router-dom";
 import { useTxDialogStore } from "@/store/useTxDialogStore";
 import { useMergeTxStore } from "@/store/useMergeTxStore";
+import type { AxiosError } from "axios";
+import { toast } from "sonner";
 
 type UpdateTxProps = {
   txId: string;
@@ -43,6 +45,9 @@ export function useTransactions() {
 
       queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
     },
+    onError: (error: AxiosError<{ message: string }>) => {
+      toast.error(error.response?.data.message ?? "Something went wrong");
+    },
   });
 
   const deleteMutation = useMutation({
@@ -58,6 +63,9 @@ export function useTransactions() {
         closeDialog();
         queryClient.invalidateQueries({ queryKey: portfolioKeys.byName(portfolioName!) });
       }, 1150);
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      toast.error(error.response?.data.message ?? "Something went wrong");
     },
   });
 
@@ -75,6 +83,9 @@ export function useTransactions() {
         navigate(`/dashboard/${portfolioName}/coins/${variables.coin.symbol.toUpperCase()}`);
       }, 1150);
     },
+    onError: (error: AxiosError<{ message: string }>) => {
+      toast.error(error.response?.data.message ?? "Something went wrong");
+    },
   });
 
   const mergeMutation = useMutation({
@@ -89,6 +100,9 @@ export function useTransactions() {
         closeDialog();
       }, 1150);
     },
+    onError: (error: AxiosError<{ message: string }>) => {
+      toast.error(error.response?.data.message ?? "Something went wrong");
+    },
   });
 
   const splitMutation = useMutation({
@@ -102,6 +116,9 @@ export function useTransactions() {
       setTimeout(() => {
         closeDialog();
       }, 1150);
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      toast.error(error.response?.data.message ?? "Something went wrong");
     },
   });
 

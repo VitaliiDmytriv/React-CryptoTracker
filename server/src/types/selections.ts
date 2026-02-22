@@ -100,3 +100,11 @@ export const transactionFull = {
   pricePerCoinSold: true,
   profit: true,
 } satisfies Prisma.TransactionSelect;
+
+export const transactionDecimals = {
+  coinId: true,
+  fees: true,
+  pricePerCoinBought: true,
+  quantity: true,
+  pricePerCoinSold: true,
+} satisfies Prisma.TransactionSelect;

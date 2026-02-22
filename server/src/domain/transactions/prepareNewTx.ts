@@ -1,6 +1,6 @@
 import { TxDecimalFields } from "../../types/global";
 import { calcTxStats } from "./calcTxStats";
-import { parseTxDecimals } from "./parseTxDecimals";
+import { parseTxDecimals } from "./parseTx";
 import { buildTx } from "./buildTx";
 import { v4 as uuidv4 } from "uuid";
 

@@ -74,6 +74,19 @@ export const mergeTxSchema = z.object({
   }),
 });
 
+export const splitTxSchema = z.object({
+  action: z.literal("split"),
+  payload: z.object({
+    originalAmount: zRequiredDecimalString(),
+    txId: z.string(),
+    splited: z.object({
+      quantity: zRequiredDecimalString(),
+      pricePerCoinSold: zOptionalDecimalString(),
+    }),
+  }),
+});
+
 export type updTxApi = z.input<typeof updTxSchema>;
 export type createTxApi = z.input<typeof createTxSchema>;
 export type mergeTxApi = z.input<typeof mergeTxSchema>;
+export type splitTxApi = z.input<typeof splitTxSchema>;

@@ -1,4 +1,4 @@
-import { parseTxDecimalsType } from "./parseTxDecimals";
+import { parseTxDecimalsType } from "./parseTx";
 
 export function calcTxStats(payload: parseTxDecimalsType) {
   const totalSpent = payload.quantity.mul(payload.pxBought);

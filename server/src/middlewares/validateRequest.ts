@@ -1,5 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { createTxSchema, updTxSchema, mergeTxSchema } from "../schemas/transactions.schema";
+import {
+  createTxSchema,
+  updTxSchema,
+  mergeTxSchema,
+  splitTxSchema,
+} from "../schemas/transactions.schema";
 
 export function validateTxPayload(req: Request, res: Response, next: NextFunction) {
   try {
@@ -17,9 +22,9 @@ export function validateTxPayload(req: Request, res: Response, next: NextFunctio
       case "add":
         schema = createTxSchema;
         break;
-      // case "split":
-      //   splitTxSchema.parse(req.body);
-      //   break;
+      case "split":
+        schema = splitTxSchema;
+        break;
       case "merge":
         schema = mergeTxSchema;
         break;
@@ -31,7 +36,7 @@ export function validateTxPayload(req: Request, res: Response, next: NextFunctio
 
     if (!result.success) {
       return res.status(400).json({
-        errors: result.error.flatten(),
+        message: result.error.issues[0].message,
       });
     }
 
