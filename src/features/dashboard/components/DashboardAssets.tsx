@@ -1,18 +1,16 @@
-import { usePortfolio } from "@/hooks/usePortfolio";
 import AssetsTable from "./AssetsTable";
-import type { CoinShort } from "@/types/global";
+import type { CoinShort, Portfolio } from "@/types/global";
 
 type Props = {
   onRowClick: (coin: CoinShort) => void;
+  data: Portfolio<CoinShort> | undefined;
+  isLoading: boolean;
 };
 
-export function DashboardAssets({ onRowClick }: Props) {
-  const { data, isLoading } = usePortfolio();
-
+export function DashboardAssets({ onRowClick, data, isLoading }: Props) {
   return (
     <>
       <AssetsTable isLoading={isLoading} data={data?.coins ?? []} onRowClick={onRowClick} />
-      {/* <AssetsTable isLoading={true} data={[]} onRowClick={onRowClick} /> */}
     </>
   );
 }

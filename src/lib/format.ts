@@ -24,7 +24,7 @@ export const formatPrice = (value: string | null) => {
   let maxFractionDigits = 2;
 
   if (number < 1 && number > 0) {
-    maxFractionDigits = 8; // дрібні токени
+    maxFractionDigits = 6; // дрібні токени
   } else if (number < 10) {
     maxFractionDigits = 4; // середні
   } // else залишаємо 2

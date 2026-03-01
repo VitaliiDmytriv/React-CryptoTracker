@@ -16,7 +16,7 @@ export const portfolioService = {
   },
 
   recalculateStats: async (id: string, tx: Prisma.TransactionClient) => {
-    const coins = await tx.coin.findMany({ where: { id } });
+    const coins = await tx.coin.findMany({ where: { portfolioId: id } });
     const stats = calcPortfolioStats(coins);
 
     await tx.portfolio.update({

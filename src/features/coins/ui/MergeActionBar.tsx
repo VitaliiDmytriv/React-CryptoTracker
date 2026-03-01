@@ -13,6 +13,7 @@ type Props = {
 export function MergeActionBar({ transactions }: Props) {
   const txMergeInfo = useMergeTxStore((s) => s.txMergeInfo) as CoinInfoForTx;
   const rowSelection = useMergeTxStore((s) => s.rowSelection);
+  const isOpenMerge = useMergeTxStore((s) => s.isOpenMerge);
   const openDialog = useTxDialogStore((s) => s.open);
 
   function handleMergeClick() {
@@ -26,8 +27,10 @@ export function MergeActionBar({ transactions }: Props) {
     });
   }
 
+  if (!isOpenMerge) return null;
+
   return (
-    <div className="absolute bottom-0 border left-0 right-0 p-2 rounded-md shadow-around">
+    <div className="sticky bg-background bottom-0 border left-0 right-0 p-2 mt-3 rounded-md shadow-around">
       <div className="flex items-center justify-between">
         <div>
           <CointItem
