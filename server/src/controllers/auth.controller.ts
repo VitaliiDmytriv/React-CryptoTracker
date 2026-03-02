@@ -25,3 +25,17 @@ export async function loginUser(req: Request, res: Response) {
     res.status(500).json({ error: "Server error" });
   }
 }
+
+export function logOutUser(req: Request, res: Response) {
+  try {
+    res.cookie("token", "", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 0,
+    });
+    res.json({ ok: true });
+  } catch {
+    res.status(500).json({ error: "Server error" });
+  }
+}

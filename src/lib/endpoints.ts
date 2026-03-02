@@ -1,5 +1,6 @@
 export const authEndpoints = {
   login: "/auth/login" as const,
+  logout: "/auth/logout" as const,
 };
 
 export const userEndpoints = {

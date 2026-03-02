@@ -30,7 +30,6 @@ export default function Coin() {
 
   return (
     <div className="relative">
-      Transactions
       <CoinIdentityBar coin={coin} />
       <StatsList data={coin} isLoading={isLoading} showAvgPrice={true} />
       <EntityListHeader title="Transactions" isMerge={true} />

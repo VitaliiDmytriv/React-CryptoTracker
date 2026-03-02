@@ -16,3 +16,7 @@ export async function login(formData: LoginData) {
   const response: AxiosResponse<LoginResponse> = await api.post(authEndpoints.login, formData);
   return response.data.user;
 }
+
+export async function logout() {
+  return await api.post<AxiosResponse<{ ok: true }>>(authEndpoints.logout);
+}

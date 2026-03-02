@@ -12,17 +12,17 @@ export function CoinIdentityBar({ coin }: Props) {
   return (
     <div className="my-2">
       {coin ? (
-        <div className="flex gap-5">
+        <div className="flex gap-2 sm:gap-4">
           <Button variant={"link"} className="p-1 h-auto" asChild>
             <Link to={"/dashboard/main"}>
               <ChevronLeft size="20" stroke-width="1.5" />
-              <span>Back</span>
+              <span className="hidden sm:inline">Back</span>
             </Link>
           </Button>
           <CointItem image={coin.image} name={coin.name} symbol={coin.symbol} />
         </div>
       ) : (
-        <Skeleton className="h-7 w-48" />
+        <Skeleton className="h-6 sm:h-7 w-48" />
       )}
     </div>
   );

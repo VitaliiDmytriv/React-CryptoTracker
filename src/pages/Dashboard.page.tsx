@@ -15,8 +15,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <h1>Dashboard Page</h1>
-      <div className="my-2 h-7 font-bold">Stats</div>
+      <div className="my-2 h-7 font-bold capitalize">Portfolio: {portfolioName}</div>
       <StatsList data={data} isLoading={isLoading} showAvgPrice={false} />
       <EntityListHeader title="Assets" isMerge={false} />
       <div className="border rounded-md min-h-[80vh] shadow-around">
