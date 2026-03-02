@@ -33,7 +33,7 @@ async function fetchCoins(search: string) {
     return coinsData.slice(0, 50);
   }
 
-  await new Promise((res) => setTimeout(res, 400));
+  await new Promise((res) => setTimeout(res, 0));
 
   return coinsData
     .filter((coin) => fuzzyMatch(coin.name, q) || fuzzyMatch(coin.symbol, q))
@@ -66,7 +66,7 @@ export function CoinSelect({ onSelectFn }: Props) {
   return (
     <Popover modal={true} open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div className="flex items-center h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors  md:text-sm">
+        <div className="flex items-center h-9 w-full rounded-md border border-input bg-transparent dark:bg-foreground/[.01] px-3 py-1 text-base shadow-sm transition-colors  md:text-sm">
           {!open &&
             (selectedCoin ? (
               <CointItem
@@ -79,8 +79,8 @@ export function CoinSelect({ onSelectFn }: Props) {
             ))}
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-[var(--radix-popover-trigger-width)] h-[calc(var(--radix-popover-content-available-height)_*_0.5)] ">
-        <Command shouldFilter={false}>
+      <PopoverContent className=" w-[var(--radix-popover-trigger-width)] h-[calc(var(--radix-popover-content-available-height)_*_0.5)] ">
+        <Command className="dark:bg-foreground/[.01]" shouldFilter={false}>
           <CommandInput value={query} onValueChange={setQuery} placeholder="Search coin..." />
           <CommandList>
             {isFetching && coins.length === 0 ? (

@@ -3,6 +3,7 @@ import AppRoutes from "@/routes/AppRoutes";
 import { AuthProvider } from "./features/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 const queryClient = new QueryClient();
 
@@ -12,9 +13,11 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <BrowserRouter>
-            <TooltipProvider>
-              <AppRoutes />
-            </TooltipProvider>
+            <ThemeProvider>
+              <TooltipProvider>
+                <AppRoutes />
+              </TooltipProvider>
+            </ThemeProvider>
           </BrowserRouter>
         </AuthProvider>
       </QueryClientProvider>

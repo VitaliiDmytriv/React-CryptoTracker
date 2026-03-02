@@ -11,9 +11,10 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useLogout } from "@/features/auth/hooks/useLogout";
+import { useTheme } from "@/hooks/useTheme";
 
 export function DropdownMenuHeader() {
-  const [theme, setTheme] = useState("light");
+  const { setTheme, theme } = useTheme();
   const { handleLogout } = useLogout();
 
   return (
@@ -32,16 +33,16 @@ export function DropdownMenuHeader() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-          <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-            <DropdownMenuRadioItem value="light">
+          <DropdownMenuRadioGroup value={theme}>
+            <DropdownMenuRadioItem onSelect={() => setTheme("light")} value="light">
               <SunIcon />
               Light
             </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="dark">
+            <DropdownMenuRadioItem onSelect={() => setTheme("dark")} value="dark">
               <MoonIcon />
               Dark
             </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="system">
+            <DropdownMenuRadioItem onSelect={() => setTheme("system")} value="system">
               <MonitorIcon />
               System
             </DropdownMenuRadioItem>

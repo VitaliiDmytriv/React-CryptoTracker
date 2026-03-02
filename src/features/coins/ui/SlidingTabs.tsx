@@ -11,7 +11,7 @@ export function SlidingTabs({ children, viewFirst, viewSecond }: Props) {
   return (
     <div className="overflow-hidden w-full">
       {/* Окремий компонент */}
-      <div className="flex border rounded-sm text-center cursor-pointer relative mb-2">
+      <div className="flex border dark:bg-foreground/[.01] rounded-sm text-center cursor-pointer relative mb-2">
         <div
           className={cn(
             "absolute top-0 bottom-0 w-1/2 bg-primary transition-transform duration-300 ease-in-out rounded-sm",
@@ -20,13 +20,19 @@ export function SlidingTabs({ children, viewFirst, viewSecond }: Props) {
         ></div>
         <div
           onClick={() => setSwitcher(false)}
-          className={cn("flex-1 z-10 transition-colors duration-100", !switcher && "text-white")}
+          className={cn(
+            "flex-1 z-10 transition-colors duration-100",
+            !switcher && "text-background",
+          )}
         >
           {viewFirst}
         </div>
         <div
           onClick={() => setSwitcher(true)}
-          className={cn("flex-1 z-10 transition-colors duration-100", switcher && "text-white")}
+          className={cn(
+            "flex-1 z-10 transition-colors duration-100",
+            switcher && "text-background",
+          )}
         >
           {viewSecond}
         </div>
