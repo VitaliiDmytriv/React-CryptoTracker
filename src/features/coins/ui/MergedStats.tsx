@@ -17,7 +17,7 @@ export function MergedStats({ transactions }: Props) {
         <span>Quantity:</span>
         <div className="">
           {formatQuantity(stats.quantity)}{" "}
-          <span className="text-[#808a9d] font-light text-xs ml-1">{txMergeInfo.symbol}</span>
+          <span className="text-tertiary font-light text-xs ml-1">{txMergeInfo.symbol}</span>
         </div>
       </div>
       <div className="min-w-[30%]">

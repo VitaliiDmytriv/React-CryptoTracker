@@ -33,7 +33,7 @@ async function fetchCoins(search: string) {
     return coinsData.slice(0, 50);
   }
 
-  await new Promise((res) => setTimeout(res, 0));
+  // await new Promise((res) => setTimeout(res, 0));
 
   return coinsData
     .filter((coin) => fuzzyMatch(coin.name, q) || fuzzyMatch(coin.symbol, q))

@@ -52,7 +52,7 @@ export function TransactionsTable({ transactions, onRowClick, isLoading }: Props
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <TableHead className="align-middle text-center" key={header.id}>
-                  <div className="min-w-[70px]">
+                  <div className="min-w-[70px] text-tertiary">
                     {flexRender(header.column.columnDef.header, header.getContext())}
                   </div>
                 </TableHead>

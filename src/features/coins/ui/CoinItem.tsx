@@ -15,7 +15,7 @@ export function CointItem({ image, name, symbol }: Props) {
           <span>{name}</span>
         </p>
       </div>
-      <p className="uppercase truncate text-[#808a9d] shrink-0 mr-3">{symbol}</p>
+      <p className="uppercase truncate text-tertiary shrink-0 mr-3">{symbol}</p>
     </div>
   );
 }

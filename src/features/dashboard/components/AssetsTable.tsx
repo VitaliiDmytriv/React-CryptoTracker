@@ -36,11 +36,11 @@ export default function AssetsTable({ data, onRowClick, isLoading }: Props) {
                 className={cn(
                   " align-middle",
                   header.column.columnDef.meta?.align === "center" && "text-center",
-                  header.column.columnDef.meta?.align === "left" && "text-left"
+                  header.column.columnDef.meta?.align === "left" && "text-left",
                 )}
                 key={header.id}
               >
-                <div className="min-w-[70px]">
+                <div className="min-w-[70px] text-tertiary">
                   {flexRender(header.column.columnDef.header, header.getContext())}
                 </div>
               </TableHead>
@@ -60,7 +60,7 @@ export default function AssetsTable({ data, onRowClick, isLoading }: Props) {
                   className={cn(
                     " align-middle",
                     cell.column.columnDef.meta?.align === "center" && "text-center",
-                    cell.column.columnDef.meta?.align === "left" && "text-left"
+                    cell.column.columnDef.meta?.align === "left" && "text-left",
                   )}
                   onClick={() => onRowClick(row.original)}
                 >

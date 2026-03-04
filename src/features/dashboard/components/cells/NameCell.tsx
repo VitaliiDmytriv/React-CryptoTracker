@@ -11,7 +11,7 @@ export default function NameCell({ row }: CellContext<CoinShort, string>) {
       <div className="hidden md:block min-w-0 text-left">
         <p className="truncate">{name}</p>
       </div>
-      <p className="uppercase truncate text-[#808a9d] shrink-0">{symbol}</p>
+      <p className="uppercase truncate text-tertiary shrink-0">{symbol}</p>
     </div>
   );
 }
