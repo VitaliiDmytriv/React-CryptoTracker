@@ -6,6 +6,7 @@ import ProtectedLayout from "@/layout/ProtectedLayout";
 import Dashboard from "@/pages/Dashboard.page";
 import Coin from "@/pages/Coin.page";
 import { DashboardLayout } from "@/layout/DashboardLayout";
+import RegisterPage from "@/pages/auth/RegisterPage";
 
 export default function AppRoutes() {
   return (
@@ -13,6 +14,7 @@ export default function AppRoutes() {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Route>
       {/* protected */}
       <Route element={<ProtectedLayout />}>

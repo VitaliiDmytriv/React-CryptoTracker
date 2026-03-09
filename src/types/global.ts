@@ -1,3 +1,5 @@
+import type { FieldValues, Path } from "react-hook-form";
+
 export interface User {
   email: string;
   id: string;
@@ -90,3 +92,9 @@ export interface CoinGecko {
   total_supply: number;
   total_volume: number;
 }
+
+export type ApiError<T extends FieldValues> = {
+  message: string;
+  code?: string;
+  fields?: Partial<Record<Path<T>, string[]>>; // опційно для валідації
+};

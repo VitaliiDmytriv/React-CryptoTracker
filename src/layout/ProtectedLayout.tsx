@@ -1,7 +1,6 @@
 import SessionExpiredDialog from "@/components/dialogs/SessionExpiredDialog";
 import { TransactionDialog } from "@/components/TransactionDialog";
 import { useAuth } from "@/features/auth";
-import { Toaster } from "sonner";
 
 export default function ProtectedLayout() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -22,7 +21,6 @@ export default function ProtectedLayout() {
     <>
       <Outlet />
       <TransactionDialog />
-      <Toaster />
     </>
   );
 }

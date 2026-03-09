@@ -4,6 +4,7 @@ import type { AxiosResponse } from "axios";
 import api from "@/api/axios";
 import type { AuthMeResponse, LoginData, LoginResponse } from "../types/auth.type";
 import { authEndpoints, userEndpoints } from "@/lib/endpoints";
+import type { RegisterSchemaType } from "../utils/shcemas";
 
 export async function fetchCurrentUser(): Promise<User | null> {
   const response: AxiosResponse<AuthMeResponse> = await api.get(userEndpoints.me);
@@ -19,4 +20,8 @@ export async function login(formData: LoginData) {
 
 export async function logout() {
   return await api.post<AxiosResponse<{ ok: true }>>(authEndpoints.logout);
+}
+
+export async function register(registerData: RegisterSchemaType) {
+  return await api.post<{ ok: true }>(authEndpoints.register, registerData);
 }

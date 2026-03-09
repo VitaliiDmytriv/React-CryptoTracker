@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { authService } from "../services/auth.service";
+import { RegisterSchemaType } from "../schemas/auth.schema";
+import { userService } from "../services/user.service";
 
 type LoginData = {
   email: string;
@@ -38,4 +40,14 @@ export function logOutUser(req: Request, res: Response) {
   } catch {
     res.status(500).json({ error: "Server error" });
   }
+}
+
+export async function registerUser(req: Request, res: Response) {
+  const data = req.body as RegisterSchemaType;
+  const existingUser = await userService.getByEmail(data.email, { id: true });
+  if (existingUser) {
+    return res.status(400).json({ message: "Email already exists" });
+  }
+
+  res.json(data);
 }

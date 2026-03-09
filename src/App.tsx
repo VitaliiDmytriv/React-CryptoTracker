@@ -4,6 +4,7 @@ import { AuthProvider } from "./features/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ function App() {
             <ThemeProvider>
               <TooltipProvider>
                 <AppRoutes />
+                <Toaster />
               </TooltipProvider>
             </ThemeProvider>
           </BrowserRouter>

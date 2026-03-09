@@ -101,3 +101,10 @@ export type NewTx = {
   profit: string | null;
   date: Date;
 };
+
+// твій тип
+export interface ApiError {
+  message: string;
+  code?: string;
+  fields?: Record<string, string[] | undefined>;
+}
