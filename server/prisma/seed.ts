@@ -1,17 +1,13 @@
 import { prisma } from "../prisma";
 
-// prisma/seed.ts
-
 async function main() {
   console.log("Starting seed...");
 
-  // Очищення бази даних
   await prisma.transaction.deleteMany();
   await prisma.coin.deleteMany();
   await prisma.portfolio.deleteMany();
   await prisma.user.deleteMany();
 
-  // Створення користувача
   const user = await prisma.user.create({
     data: {
       id: "20dbe14c-641b-42fc-af7c-ac11be1b7c33",
@@ -21,249 +17,256 @@ async function main() {
     },
   });
 
-  console.log("User created:", user.userName);
-
-  // Створення портфоліо
   const portfolio = await prisma.portfolio.create({
     data: {
       portfolioName: "main",
       userId: user.id,
-      totalProfit: 29.1,
-      activeInvestment: 3238.8076940000005,
       currency: "USD",
+      totalProfit: 150.1886378,
+      activeInvestment: 2858.8421692,
     },
   });
 
-  console.log("Portfolio created:", portfolio.portfolioName);
+  console.log("User and portfolio created");
 
-  // Створення монет та транзакцій
+  /* ---------------- BNB ---------------- */
 
-  // XRP
-  const xrpCoin = await prisma.coin.create({
+  const bnb = await prisma.coin.create({
     data: {
-      portfolioId: portfolio.id,
-      name: "XRP",
-      symbol: "XRP",
-      image:
-        "https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442",
-      activeInvestment: 33.480000000000004,
-      avgPrice: 2.7900000000000005,
-      holdings: 12,
-      totalProfit: -2.8999999999999986,
-    },
-  });
-
-  await prisma.transaction.createMany({
-    data: [
-      {
-        coinId: xrpCoin.id,
-        quantity: 5,
-        pricePerCoinBought: 2.79,
-        totalSpent: 13.95,
-        date: new Date("2025-10-26"),
-      },
-      {
-        coinId: xrpCoin.id,
-        quantity: 1,
-        pricePerCoinBought: 2.79,
-        totalSpent: 2.79,
-        date: new Date("2025-10-26"),
-      },
-      {
-        coinId: xrpCoin.id,
-        quantity: 6,
-        pricePerCoinBought: 2.79,
-        totalSpent: 16.740000000000002,
-        pricePerCoinSold: 0,
-        date: new Date("2025-10-26"),
-      },
-      {
-        coinId: xrpCoin.id,
-        quantity: 5,
-        pricePerCoinBought: 2.79,
-        totalSpent: 13.95,
-        pricePerCoinSold: 3,
-        profit: 1.0500000000000007,
-        date: new Date("2025-10-27"),
-      },
-      {
-        coinId: xrpCoin.id,
-        quantity: 5,
-        pricePerCoinBought: 2.79,
-        totalSpent: 13.95,
-        pricePerCoinSold: 2,
-        profit: -3.9499999999999993,
-        date: new Date("2025-10-27"),
-      },
-    ],
-  });
-
-  console.log("XRP coin and transactions created");
-
-  // SOL
-  const solCoin = await prisma.coin.create({
-    data: {
-      portfolioId: portfolio.id,
-      name: "Solana",
-      symbol: "SOL",
-      image: "https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756",
-      activeInvestment: 394.394,
-      avgPrice: 197.00000000000003,
-      holdings: 2.002,
-      totalProfit: 32,
-    },
-  });
-
-  await prisma.transaction.createMany({
-    data: [
-      {
-        coinId: solCoin.id,
-        quantity: 0.5,
-        pricePerCoinBought: 183,
-        totalSpent: 91.5,
-        pricePerCoinSold: 210,
-        profit: 13.5,
-        date: new Date("2025-10-26"),
-      },
-      {
-        coinId: solCoin.id,
-        quantity: 0.5,
-        pricePerCoinBought: 183,
-        totalSpent: 91.5,
-        pricePerCoinSold: 220,
-        profit: 18.5,
-        date: new Date("2025-10-26"),
-      },
-      {
-        coinId: solCoin.id,
-        quantity: 2.002,
-        pricePerCoinBought: 197.00000000000003,
-        totalSpent: 394.394,
-        date: new Date("2025-11-24"),
-      },
-    ],
-  });
-
-  console.log("SOL coin and transactions created");
-
-  // BNB
-  const bnbCoin = await prisma.coin.create({
-    data: {
+      id: "b5a7e2d1-9540-470b-b455-2d7059bda1dc",
       portfolioId: portfolio.id,
       name: "BNB",
       symbol: "BNB",
       image: "https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970",
-      activeInvestment: 2677.1200000000003,
-      avgPrice: 2107.9685039370083,
-      holdings: 1.27,
-      totalProfit: 0,
+      activeInvestment: 891.0659,
+      avgPrice: 737.6373344370861,
+      holdings: 1.208,
+      totalProfit: 14.775,
     },
   });
 
   await prisma.transaction.createMany({
     data: [
       {
-        coinId: bnbCoin.id,
-        quantity: 0.06766000000000001,
+        coinId: bnb.id,
+        quantity: 0.15,
         pricePerCoinBought: 659,
-        totalSpent: 44.58794000000001,
+        fees: 0.1,
+        totalSpent: 98.85,
         date: new Date("2025-11-03"),
       },
       {
-        coinId: bnbCoin.id,
-        quantity: 0.00234,
-        pricePerCoinBought: 659,
-        totalSpent: 1.54206,
-        date: new Date("2025-11-03"),
+        coinId: bnb.id,
+        quantity: 0.05,
+        pricePerCoinBought: 755.19,
+        fees: 1,
+        totalSpent: 37.7595,
+        pricePerCoinSold: 800,
+        profit: 1.2405,
+        date: new Date("2026-02-11"),
       },
       {
-        coinId: bnbCoin.id,
-        quantity: 0.2,
-        pricePerCoinBought: 8332,
-        totalSpent: 1666.4,
-        pricePerCoinSold: 0,
-        date: new Date("2025-11-03"),
+        coinId: bnb.id,
+        quantity: 0.05,
+        pricePerCoinBought: 712.19,
+        totalSpent: 35.6095,
+        pricePerCoinSold: 800,
+        profit: 4.3905,
+        date: new Date("2026-02-14"),
       },
       {
-        coinId: bnbCoin.id,
+        coinId: bnb.id,
+        quantity: 0.048,
+        pricePerCoinBought: 623,
+        totalSpent: 29.904,
+        date: new Date("2026-02-13"),
+      },
+      {
+        coinId: bnb.id,
+        quantity: 0.072,
+        pricePerCoinBought: 623,
+        totalSpent: 44.856,
+        pricePerCoinSold: 750,
+        profit: 9.144,
+        date: new Date("2026-02-13"),
+      },
+      {
+        coinId: bnb.id,
+        quantity: 0.01,
+        pricePerCoinBought: 712.19,
+        totalSpent: 7.1219,
+        date: new Date("2026-02-14"),
+      },
+      {
+        coinId: bnb.id,
         quantity: 1,
-        pricePerCoinBought: 964.59,
-        totalSpent: 964.59,
-        date: new Date("2025-11-03"),
+        pricePerCoinBought: 755.19,
+        totalSpent: 755.19,
+        date: new Date("2026-03-02"),
       },
     ],
   });
 
-  console.log("BNB coin and transactions created");
+  console.log("BNB created");
 
-  // DOGE
-  const dogeCoin = await prisma.coin.create({
+  /* ---------------- BTC ---------------- */
+
+  const btc = await prisma.coin.create({
     data: {
-      portfolioId: portfolio.id,
-      name: "Dogecoin",
-      symbol: "DOGE",
-      image: "https://coin-images.coingecko.com/coins/images/5/large/dogecoin.png?1696501409",
-      activeInvestment: 50.598254,
-      avgPrice: 0.226898,
-      holdings: 223,
-      totalProfit: 0,
-    },
-  });
-
-  await prisma.transaction.createMany({
-    data: [
-      {
-        coinId: dogeCoin.id,
-        quantity: 100,
-        pricePerCoinBought: 0.226898,
-        totalSpent: 22.689799999999998,
-        pricePerCoinSold: 0,
-        date: new Date("2025-11-03"),
-      },
-      {
-        coinId: dogeCoin.id,
-        quantity: 123,
-        pricePerCoinBought: 0.226898,
-        totalSpent: 27.908454,
-        date: new Date("2025-11-24"),
-      },
-    ],
-  });
-
-  console.log("DOGE coin and transactions created");
-
-  // BTC
-  const btcCoin = await prisma.coin.create({
-    data: {
+      id: "1f0ae6bb-d086-4f54-953a-844f17b0ce93",
       portfolioId: portfolio.id,
       name: "Bitcoin",
       symbol: "BTC",
       image: "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400",
-      activeInvestment: 83.21544,
-      avgPrice: 109494,
+      activeInvestment: 83.21468,
+      avgPrice: 109493,
       holdings: 0.00076,
+      totalProfit: 1.9048,
+    },
+  });
+
+  await prisma.transaction.createMany({
+    data: [
+      {
+        coinId: btc.id,
+        quantity: 0.00076,
+        pricePerCoinBought: 109493,
+        fees: 1,
+        totalSpent: 83.21468,
+        date: new Date("2025-11-06"),
+      },
+      {
+        coinId: btc.id,
+        quantity: 0.0008,
+        pricePerCoinBought: 77619,
+        totalSpent: 62.0952,
+        pricePerCoinSold: 80000,
+        profit: 1.9048,
+        date: new Date("2026-02-11"),
+      },
+    ],
+  });
+
+  console.log("BTC created");
+
+  /* ---------------- DOGE ---------------- */
+
+  const doge = await prisma.coin.create({
+    data: {
+      id: "4ae84fa5-86cb-4b66-af68-ef799bda2a98",
+      portfolioId: portfolio.id,
+      name: "Dogecoin",
+      symbol: "DOGE",
+      image: "https://coin-images.coingecko.com/coins/images/5/large/dogecoin.png?1696501409",
+      activeInvestment: 246.8456592,
+      avgPrice: 0.11752764302582464,
+      holdings: 2100.32,
       totalProfit: 0,
     },
   });
 
-  await prisma.transaction.create({
+  await prisma.transaction.createMany({
+    data: [
+      {
+        coinId: doge.id,
+        quantity: 100,
+        pricePerCoinBought: 0.226898,
+        fees: 0.1,
+        totalSpent: 22.6898,
+        date: new Date("2025-11-07"),
+      },
+      {
+        coinId: doge.id,
+        quantity: 2000.32,
+        pricePerCoinBought: 0.11206,
+        fees: 2,
+        totalSpent: 224.1558592,
+        date: new Date("2026-03-02"),
+      },
+    ],
+  });
+
+  console.log("DOGE created");
+
+  /* ---------------- ETH ---------------- */
+
+  const eth = await prisma.coin.create({
     data: {
-      coinId: btcCoin.id,
-      quantity: 0.00076,
-      pricePerCoinBought: 109494,
-      totalSpent: 83.21544,
-      date: new Date("2025-11-03"),
+      id: "97b03bfe-a9bb-4850-8541-41c97ecfd3a5",
+      portfolioId: portfolio.id,
+      name: "Ethereum",
+      symbol: "ETH",
+      image: "https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628",
+      activeInvestment: 608.29622,
+      avgPrice: 2321.741297709924,
+      holdings: 0.262,
+      totalProfit: 124.2488378,
     },
   });
 
-  console.log("BTC coin and transactions created");
+  await prisma.transaction.createMany({
+    data: [
+      {
+        coinId: eth.id,
+        quantity: 0.022,
+        pricePerCoinBought: 2287.61,
+        fees: 0.2,
+        totalSpent: 50.32742,
+        date: new Date("2026-02-03"),
+      },
+      {
+        coinId: eth.id,
+        quantity: 0.0165,
+        pricePerCoinBought: 2118.81,
+        totalSpent: 34.960365,
+        pricePerCoinSold: 2100,
+        profit: -0.310365,
+        date: new Date("2026-02-04"),
+      },
+      {
+        coinId: eth.id,
+        quantity: 5.00156,
+        pricePerCoinBought: 2324.87,
+        fees: 1.13,
+        totalSpent: 11627.9767972,
+        pricePerCoinSold: 2350,
+        profit: 124.5592028,
+        date: new Date("2026-02-15"),
+      },
+      {
+        coinId: eth.id,
+        quantity: 0.2,
+        pricePerCoinBought: 2324.87,
+        fees: 2.26,
+        totalSpent: 464.974,
+        date: new Date("2026-02-15"),
+      },
+      {
+        coinId: eth.id,
+        quantity: 0.03,
+        pricePerCoinBought: 2324.87,
+        totalSpent: 69.7461,
+        date: new Date("2026-02-15"),
+      },
+      {
+        coinId: eth.id,
+        quantity: 0.01,
+        pricePerCoinBought: 2324.87,
+        fees: 0.1,
+        totalSpent: 23.2487,
+        date: new Date("2026-03-01"),
+      },
+    ],
+  });
+
+  console.log("ETH created");
 
   console.log("Seed completed successfully!");
 }
 
 main()
   .catch((e) => {
-    console.error("Error during seed:", e);
+    console.error(e);
     process.exit(1);
   })
   .finally(async () => {
