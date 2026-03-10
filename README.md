@@ -45,6 +45,18 @@ A full-stack web application for tracking your cryptocurrency portfolio in real 
 
 ---
 
+## 📸 Screenshots
+
+| Dashboard                                      | Add Transaction                                           |
+| ---------------------------------------------- | --------------------------------------------------------- |
+| ![Dashboard](./docs/screenshots/dashboard.png) | ![Add Transaction](./docs/screenshots/addTransaction.png) |
+
+| Coin Details                                     | Coin Details Dark Merge                                              |
+| ------------------------------------------------ | -------------------------------------------------------------------- |
+| ![Coin Details](./docs/screenshots/coinPage.png) | ![Coin Details Dark Merge](./docs/screenshots/coinPageDarkMerge.png) |
+
+---
+
 ## 🏗️ Architecture Overview
 
 The project follows a feature-based architecture where each domain (auth, portfolio, transactions) owns its UI, hooks, API layer and types.
@@ -146,4 +158,4 @@ npm run dev
 
 - 💼 Multiple portfolios — users will be able to create and manage more than one portfolio
 - 📊 Portfolio valuation — calculate real-time portfolio value based on owned assets and market prices
-  📈 Profit charts — display detailed transaction tables and charts to track portfolio performance over time
+- 📈 Profit charts — display detailed transaction tables and charts to track portfolio performance over time
