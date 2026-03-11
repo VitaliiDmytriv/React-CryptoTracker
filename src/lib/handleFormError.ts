@@ -14,13 +14,20 @@ export function handleFormError<T extends FieldValues>({ error, setError, fieldO
 
   // Якщо повернувся об'єкт (валідні помилки полів)
   if (typeof parsed === "object") {
+    // якщо переданий fieldOrder
     if (fieldOrder) {
       const firstField = fieldOrder.find((field) => parsed[field]?.[0]);
+
+      if (parsed?.root) {
+        setError("root", { type: "server", message: parsed.root[0] });
+        return;
+      }
 
       if (firstField) {
         setError(firstField, { message: parsed[firstField]![0] });
         return;
       }
+      // якщо не передано fieldOrder, то встановлюємо помилки до всіх полів
     } else {
       for (const [key, value] of Object.entries(parsed)) {
         setError(key as Path<T>, { message: value?.[0] });

@@ -1,14 +1,15 @@
 import type { User } from "@/types/global";
 
-export type LoginData = {
-  email: string;
-  password: string;
-};
-
 export interface LoginResponse {
   user: User;
+  message: string;
 }
 
 export interface AuthMeResponse {
   user: User;
 }
+
+export type RegisterResponse = {
+  user: User;
+  message: string;
+};

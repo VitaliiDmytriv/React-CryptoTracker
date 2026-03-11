@@ -2,14 +2,9 @@
 import type { User } from "@/types/global";
 import type { AxiosResponse } from "axios";
 import api from "@/api/axios";
-import type { AuthMeResponse, LoginData, LoginResponse } from "../types/auth.type";
+import type { AuthMeResponse, LoginResponse, RegisterResponse } from "../types/auth.type";
 import { authEndpoints, userEndpoints } from "@/lib/endpoints";
-import type { RegisterSchemaType } from "../utils/shcemas";
-
-type SuccessRegister = {
-  user: User;
-  message: string;
-};
+import type { LoginSchemaType, RegisterSchemaType } from "../utils/shcemas";
 
 export async function fetchCurrentUser(): Promise<User | null> {
   const response: AxiosResponse<AuthMeResponse> = await api.get(userEndpoints.me);
@@ -18,9 +13,8 @@ export async function fetchCurrentUser(): Promise<User | null> {
   return response.data.user ?? null;
 }
 
-export async function login(formData: LoginData) {
-  const response: AxiosResponse<LoginResponse> = await api.post(authEndpoints.login, formData);
-  return response.data.user;
+export async function login(formData: LoginSchemaType) {
+  return await api.post<LoginResponse>(authEndpoints.login, formData);
 }
 
 export async function logout() {
@@ -28,5 +22,5 @@ export async function logout() {
 }
 
 export async function register(registerData: RegisterSchemaType) {
-  return await api.post<SuccessRegister>(authEndpoints.register, registerData);
+  return await api.post<RegisterResponse>(authEndpoints.register, registerData);
 }

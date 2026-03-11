@@ -4,8 +4,8 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterSchemaType } from "../utils/shcemas";
-import { fieldOrder } from "../utils/utils";
-import { useRegister } from "../hooks/useRegister";
+import { fieldOrderRegister } from "../utils/utils";
+import { useAuthMutations } from "../hooks/useAuthMutations";
 
 export function RegisterForm() {
   const { register, handleSubmit, formState, setError } = useForm<RegisterSchemaType>({
@@ -14,20 +14,22 @@ export function RegisterForm() {
     reValidateMode: "onBlur",
   });
 
-  const { register: submitRegister } = useRegister({ setError });
+  const { register: submitRegister } = useAuthMutations({ setError });
 
-  const firstFieldError = fieldOrder.map((field) => formState.errors[field]?.message).find(Boolean);
+  const firstFieldError = fieldOrderRegister
+    .map((field) => formState.errors[field]?.message)
+    .find(Boolean);
 
-  const firstErrorMessage = firstFieldError ?? formState.errors.root?.serverError?.message;
+  const firstErrorMessage = firstFieldError ?? formState.errors.root?.message;
 
-  async function submut(data: RegisterSchemaType) {
+  async function submit(data: RegisterSchemaType) {
     await submitRegister.mutateAsync(data);
   }
 
   return (
     <>
       <div className="h-64">
-        <form onSubmit={handleSubmit(submut)}>
+        <form onSubmit={handleSubmit(submit)}>
           <FieldGroup className="gap-3 mb-5">
             <Field className="gap-1">
               <FieldLabel className=" font-medium text-[#7d7a75] text-xs" htmlFor="email">

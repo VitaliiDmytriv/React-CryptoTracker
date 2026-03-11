@@ -2,16 +2,18 @@ import { z } from "zod";
 
 export const registerSchema = z
   .object({
-    email: z.string().min(1, "Email is required").email("Invalid email format"),
+    email: z.string().trim().min(1, "Email is required").email("Invalid email format"),
 
     name: z
       .string()
+      .trim()
       .min(1, "Name is required")
       .min(2, "Name must be at least 2 characters")
       .max(25),
 
     password: z
       .string()
+      .trim()
       .min(1, "Password is required")
       .min(6, "Password must be at least 6 characters"),
 
@@ -25,12 +27,13 @@ export const registerSchema = z
 export type RegisterSchemaType = z.infer<typeof registerSchema>;
 
 export const loginSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Invalid email format"),
+  email: z.string().trim().min(1, "Email is required").email({ message: "Invalid email format" }),
 
   password: z
     .string()
+    .trim()
     .min(1, "Password is required")
     .min(6, "Password must be at least 6 characters"),
 });
 
-export type loginSchemaType = z.infer<typeof loginSchema>;
+export type LoginSchemaType = z.infer<typeof loginSchema>;

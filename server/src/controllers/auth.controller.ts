@@ -16,7 +16,9 @@ export async function loginUser(req: Request, res: Response) {
     const { email, password } = req.body as LoginData;
     const result = await authService.login(email, password);
     if (!result) {
-      return res.status(401).json({ error: "Incorrect password or Email" });
+      return res
+        .status(401)
+        .json({ message: "login failed", fields: { root: ["Incorrect password or Email"] } });
     }
     res.cookie("token", result.token, {
       httpOnly: true,
@@ -41,7 +43,7 @@ export function logOutUser(req: Request, res: Response) {
     });
     res.json({ ok: true });
   } catch {
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ message: "Server error" });
   }
 }
 

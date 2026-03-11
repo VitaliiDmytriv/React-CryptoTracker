@@ -1,8 +1,10 @@
-import type { RegisterSchemaType } from "./shcemas";
+import type { LoginSchemaType, RegisterSchemaType } from "./shcemas";
 
-export const fieldOrder: (keyof RegisterSchemaType)[] = [
+export const fieldOrderRegister: (keyof RegisterSchemaType)[] = [
   "email",
   "name",
   "password",
   "confirmPassword",
 ];
+
+export const fieldOrderLogin: (keyof LoginSchemaType)[] = ["email", "password"];
