@@ -14,12 +14,12 @@ export default function PublicHeader() {
       </Link>
       <div>
         {isLoginVisible && (
-          <Button variant={"outline"} asChild>
+          <Button size={"sm"} variant={"outline"} asChild>
             <Link to={"/auth"}>Log in</Link>
           </Button>
         )}
         {isRegisterVisible && (
-          <Button className="ml-2" asChild>
+          <Button size={"sm"} className="ml-2" asChild>
             <Link to={"/register"}>Get Tracker Free</Link>
           </Button>
         )}

@@ -6,6 +6,11 @@ import type { AuthMeResponse, LoginData, LoginResponse } from "../types/auth.typ
 import { authEndpoints, userEndpoints } from "@/lib/endpoints";
 import type { RegisterSchemaType } from "../utils/shcemas";
 
+type SuccessRegister = {
+  user: User;
+  message: string;
+};
+
 export async function fetchCurrentUser(): Promise<User | null> {
   const response: AxiosResponse<AuthMeResponse> = await api.get(userEndpoints.me);
   console.log("result from fetchUser:", response.data.user);
@@ -23,5 +28,5 @@ export async function logout() {
 }
 
 export async function register(registerData: RegisterSchemaType) {
-  return await api.post<{ ok: true }>(authEndpoints.register, registerData);
+  return await api.post<SuccessRegister>(authEndpoints.register, registerData);
 }

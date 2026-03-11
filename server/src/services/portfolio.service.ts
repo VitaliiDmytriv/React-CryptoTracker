@@ -26,4 +26,16 @@ export const portfolioService = {
       },
     });
   },
+
+  create: async (name: string, userId: string, tx: Prisma.TransactionClient) => {
+    return await tx.portfolio.create({
+      data: {
+        portfolioName: name,
+        userId: userId,
+        currency: "USD",
+        totalProfit: 0,
+        activeInvestment: 0,
+      },
+    });
+  },
 };

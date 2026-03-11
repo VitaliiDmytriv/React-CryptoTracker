@@ -18,9 +18,9 @@ export default function ProtectedLayout() {
   }
 
   return (
-    <>
+    <div className="max-w-7xl m-auto">
       <Outlet />
       <TransactionDialog />
-    </>
+    </div>
   );
 }
