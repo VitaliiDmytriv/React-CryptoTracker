@@ -1,10 +1,11 @@
 import { useState } from "react";
-import type { CoinGecko, TransactionWithCoin } from "@/types/global";
+import type { TransactionWithCoin } from "@/types/global";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { txSchema, type TxForm } from "../utils/transaction.schema";
 import { useTransactions } from "./useTransactions";
 import { mapTxToCreate, transactionApiToForm } from "../utils/transaction.adapter";
+import type { CoinOption } from "../types/coin.types";
 
 type Props = {
   initialData: TransactionWithCoin;
@@ -21,14 +22,14 @@ export function useAddTxForm({ initialData }: Props) {
   const { createMutation } = useTransactions();
   const [coinDetails, setCoinDetails] = useState({ name: "", symbol: "", image: "" });
 
-  const onSelectCoin = (coin: CoinGecko) => {
+  const onSelectCoin = (coin: CoinOption) => {
     setCoinDetails({ name: coin.name, image: coin.image, symbol: coin.symbol });
 
     form.setValue("name", coin.name, {
       shouldValidate: true,
     });
 
-    form.setValue("pricePerCoinBought", coin.current_price.toString());
+    form.setValue("pricePerCoinBought", coin.price.toString());
   };
 
   async function onSubmit(data: TxForm) {

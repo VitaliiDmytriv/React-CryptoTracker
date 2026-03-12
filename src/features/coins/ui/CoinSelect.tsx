@@ -8,55 +8,22 @@ import {
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { CointItem } from "./CoinItem";
 import { useDebounceValue } from "@/hooks/useDebounceValue";
-import type { CoinGecko } from "@/types/global";
-import { useQuery } from "@tanstack/react-query";
-import { coinsData } from "@/coinsGecko";
-
-function fuzzyMatch(source: string, query: string) {
-  if (!query) return true;
-
-  let qi = 0;
-  const q = query.toLowerCase();
-  const s = source.toLowerCase();
-
-  for (let i = 0; i < s.length && qi < q.length; i++) {
-    if (s[i] === q[qi]) qi++;
-  }
-
-  return qi === q.length;
-}
-
-async function fetchCoins(search: string) {
-  const q = search.trim().toLowerCase();
-
-  if (!q) {
-    return coinsData.slice(0, 50);
-  }
-
-  // await new Promise((res) => setTimeout(res, 0));
-
-  return coinsData
-    .filter((coin) => fuzzyMatch(coin.name, q) || fuzzyMatch(coin.symbol, q))
-    .slice(0, 50); // обмеження результатів для продуктивності
-}
+import type { CoinOption } from "../types/coin.types";
+import { useGeckoCoins } from "../hooks/useGeckoCoin";
 
 type Props = {
-  onSelectFn: (coin: CoinGecko) => void;
+  onSelectFn: (coin: CoinOption) => void;
 };
 
 export function CoinSelect({ onSelectFn }: Props) {
   const [query, setQuery] = useState("");
-  const [selectedCoin, setSelectedCoin] = useState<CoinGecko | null>(null);
+  const [selectedCoin, setSelectedCoin] = useState<CoinOption | null>(null);
   const [open, setOpen] = useState(false);
   const debouncedQuery = useDebounceValue(query, 400);
 
-  const { data: coins = [], isFetching } = useQuery<CoinGecko[]>({
-    queryKey: ["coins", debouncedQuery],
-    queryFn: () => fetchCoins(debouncedQuery),
-    staleTime: 1000 * 30,
-  });
+  const { data: coins = [], isFetching } = useGeckoCoins(debouncedQuery);
 
-  function onSelect(coin: CoinGecko) {
+  function onSelect(coin: CoinOption) {
     setSelectedCoin(coin);
     setOpen(false);
     setQuery("");

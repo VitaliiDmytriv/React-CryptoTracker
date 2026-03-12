@@ -1,6 +1,8 @@
 import Decimal from "decimal.js";
 import { txSplitedSchema, type txSplited } from "./transaction.schema";
 import { ZodError } from "zod";
+import type { CoinGecko } from "@/types/global";
+import type { CoinOption, SearchCoin } from "../types/coin.types";
 
 export function getTodayDate() {
   return new Date().toISOString().split("T")[0];
@@ -44,4 +46,23 @@ export function safeValidateSplitTxs(
 
     return { success: false, message: "Unexpected error" };
   }
+}
+
+export function mapMarketCoin(coin: CoinGecko): CoinOption {
+  return {
+    id: coin.id,
+    name: coin.name,
+    symbol: coin.symbol,
+    image: coin.image,
+    price: coin.current_price,
+  };
+}
+
+export function mapSearchCoin(coin: SearchCoin) {
+  return {
+    id: coin.id,
+    name: coin.name,
+    symbol: coin.symbol,
+    image: coin.large,
+  };
 }

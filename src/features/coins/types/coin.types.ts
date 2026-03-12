@@ -23,3 +23,27 @@ export const TransactionMode = {
   Edit: "edit",
   Merge: "merge",
 } as const;
+
+export type CoinOption = {
+  id: string;
+  name: string;
+  symbol: string;
+  image: string;
+  price: number;
+};
+
+export type SearchCoin = {
+  id: string;
+  name: string;
+  api_symbol: string;
+  symbol: string;
+  market_cap_rank: number;
+  thumb: string;
+  large: string;
+};
+
+export type SearchResponse = {
+  coins: SearchCoin[];
+};
+
+export type SearchSimplePrice = Record<string, { usd: number }>;
