@@ -13,7 +13,7 @@ import { computeInitialVisibility } from "@/lib/tableUtils";
 import { useResponsiveColumns } from "@/hooks/useResponsiveColumns";
 import { TableRowsSkeleton } from "@/components/TableRowsSkeleton";
 import { useMergeTxStore } from "@/store/useMergeTxStore";
-import type { Row } from "@tanstack/react-table";
+import { type Row, getSortedRowModel, type SortingState } from "@tanstack/react-table";
 
 type Props = {
   transactions: TransactionWithCoin[];
@@ -22,6 +22,7 @@ type Props = {
 };
 
 export function TransactionsTable({ transactions, onRowClick, isLoading }: Props) {
+  const [sorting, setSorting] = useState<SortingState>([]);
   const initialVisibility = computeInitialVisibility(columns, 639);
 
   const rowSelection = useMergeTxStore((s) => s.rowSelection);
@@ -32,11 +33,14 @@ export function TransactionsTable({ transactions, onRowClick, isLoading }: Props
     data: transactions,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     initialState: {
       columnVisibility: initialVisibility,
     },
     state: {
       rowSelection,
+      sorting,
     },
     onRowSelectionChange: setRowSelection,
     getRowId: (row) => row.id,
@@ -52,7 +56,10 @@ export function TransactionsTable({ transactions, onRowClick, isLoading }: Props
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <TableHead className="align-middle text-center" key={header.id}>
-                  <div className="min-w-[70px] text-tertiary">
+                  <div
+                    className="min-w-[70px] text-tertiary cursor-pointer"
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
                     {flexRender(header.column.columnDef.header, header.getContext())}
                   </div>
                 </TableHead>
