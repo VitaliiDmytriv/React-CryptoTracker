@@ -6,7 +6,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+  type SortingState,
+} from "@tanstack/react-table";
 import { columns } from "./columns";
 import { cn } from "@/lib/utils";
 import type { CoinShort } from "@/types/global";
@@ -19,10 +25,16 @@ type Props = {
 };
 
 export default function AssetsTable({ data, onRowClick, isLoading }: Props) {
+  const [sorting, setSorting] = useState<SortingState>([]);
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -39,6 +51,7 @@ export default function AssetsTable({ data, onRowClick, isLoading }: Props) {
                   header.column.columnDef.meta?.align === "left" && "text-left",
                 )}
                 key={header.id}
+                onClick={header.column.getToggleSortingHandler()}
               >
                 <div className="min-w-[70px] text-tertiary">
                   {flexRender(header.column.columnDef.header, header.getContext())}

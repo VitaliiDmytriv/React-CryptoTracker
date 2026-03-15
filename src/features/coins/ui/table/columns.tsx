@@ -3,48 +3,55 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { formatMoney, formatPrice } from "@/lib/format";
 import QuantityCell from "./cells/QuantityCell";
 import NameCell from "./cells/NameCell";
+import { DataTableColumnHeader } from "@/components/table/DataTableColumnHeader";
 
 export const columns: ColumnDef<TransactionWithCoin>[] = [
   {
     id: "name",
     accessorKey: "name", // ключ із об'єкта даних
-    header: "Name",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
     cell: NameCell,
     meta: { align: "center", hideOnMobile: true },
+    enableSorting: false,
   },
   {
     accessorKey: "quantity",
     id: "quantity",
-    header: "Coins",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Quantity" />,
     cell: QuantityCell,
     meta: { align: "center" },
+    sortingFn: "basic",
   },
   {
     accessorKey: "pricePerCoinBought",
     id: "pricePerCoinBought",
-    header: "Bought",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Bought" />,
     cell: ({ getValue }) => formatPrice(getValue<string>()),
     meta: { align: "center" },
+    sortingFn: "alphanumeric",
   },
   {
     accessorKey: "pricePerCoinSold",
     id: "pricePerCoinSold",
-    header: "Sold",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Sold" />,
     cell: ({ getValue }) => formatPrice(getValue<string>()),
     meta: { align: "center" },
+    sortingFn: "alphanumeric",
   },
   {
     accessorKey: "fees",
     id: "fees",
-    header: "Fee",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Fee" />,
+    enableSorting: false,
     cell: ({ getValue }) => formatMoney(getValue<string>()),
     meta: { align: "center", hideOnMobile: true },
   },
   {
     accessorKey: "profit",
     id: "profit",
-    header: "Profit",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Profit" />,
     cell: ({ getValue }) => formatMoney(getValue<string>()),
     meta: { align: "center" },
+    sortingFn: "alphanumeric",
   },
 ];
