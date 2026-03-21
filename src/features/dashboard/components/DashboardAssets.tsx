@@ -1,16 +1,16 @@
 import AssetsTable from "./AssetsTable";
-import type { CoinShort, Portfolio } from "@/types/global";
+import type { CoinShort } from "@/types/global";
 
 type Props = {
   onRowClick: (coin: CoinShort) => void;
-  data: Portfolio<CoinShort> | undefined;
+  data: CoinShort[] | undefined;
   isLoading: boolean;
 };
 
 export function DashboardAssets({ onRowClick, data, isLoading }: Props) {
   return (
     <>
-      <AssetsTable isLoading={isLoading} data={data?.coins ?? []} onRowClick={onRowClick} />
+      <AssetsTable isLoading={isLoading} data={data ?? []} onRowClick={onRowClick} />
     </>
   );
 }

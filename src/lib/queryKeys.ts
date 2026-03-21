@@ -10,6 +10,10 @@ export const portfolioKeys = {
     [...portfolioKeys.byName(portfolioName), symbol] as const,
 };
 
+export const coinGeckoKeys = {
+  prices: (coinIds: string) => ["prices", coinIds] as const,
+};
+
 // ["portfolio"]
 // ["portfolio", portfolioName]
 // ["portfolio", portfolioName, symbol]

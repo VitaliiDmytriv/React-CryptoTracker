@@ -93,6 +93,8 @@ export interface CoinGecko {
   total_volume: number;
 }
 
+export type CryptoPricesSimple = Record<string, { usd: number }>;
+
 export type ApiError<T extends FieldValues> = {
   message: string;
   code?: string;
