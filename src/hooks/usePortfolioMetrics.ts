@@ -38,6 +38,7 @@ export function usePortfolioMetrics() {
     (prev, curr) => {
       prev.totalPnL = prev.totalPnL.add(curr.totalPnL);
       prev.marketValue = prev.marketValue.add(curr.marketValue);
+      prev.unrealizedPnL = prev.unrealizedPnL.add(curr.unrealizedPnL);
       prev.totalCostBasis = prev.totalCostBasis.add(curr.activeInvestment);
       return prev;
     },
@@ -45,6 +46,7 @@ export function usePortfolioMetrics() {
       totalPnL: new Decimal(0),
       marketValue: new Decimal(0),
       totalCostBasis: new Decimal(0),
+      unrealizedPnL: new Decimal(0),
     },
   );
 
@@ -57,6 +59,7 @@ export function usePortfolioMetrics() {
       totalPnL: metrics.totalPnL.toString(),
       marketValue: metrics.marketValue.toString(),
       costBasis: portfolio?.activeInvestment ?? "0",
+      unrealizedPnL: metrics.unrealizedPnL.toString(),
       totalPnLPercent,
     },
     assets: liveAssets,

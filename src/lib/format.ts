@@ -36,3 +36,7 @@ export const formatPrice = (value: string | null) => {
     maximumFractionDigits: maxFractionDigits,
   }).format(number);
 };
+
+export const formatPercent = (percent: string) => {
+  return new Decimal(percent).abs().toFixed(2) + "%";
+};

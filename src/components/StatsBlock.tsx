@@ -1,20 +1,11 @@
-import { cn } from "@/lib/utils";
-import { Skeleton } from "./ui/skeleton";
-
 type Props = {
-  title: string;
-  count: string;
-  isLoading: boolean;
-  className?: string;
+  children: React.ReactNode;
 };
 
-export function StatsBlock({ title, count, isLoading, className }: Props) {
+export function StatsBlock({ children }: Props) {
   return (
-    <div className={cn("border rounded-md shadow-around p-4 w-32 shrink-0", className)}>
-      <div className="text-tertiary text-[.625rem] sm:text-xs mb-2">{title}</div>
-      <div className="text-xs md:text-base">
-        {isLoading ? <Skeleton className="w-full h-4 md:h-6" /> : <b>{count}</b>}
-      </div>
+    <div className="border rounded-md shadow-around p-4 md:p-4 w-fit md:w-40 shrink-0">
+      {children}
     </div>
   );
 }
