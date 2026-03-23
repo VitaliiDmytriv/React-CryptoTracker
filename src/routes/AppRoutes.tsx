@@ -18,10 +18,10 @@ export default function AppRoutes() {
       </Route>
       {/* protected */}
       <Route element={<ProtectedLayout />}>
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<Navigate to="/dashboard/main" replace />} />
-          <Route path=":portfolioName" element={<Dashboard />} />
-          <Route path=":portfolioName/coins/:symbol" element={<Coin />} />
+        <Route element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<Navigate to="/dashboard/main" replace />} />
+          <Route path="/dashboard/:portfolioName" element={<Dashboard />} />
+          <Route path="/dashboard/:portfolioName/coins/:symbol" element={<Coin />} />
         </Route>
       </Route>
     </Routes>
