@@ -2,9 +2,11 @@ import PublicHeader from "@/components/PublicHeader";
 
 export default function PublicLayout() {
   return (
-    <section className="min-h-screen flex flex-col max-w-7xl m-auto">
+    <div className="min-h-screen flex flex-col">
       <PublicHeader />
-      <Outlet />
-    </section>
+      <main className="max-w-7xl m-auto">
+        <Outlet />
+      </main>
+    </div>
   );
 }

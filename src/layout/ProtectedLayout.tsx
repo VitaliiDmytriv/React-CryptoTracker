@@ -1,4 +1,5 @@
 import SessionExpiredDialog from "@/components/dialogs/SessionExpiredDialog";
+import { Header } from "@/components/Header/Header";
 import { TransactionDialog } from "@/components/TransactionDialog";
 import { useAuth } from "@/features/auth";
 
@@ -18,8 +19,11 @@ export default function ProtectedLayout() {
   }
 
   return (
-    <div className="max-w-7xl m-auto">
-      <Outlet />
+    <div>
+      <Header />
+      <main className="max-w-7xl m-auto">
+        <Outlet />
+      </main>
       <TransactionDialog />
     </div>
   );
