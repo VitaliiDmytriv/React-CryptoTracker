@@ -100,3 +100,9 @@ export type ApiError<T extends FieldValues> = {
   code?: string;
   fields?: Partial<Record<Path<T>, string[]>>; // опційно для валідації
 };
+
+export type StatItem = {
+  label: string;
+  tooltip?: React.ReactNode;
+  content: React.ReactNode;
+};

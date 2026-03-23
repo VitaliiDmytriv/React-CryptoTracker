@@ -1,6 +1,6 @@
 import Decimal from "decimal.js";
 import { usePortfolio } from "./usePortfolio";
-import { usePriceSimple } from "./usePriceSimple";
+import { usePriceSimple } from "../usePriceSimple";
 
 export function usePortfolioMetrics() {
   const { data: portfolio, isLoading: isPortLoading } = usePortfolio();
