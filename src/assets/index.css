@@ -35,6 +35,8 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem; 
     --tertiary: 219, 13%, 56%;
+    --positive: 158 80% 44%;
+    --negative: 356 82% 57%;
   }
   .dark {
     --background: 220 13% 18%;
@@ -63,6 +65,8 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%; 
     --tertiary: 219, 13%, 56%;
+    --positive: 158 80% 44%;
+    --negative: 356 82% 57%;
   } 
 }
 

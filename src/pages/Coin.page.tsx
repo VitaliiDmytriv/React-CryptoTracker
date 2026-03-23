@@ -1,7 +1,6 @@
 import { EntityListHeader } from "@/components/EntityListHeader";
 import { StatsList } from "@/components/StatsList";
-import { CoinIdentityBar, TransactionsTable } from "@/features/coins";
-import { useCoin } from "@/features/coins/hooks/useCoin";
+import { CoinIdentityBar, TransactionsTable, useCoinMetrics, useCoinStats } from "@/features/coins";
 import { MergeActionBar } from "@/features/coins/ui/MergeActionBar";
 import { useMergeTxStore } from "@/store/useMergeTxStore";
 import { useTxDialogStore } from "@/store/useTxDialogStore";
@@ -12,7 +11,8 @@ export default function Coin() {
   const isOpenMerge = useMergeTxStore((s) => s.isOpenMerge);
   const closeMerge = useMergeTxStore((s) => s.closeMerge);
   const openDialog = useTxDialogStore((s) => s.open);
-  const { data: coin, isLoading } = useCoin();
+  const { metrics, coin, isLoading } = useCoinMetrics();
+  const coinStats = useCoinStats(metrics, isLoading);
 
   function onRowClick(row: Row<TransactionWithCoin>) {
     const tx = row.original;
@@ -31,7 +31,7 @@ export default function Coin() {
   return (
     <div className="relative">
       <CoinIdentityBar coin={coin} />
-      <StatsList data={coin} isLoading={isLoading} showAvgPrice={true} />
+      <StatsList stats={coinStats} />
       <EntityListHeader title="Transactions" isMerge={true} />
       <div className="relative border rounded-md min-h-[80vh] shadow-around pb-16">
         <TransactionsTable

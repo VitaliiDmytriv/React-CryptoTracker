@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type { Coin, TransactionWithCoin } from "@/types/global";
 
 type Props = {
-  coin: Coin<TransactionWithCoin> | undefined;
+  coin: Coin<TransactionWithCoin> | null;
 };
 
 export function CoinIdentityBar({ coin }: Props) {
